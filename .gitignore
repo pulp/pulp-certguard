@@ -1,0 +1,46 @@
+*svn*
+*.ipynb
+*.pyc
+*.pyo
+.project
+.pydevproject
+*.swp
+*.swo
+build
+dist
+*.egg-info
+.settings
+*.wpr
+*.wpu
+.idea
+.coverage
+cover
+.DS_Store
+*,cover
+tags
+
+# KDevelop
+.kdev4/
+*.kdev4
+
+# Ninja IDE
+*.nja
+
+# Sublime
+.codeintel
+
+# Rope
+.ropeproject
+
+# Vagrant
+.vagrant
+Vagrantfile
+
+# Built documentation
+docs/_build
+docs/_diagrams
+
+# Django migrations
+# Ignored during early development to prevent accidental commits;
+# we'll want these to not be ignored when releasing pulp 3.0
+pulp_certguard/app/migrations
