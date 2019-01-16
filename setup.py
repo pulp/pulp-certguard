@@ -12,7 +12,6 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'aiohttp',
     'pulpcore-plugin>=0.1.0b7',
     'PyOpenSSL',
 ]
@@ -46,4 +45,10 @@ setup(
     url='https://github.com/pulp/pulp_certguard',
     version='0.1.0',
     zip_safe=False,
+    entry_points={
+        'pulpcore.plugin': [
+            'certguard = pulp_certguard:default_app_config',
+        ]
+    }
+
 )
