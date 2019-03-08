@@ -5,6 +5,8 @@ from .serializers import CertGuardSerializer
 
 
 class CertGuardViewSet(ContentGuardViewSet):
+    """CertGuard API Viewsets."""
+
     endpoint_name = 'certguard'
     queryset = CertGuard.objects.all()
     serializer_class = CertGuardSerializer

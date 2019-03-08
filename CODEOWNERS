@@ -1,0 +1,2 @@
+# have QE own the functional tests
+/pulp_certguard/tests/functional/ @pulp/qe

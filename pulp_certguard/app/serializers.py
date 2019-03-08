@@ -8,6 +8,8 @@ from .models import CertGuard, Validator
 
 
 class CertGuardSerializer(ContentGuardSerializer):
+    """Content Guard Serializer."""
+
     ca_certificate = serializers.FileField(
         help_text="The Certificate Authority (CA) certificate.",
         write_only=True
@@ -21,6 +23,7 @@ class CertGuardSerializer(ContentGuardSerializer):
 
     @staticmethod
     def validate_ca_certificate(certificate):
+        """Validates the given certificate."""
         buffer = certificate.read()
         try:
             Validator.load(buffer.decode('utf8'))

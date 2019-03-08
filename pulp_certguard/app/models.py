@@ -20,6 +20,7 @@ class CertGuard(ContentGuard):
         ca_certificate (models.FileField): The CA certificate used to
             validate the client certificate.
     """
+
     TYPE = 'certguard'
 
     def _certpath(self, name):
@@ -28,14 +29,14 @@ class CertGuard(ContentGuard):
     ca_certificate = models.FileField(max_length=255, upload_to=_certpath)
 
     def permit(self, request):
-        """
-        Authorize the specified web request.
+        """Authorize the specified web request.
 
         Args:
             request (aiohttp.web.Request): A request for a published file.
 
         Raises:
             PermissionError: When the request cannot be authorized.
+
         """
         ca = self.ca_certificate.read()
         validator = Validator(ca.decode('utf8'))
@@ -43,16 +44,13 @@ class CertGuard(ContentGuard):
 
 
 class Validator:
-    """
-    An X.509 certificate validator.
-    """
+    """An X.509 certificate validator."""
 
     SSL_CERTIFICATE_HEADER = 'SSL-CLIENT-CERTIFICATE'
 
     @staticmethod
     def format(pem):
-        """
-        Ensure the PEM encoded certificate is properly formatted.
+        """Ensure the PEM encoded certificate is properly formatted.
 
         The certificate is passed as an HTTP header which does not permit newlines.
 
@@ -61,6 +59,7 @@ class Validator:
 
         Returns:
             str: A properly PEM formatted certificate.
+
         """
         header = '-----BEGIN CERTIFICATE-----'
         footer = '-----END CERTIFICATE-----'
@@ -71,8 +70,7 @@ class Validator:
 
     @staticmethod
     def load(pem):
-        """
-        Load the PEM encoded certificate.
+        """Load the PEM encoded certificate.
 
         Encapsulates complexity of OpenSSL.
 
@@ -84,6 +82,7 @@ class Validator:
 
         Raises:
             ValueError: On load failed.
+
         """
         try:
             return openssl.load_certificate(openssl.FILETYPE_PEM, buffer=Validator.format(pem))
@@ -91,8 +90,7 @@ class Validator:
             raise ValueError(str(le))
 
     def client_certificate(self, request):
-        """
-        Extract and load the client certificate passed in the SSL-CLIENT-CERTIFICATE header.
+        """Extract and load the client certificate passed in the SSL-CLIENT-CERTIFICATE header.
 
         Args:
             request (aiohttp.web.Request): A request for a published file.
@@ -103,6 +101,7 @@ class Validator:
         Raises:
             KeyError: When the client certificate header has not
                 been passed in the request.
+
         """
         name = self.SSL_CERTIFICATE_HEADER
         try:
@@ -114,27 +113,28 @@ class Validator:
             return Validator.load(certificate)
 
     def __init__(self, ca_certificate):
-        """
+        """Inits a new validator.
+
         Args:
             ca_certificate (str): A PEM encoded CA certificate.
+
         """
         self.ca_certificate = self.load(ca_certificate)
 
     @property
     def store(self):
-        """
-        A X509 certificate (trust) store.
+        """A X509 certificate (trust) store.
 
         Returns:
             openssl.X509Store: A store containing the CA certificate.
+
         """
         store = openssl.X509Store()
         store.add_cert(self.ca_certificate)
         return store
 
     def __call__(self, request):
-        """
-        Validate the client X.509 certificate passed in the request.
+        """Validate the client X.509 certificate passed in the request.
 
         Args:
             request (aiohttp.web.Request): A request for a published file.
@@ -142,6 +142,7 @@ class Validator:
         Raises:
             PermissionError: When validation the client certificate
                 cannot be validated.
+
         """
         try:
             context = openssl.X509StoreContext(
