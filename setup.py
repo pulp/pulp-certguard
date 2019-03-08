@@ -38,7 +38,7 @@ setup(
     include_package_data=True,
     keywords='pulp_certguard',
     name='pulp_certguard',
-    packages=find_packages(include=['pulp_certguard']),
+    packages=find_packages(exclude=['tests']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
