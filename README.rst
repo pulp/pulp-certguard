@@ -9,7 +9,7 @@ certificate that it has been configured with.
 
 All REST API examples bellow use `httpie <https://httpie.org/doc>`__ to perform the requests.
 The ``httpie`` commands below assume that the user executing the commands has a ``.netrc`` file
-in the home directory. The ``.netrc`` should have the following configuration:
+in the home directory. The ``~/.netrc`` should have the following configuration:
 
 .. code-block::
 
@@ -60,8 +60,8 @@ Make and Run Migrations
 
 .. code-block:: bash
 
-   pulp-manager makemigrations pulp_certguard
-   pulp-manager migrate pulp_certguard
+   pulp-manager makemigrations certguard
+   pulp-manager migrate certguard
 
 
 Create a content guard named ``foo``

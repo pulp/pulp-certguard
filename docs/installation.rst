@@ -46,6 +46,12 @@ Once you have a copy of the source, you can install it with:
 
     $ python setup.py install
 
+Or you can skip download step and install directly with:
+
+.. code-block:: console
+
+    $ pip install https://github.com/pulp/pulp_certguard/tarball/master
+
 
 .. _Github repo: https://github.com/pulp/pulp_certguard
 .. _tarball: https://github.com/pulp/pulp_certguard/tarball/master
