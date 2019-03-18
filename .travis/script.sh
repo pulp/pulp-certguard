@@ -8,11 +8,17 @@ set -veuo pipefail
 # Lint code.
 flake8 --config flake8.cfg || exit 1
 
-# Run migrations.
+# Run core migrations.
 export DJANGO_SETTINGS_MODULE=pulpcore.app.settings
 export PULP_CONTENT_HOST=localhost:8080
-pulp-manager makemigrations certguard
+
+# Make plugin migrations
+pulp-manager makemigrations file --noinput
+pulp-manager makemigrations certguard --noinput
+
+# Run migrations
 pulp-manager migrate --noinput
+
 
 # Run unit tests.
 (cd ../pulpcore && coverage run manage.py test pulp_certguard.tests.unit)
