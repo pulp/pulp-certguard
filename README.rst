@@ -69,7 +69,7 @@ Create a content guard named ``foo``
 
 This example assumes that ``~/ca.pem`` is a PEM encoded CA certificate.
 
-``$ http --form POST http://localhost:8000/pulp/api/v3/contentguards/certguard/ name=foo ca_certificate@~/ca.pem``
+``$ http --form POST http://localhost:8000/pulp/api/v3/contentguards/certguard/certguard/ name=foo ca_certificate@~/ca.pem``
 
 .. code:: json
 
@@ -79,7 +79,7 @@ This example assumes that ``~/ca.pem`` is a PEM encoded CA certificate.
        ...
    }
 
-``$ export GUARD_HREF=$(http localhost:8000/pulp/api/v3/contentguards/certguard/?name=foo | jq -r '.results[0]._href')``
+``$ export GUARD_HREF=$(http localhost:8000/pulp/api/v3/contentguards/certguard/certguard/?name=foo | jq -r '.results[0]._href')``
 
 
 Create a distribution with content protection
