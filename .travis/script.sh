@@ -8,19 +8,24 @@ set -veuo pipefail
 # Lint code.
 flake8 --config flake8.cfg || exit 1
 
-# Run migrations.
+# Set config values
 export DJANGO_SETTINGS_MODULE=pulpcore.app.settings
 export PULP_CONTENT_HOST=localhost:8080
-pulp-manager makemigrations certguard
-pulp-manager migrate --noinput
+
+# Make plugin migrations
+django-admin makemigrations file --noinput
+django-admin makemigrations certguard --noinput
+
+# Run migrations
+django-admin migrate --noinput
 
 # Run unit tests.
 (cd ../pulpcore && coverage run manage.py test pulp_certguard.tests.unit)
 
 # Run functional tests.
 export DJANGO_SETTINGS_MODULE=pulpcore.app.settings
-pulp-manager reset-admin-password --password admin
-pulp-manager runserver >> ~/django_runserver.log 2>&1 &
+django-admin reset-admin-password --password admin
+django-admin runserver >> ~/django_runserver.log 2>&1 &
 gunicorn pulpcore.content:server --bind 'localhost:8080' --worker-class 'aiohttp.GunicornWebWorker' -w 2 >> ~/content_app.log 2>&1 &
 rq worker -n 'resource-manager@%h' -w 'pulpcore.tasking.worker.PulpWorker' >> ~/resource_manager.log 2>&1 &
 rq worker -n 'reserved-resource-worker_1@%h' -w 'pulpcore.tasking.worker.PulpWorker' >> ~/reserved_worker-1.log 2>&1 &
