@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from pulpcore.plugin.serializers import ContentGuardSerializer
 
-from .models import CertGuard, Validator
+from .models import X509CertGuard, Validator
 
 
 class CertGuardSerializer(ContentGuardSerializer):
@@ -16,7 +16,7 @@ class CertGuardSerializer(ContentGuardSerializer):
     )
 
     class Meta:
-        model = CertGuard
+        model = X509CertGuard
         fields = ContentGuardSerializer.Meta.fields + (
             'ca_certificate',
         )
@@ -28,7 +28,7 @@ class CertGuardSerializer(ContentGuardSerializer):
         try:
             Validator.load(buffer.decode('utf8'))
         except ValueError:
-            reason = _('Must be PEM encoded x.509 certificate.')
+            reason = _('Must be PEM encoded X.509 certificate.')
             raise serializers.ValidationError(reason)
         else:
             return certificate
