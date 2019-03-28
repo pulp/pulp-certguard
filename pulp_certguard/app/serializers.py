@@ -28,7 +28,7 @@ class CertGuardSerializer(ContentGuardSerializer):
         try:
             Validator.load(buffer.decode('utf8'))
         except ValueError:
-            reason = _('Must be PEM encoded x.509 certificate.')
+            reason = _('Must be PEM encoded X.509 certificate.')
             raise serializers.ValidationError(reason)
         else:
             return certificate

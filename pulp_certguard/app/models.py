@@ -123,7 +123,7 @@ class Validator:
 
     @property
     def store(self):
-        """A X509 certificate (trust) store.
+        """A X.509 certificate (trust) store.
 
         Returns:
             openssl.X509Store: A store containing the CA certificate.

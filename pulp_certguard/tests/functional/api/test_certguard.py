@@ -16,7 +16,7 @@ from pulp_smash.pulp3.utils import (
 from pulp_certguard.tests.functional.constants import (
     CERT_CA_FILE_PATH,
     CERT_CLIENT_FILE_PATH,
-    CONTENT_GUARDS_PATH,
+    X509_CONTENT_GUARD_PATH,
     FILE_REMOTE_PATH,
     FILE_PUBLISHER_PATH
 )
@@ -55,7 +55,7 @@ class CertGuardTestCase(unittest.TestCase):
             # 1. Create certguard
             with open(CERT_CA_FILE_PATH, 'rb') as cert_ca_file:
                 cls.certguard = client.post(
-                    CONTENT_GUARDS_PATH,
+                    X509_CONTENT_GUARD_PATH,
                     data={'name': utils.uuid4()},
                     files={'ca_certificate': cert_ca_file}
                 )
