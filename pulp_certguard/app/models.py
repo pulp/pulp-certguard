@@ -12,16 +12,16 @@ from pulpcore.plugin.models import ContentGuard
 log = getLogger(__name__)
 
 
-class CertGuard(ContentGuard):
+class X509CertGuard(ContentGuard):
     """
-    An X.509 certificate based content-guard.
+    A content-guard that authenticates the request based on a client provided X.509 Certificate.
 
     Fields:
         ca_certificate (models.FileField): The CA certificate used to
             validate the client certificate.
     """
 
-    TYPE = 'certguard'
+    TYPE = 'x509'
 
     def _certpath(self, name):
         return storage.get_tls_path(self, name)
@@ -123,7 +123,7 @@ class Validator:
 
     @property
     def store(self):
-        """A X509 certificate (trust) store.
+        """A X.509 certificate (trust) store.
 
         Returns:
             openssl.X509Store: A store containing the CA certificate.

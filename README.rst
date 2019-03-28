@@ -1,11 +1,11 @@
 ``pulp_certguard`` Plugin
 =========================
 
-This is the ``pulp_certguard`` Plugin for `Pulp Project
-3.0+ <https://pypi.org/project/pulpcore/>`__. This plugin provides X.509 certificate based
-content protection. The `CertGuard` authenticates the web request by validating the client
-certificate passed in the ``SSL_CLIENT_CERTIFICATE`` HTTP header using the CA (Certificate Authority)
-certificate that it has been configured with.
+This is the ``pulp_certguard`` Plugin for the
+`Pulp Project 3.0+ <https://pypi.org/project/pulpcore/>`__. This plugin provides X.509 certificate
+based content protection. The `X509CertGuard` authenticates the web request by validating the client
+certificate passed in the ``SSL_CLIENT_CERTIFICATE`` HTTP header using the CA (Certificate
+Authority) certificate that it has been configured with.
 
 All REST API examples bellow use `httpie <https://httpie.org/doc>`__ to perform the requests.
 The ``httpie`` commands below assume that the user executing the commands has a ``.netrc`` file
@@ -60,8 +60,8 @@ Make and Run Migrations
 
 .. code-block:: bash
 
-   pulp-manager makemigrations certguard
-   pulp-manager migrate certguard
+   django-admin makemigrations certguard
+   django-admin migrate certguard
 
 
 Create a content guard named ``foo``
@@ -69,17 +69,17 @@ Create a content guard named ``foo``
 
 This example assumes that ``~/ca.pem`` is a PEM encoded CA certificate.
 
-``$ http --form POST http://localhost:8000/pulp/api/v3/contentguards/certguard/certguard/ name=foo ca_certificate@~/ca.pem``
+``$ http --form POST http://localhost:8000/pulp/api/v3/contentguards/certguard/x509/ name=foo ca_certificate@~/ca.pem``
 
 .. code:: json
 
    {
        ...
-       "_href": "/pulp/api/v3/contentguards/certguard/1/",
+       "_href": "/pulp/api/v3/contentguards/certguard/x509/3046291f-d432-4a85-9d7e-fad12b0aaed7/",
        ...
    }
 
-``$ export GUARD_HREF=$(http localhost:8000/pulp/api/v3/contentguards/certguard/certguard/?name=foo | jq -r '.results[0]._href')``
+``$ export GUARD_HREF=$(http localhost:8000/pulp/api/v3/contentguards/certguard/x509/?name=foo | jq -r '.results[0]._href')``
 
 
 Create a distribution with content protection
@@ -91,7 +91,7 @@ Create a distribution with content protection
 
    {
        ...
-       "_href": "/pulp/api/v3/distributions/1/"
+       "_href": "/pulp/api/v3/distributions/305adfe0-4851-432f-9de3-13f9b10fe131/"
        ...
    }
 
@@ -105,7 +105,7 @@ Add content protection to an existing distribution
 
    {
        ...
-       "_href": "/pulp/api/v3/distributions/1/"
+       "_href": "/pulp/api/v3/distributions/0fbb102a-cb38-4d5c-afc2-b9a76e862a1d/"
        ...
    }
 
