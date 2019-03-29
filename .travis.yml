@@ -36,4 +36,4 @@ jobs:
       password:
         secure: C6xI8ZhjN6pqcDjYL9gXkEAyO9Z4KQjaEnFsyVTgPwm0aRDfnnFuFE9GnZoA7n4VbAUbtv/ZrPPfUoRAr+qbj2pAlY3M7Ua7PqzdprjM8KkQiqdaPDZO3kKiwkZ8bcGKt/6WOmQwb1QwgbJ5lKzu/ovn+0knSta3X7APOklImvI=
       on:
-tags: true
+        tags: true
