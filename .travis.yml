@@ -34,6 +34,6 @@ jobs:
       distributions: sdist bdist_wheel
       user: pulp
       password:
-        secure: C6xI8ZhjN6pqcDjYL9gXkEAyO9Z4KQjaEnFsyVTgPwm0aRDfnnFuFE9GnZoA7n4VbAUbtv/ZrPPfUoRAr+qbj2pAlY3M7Ua7PqzdprjM8KkQiqdaPDZO3kKiwkZ8bcGKt/6WOmQwb1QwgbJ5lKzu/ovn+0knSta3X7APOklImvI=
+        secure: "WVcC3j8y6SEn8eUzMy0e4qVXpUMXk45Wj4ezcVH2japyXSPFRua+YZN9kTJmVskrScfPRQJYjbRKCvas7ekfDcvXdWxWahQkbA6FB3cy7pI/5prVrgAhgJPtQsT7ymG/lZGMYUcMFClsi+KI5QlTBb7eHpSzGbcnMnYu4218nFnb3C0TZ2xGunpRthQJcjAOM0dkUIqQ0NKh8lVDIVqP7uwq15tbvSvgzef53REg+Wz18PB+7bbPTqXSvKXm0QFv4m70TTloq2lhbT2BZRJ7/3tA9Hc6oxjoxQDFYfUl8Xg3VeVFvJFN5dDqpF4nxSv224ofBqlO2KdRWzrE0xH56SMJBFdWShKWmfR9hN+fY3Cu4aH0U2CxNOwcPkrsF0AHaVlK/jv3LDj0sNOtI7hmygsl9gveXhUBTt8/ZIO9G5frxNuTvy5fB/jFu1A2NgfZHGz0PTB7yUGMoPZyZQnzdCx5upX5sL5cjWgcDNdTl3dhhOSNP9QguV8yRqnqrK7MVuqdXpVqVK1Azb1MNsf3O6Sb/Art0Y5K3Mw31V93LkjQO1tVNzQcDrSVV6BclWeUWZJ/EuT2Ad2fGqtNCMm1wK+sk5f7pklPJxFKH5BUrOtC1cdMM4KCcqgtz296N9crSzx2vkgQAAX9O99ET9xuAQg3v42WLHlCbD2NsDmllOI="
       on:
         tags: true
