@@ -69,7 +69,7 @@ Create a content guard named ``foo``
 
 This example assumes that ``~/ca.pem`` is a PEM encoded CA certificate.
 
-``$ http --form POST http://localhost:8000/pulp/api/v3/contentguards/certguard/x509/ name=foo ca_certificate@~/ca.pem``
+``$ http --form POST http://localhost:24817/pulp/api/v3/contentguards/certguard/x509/ name=foo ca_certificate@~/ca.pem``
 
 .. code:: json
 
@@ -79,13 +79,13 @@ This example assumes that ``~/ca.pem`` is a PEM encoded CA certificate.
        ...
    }
 
-``$ export GUARD_HREF=$(http localhost:8000/pulp/api/v3/contentguards/certguard/x509/?name=foo | jq -r '.results[0]._href')``
+``$ export GUARD_HREF=$(http localhost:24817/pulp/api/v3/contentguards/certguard/x509/?name=foo | jq -r '.results[0]._href')``
 
 
 Create a distribution with content protection
 ---------------------------------------------
 
-`` $ http POST http://localhost:8000/pulp/api/v3/distributions/ name=bar base_path=files content_guard=${GUARD_HREF}``
+`` $ http POST http://localhost:24817/pulp/api/v3/distributions/ name=bar base_path=files content_guard=${GUARD_HREF}``
 
 .. code:: json
 
@@ -99,7 +99,7 @@ Create a distribution with content protection
 Add content protection to an existing distribution
 --------------------------------------------------
 
-`` $ http PATCH http://localhost:8000/pulp/api/v3/distributions/1/ content_guard=${GUARD_HREF}``
+`` $ http PATCH http://localhost:24817/pulp/api/v3/distributions/1/ content_guard=${GUARD_HREF}``
 
 .. code:: json
 
@@ -118,11 +118,11 @@ Further, they assume there is a PEM encoded client certificate at ``~/client.pem
 And, a PEM encoded private key at ``~/key.pem``.
 
 
-Example of GET directly to the content application running on port 8080 over HTTP. When setting the
+Example of GET directly to the content application running on port 24816 over HTTP. When setting the
 ``SSL-CLIENT-CERTIFICATE`` manually, the newlines need to be stripped due to restrictions
 on legal characters in HTTP header values.
 
-``$ http localhost:8080/pulp/content/files/1.iso SSL-CLIENT-CERTIFICATE:"$(tr -d '\n' < ~/client.pem)"``
+``$ http localhost:24816/pulp/content/files/1.iso SSL-CLIENT-CERTIFICATE:"$(tr -d '\n' < ~/client.pem)"``
 
 .. code-block::
 
