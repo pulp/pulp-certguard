@@ -10,7 +10,6 @@ from pulp_smash.pulp3.utils import (
     download_content_unit,
     gen_distribution,
     gen_repo,
-    publish,
     sync,
 )
 from pulp_certguard.tests.functional.constants import (
@@ -21,6 +20,7 @@ from pulp_certguard.tests.functional.constants import (
     FILE_PUBLISHER_PATH
 )
 from pulp_certguard.tests.functional.utils import (
+    create_file_publication,
     gen_file_publisher,
     gen_file_remote,
     get_file_content_paths
@@ -86,7 +86,7 @@ class CertGuardTestCase(unittest.TestCase):
             )
 
             # 6. Create a publication
-            cls.publication = publish(cfg, cls.publisher, cls.repo)
+            cls.publication = create_file_publication(cfg, cls.repo, publisher=cls.publisher)
             cls.teardown_cleanups.append(
                 (cls.client.delete, cls.publication['_href'])
             )
