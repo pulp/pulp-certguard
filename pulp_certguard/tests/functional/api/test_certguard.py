@@ -3,7 +3,6 @@ from random import choice
 from requests import HTTPError
 from pulp_smash import api, config, utils
 from pulp_smash.pulp3.constants import (
-    DISTRIBUTION_PATH,
     REPO_PATH,
 )
 from pulp_smash.pulp3.utils import (
@@ -16,6 +15,7 @@ from pulp_certguard.tests.functional.constants import (
     CERT_CA_FILE_PATH,
     CERT_CLIENT_FILE_PATH,
     X509_CONTENT_GUARD_PATH,
+    FILE_DISTRIBUTION_PATH,
     FILE_REMOTE_PATH,
     FILE_PUBLISHER_PATH
 )
@@ -99,7 +99,7 @@ class CertGuardTestCase(unittest.TestCase):
         """
         # Create a protected distribution
         distribution = self.client.using_handler(api.task_handler).post(
-            DISTRIBUTION_PATH,
+            FILE_DISTRIBUTION_PATH,
             gen_distribution(
                 publication=self.publication['_href'],
                 content_guard=self.certguard['_href']
@@ -122,7 +122,7 @@ class CertGuardTestCase(unittest.TestCase):
         """
         # Create a protected distribution
         distribution = self.client.using_handler(api.task_handler).post(
-            DISTRIBUTION_PATH,
+            FILE_DISTRIBUTION_PATH,
             gen_distribution(
                 publication=self.publication['_href'],
                 content_guard=self.certguard['_href']
@@ -152,7 +152,7 @@ class CertGuardTestCase(unittest.TestCase):
         """
         # 1 unprotected distribution
         distribution = self.client.using_handler(api.task_handler).post(
-            DISTRIBUTION_PATH,
+            FILE_DISTRIBUTION_PATH,
             gen_distribution(publication=self.publication['_href'])
         )
         self.addCleanup(self.client.delete, distribution['_href'])
@@ -191,7 +191,7 @@ class CertGuardTestCase(unittest.TestCase):
         """
         # Create a protected distribution
         distribution = self.client.using_handler(api.task_handler).post(
-            DISTRIBUTION_PATH,
+            FILE_DISTRIBUTION_PATH,
             gen_distribution(
                 publication=self.publication['_href'],
                 content_guard=self.certguard['_href']

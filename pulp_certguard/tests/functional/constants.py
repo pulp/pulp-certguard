@@ -3,7 +3,11 @@ import os
 from urllib.parse import urljoin
 
 from pulp_smash.pulp3.constants import BASE_PATH, BASE_CONTENT_GUARDS_PATH  # noqa:F401
-from pulp_file.tests.functional.constants import FILE_REMOTE_PATH, FILE_PUBLISHER_PATH  # noqa:F401
+from pulp_file.tests.functional.constants import (  # noqa:F401
+    FILE_REMOTE_PATH,
+    FILE_DISTRIBUTION_PATH,
+    FILE_PUBLISHER_PATH
+)
 
 _CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 CERTS_BASE_PATH = os.path.join(
