@@ -17,11 +17,9 @@ from pulp_certguard.tests.functional.constants import (
     X509_CONTENT_GUARD_PATH,
     FILE_DISTRIBUTION_PATH,
     FILE_REMOTE_PATH,
-    FILE_PUBLISHER_PATH
 )
 from pulp_certguard.tests.functional.utils import (
     create_file_publication,
-    gen_file_publisher,
     gen_file_remote,
     get_file_content_paths
 )
@@ -39,8 +37,7 @@ class CertGuardTestCase(unittest.TestCase):
         2. create a repo.
         3. create a file remote.
         4. Sync it.
-        5. Create a Publisher.
-        6. Create a Publication.
+        5. Create a Publication.
 
         """
         cls.cfg = cfg = config.get_config()
@@ -77,16 +74,8 @@ class CertGuardTestCase(unittest.TestCase):
             sync(cfg, cls.remote, _repo)
             cls.repo = client.get(_repo['_href'])
 
-            # 5. Create a Publisher
-            cls.publisher = client.post(
-                FILE_PUBLISHER_PATH, gen_file_publisher()
-            )
-            cls.teardown_cleanups.append(
-                (cls.client.delete, cls.publisher['_href'])
-            )
-
-            # 6. Create a publication
-            cls.publication = create_file_publication(cfg, cls.repo, publisher=cls.publisher)
+            # 5. Create a publication
+            cls.publication = create_file_publication(cfg, cls.repo)
             cls.teardown_cleanups.append(
                 (cls.client.delete, cls.publication['_href'])
             )
