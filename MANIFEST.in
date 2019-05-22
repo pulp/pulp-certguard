@@ -1,1 +1,2 @@
 include LICENSE
+recursive-include pulp_certguard/tests/functional/artifacts *
