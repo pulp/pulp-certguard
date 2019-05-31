@@ -1,5 +1,3 @@
-import pkg_resources
-
-__version__ = pkg_resources.get_distribution("pulp-certguard").version
+__version__ = '0.1.0rc1'
 
 default_app_config = 'pulp_certguard.app.PulpCertGuardPluginAppConfig'
