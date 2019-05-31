@@ -116,7 +116,7 @@ Before you submit a pull request, check that it meets these guidelines:
 .. _changelog-update:
 
 Changelog update
-****************
+----------------
 
 The CHANGES.rst file is managed using the `towncrier tool <https://github.com/hawkowl/towncrier>`_
 and all non trivial changes must be accompanied by a news entry.
