@@ -1,5 +1,5 @@
 Welcome to pulp-certguard's documentation!
-======================================
+==========================================
 
 .. toctree::
    :maxdepth: 2
@@ -8,11 +8,10 @@ Welcome to pulp-certguard's documentation!
    readme
    installation
    usage
-   modules
    contributing
    authors
-   history
    yum-howto
+   changes
 
 Indices and tables
 ==================
