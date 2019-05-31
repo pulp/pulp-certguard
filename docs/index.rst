@@ -12,6 +12,7 @@ Welcome to pulp-certguard's documentation!
    contributing
    authors
    history
+   yum-howto
 
 Indices and tables
 ==================

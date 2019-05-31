@@ -1,0 +1,7 @@
+This is a yum plugin for people who need to support rhel versions that do not have dnf as an option.
+
+The installation is fairly straight forward. And is further explained in the yum-minihowto in the docs directory.
+
+Edit the certguard.py file. Set the top level constants as you want them to be.
+
+Using the Makefile or just manually copy the files where they need to be.
