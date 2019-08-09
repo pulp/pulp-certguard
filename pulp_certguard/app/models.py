@@ -42,6 +42,9 @@ class X509CertGuard(ContentGuard):
         validator = Validator(ca.decode('utf8'))
         validator(request)
 
+    class Meta:
+        default_related_name = "%(app_label)s_%(model_name)s"
+
 
 class Validator:
     """An X.509 certificate validator."""
