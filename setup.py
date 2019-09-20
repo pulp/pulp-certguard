@@ -12,7 +12,7 @@ with open('README.rst') as f:
 
 setup(
     name='pulp-certguard',
-    version='0.1.0rc1',
+    version='0.1.0rc2',
     description='X.509 Certguards plugin for the Pulp Project',
     long_description=long_description,
     license='GPLv2+',

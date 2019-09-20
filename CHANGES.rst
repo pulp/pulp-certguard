@@ -13,3 +13,18 @@ Changelog
 
 .. towncrier release notes start
 
+0.1.0rc2 (2019-09-20)
+=====================
+
+Improved Documentation
+----------------------
+
+- Switch to using `towncrier <https://github.com/hawkowl/towncrier>`_ for better release notes.
+  `#4875 <https://pulp.plan.io/issues/4875>`_
+
+
+Misc
+----
+
+- `#4681 <https://pulp.plan.io/issues/4681>`_
+
