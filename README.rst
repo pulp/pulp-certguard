@@ -75,11 +75,11 @@ This example assumes that ``~/ca.pem`` is a PEM encoded CA certificate.
 
    {
        ...
-       "_href": "/pulp/api/v3/contentguards/certguard/x509/3046291f-d432-4a85-9d7e-fad12b0aaed7/",
+       "pulp_href": "/pulp/api/v3/contentguards/certguard/x509/3046291f-d432-4a85-9d7e-fad12b0aaed7/",
        ...
    }
 
-``$ export GUARD_HREF=$(http localhost:24817/pulp/api/v3/contentguards/certguard/x509/?name=foo | jq -r '.results[0]._href')``
+``$ export GUARD_HREF=$(http localhost:24817/pulp/api/v3/contentguards/certguard/x509/?name=foo | jq -r '.results[0].pulp_href')``
 
 
 Create a distribution with content protection
@@ -91,7 +91,7 @@ Create a distribution with content protection
 
    {
        ...
-       "_href": "/pulp/api/v3/distributions/305adfe0-4851-432f-9de3-13f9b10fe131/"
+       "pulp_href": "/pulp/api/v3/distributions/305adfe0-4851-432f-9de3-13f9b10fe131/"
        ...
    }
 
@@ -105,7 +105,7 @@ Add content protection to an existing distribution
 
    {
        ...
-       "_href": "/pulp/api/v3/distributions/0fbb102a-cb38-4d5c-afc2-b9a76e862a1d/"
+       "pulp_href": "/pulp/api/v3/distributions/0fbb102a-cb38-4d5c-afc2-b9a76e862a1d/"
        ...
    }
 
