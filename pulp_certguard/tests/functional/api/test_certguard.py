@@ -57,27 +57,27 @@ class CertGuardTestCase(unittest.TestCase):
                     files={'ca_certificate': cert_ca_file}
                 )
                 cls.teardown_cleanups.append(
-                    (client.delete, cls.certguard['_href'])
+                    (client.delete, cls.certguard['pulp_href'])
                 )
 
             # 2. Create a repo
             _repo = client.post(REPO_PATH, gen_repo())
-            cls.teardown_cleanups.append((cls.client.delete, _repo['_href']))
+            cls.teardown_cleanups.append((cls.client.delete, _repo['pulp_href']))
 
             # 3. Create a remote
             cls.remote = client.post(FILE_REMOTE_PATH, gen_file_remote())
             cls.teardown_cleanups.append(
-                (cls.client.delete, cls.remote['_href'])
+                (cls.client.delete, cls.remote['pulp_href'])
             )
 
             # 4. Sync and read synced repo
             sync(cfg, cls.remote, _repo)
-            cls.repo = client.get(_repo['_href'])
+            cls.repo = client.get(_repo['pulp_href'])
 
             # 5. Create a publication
             cls.publication = create_file_publication(cfg, cls.repo)
             cls.teardown_cleanups.append(
-                (cls.client.delete, cls.publication['_href'])
+                (cls.client.delete, cls.publication['pulp_href'])
             )
 
     def test_negative_download_protected_content_without_keys(self):
@@ -90,11 +90,11 @@ class CertGuardTestCase(unittest.TestCase):
         distribution = self.client.using_handler(api.task_handler).post(
             FILE_DISTRIBUTION_PATH,
             gen_distribution(
-                publication=self.publication['_href'],
-                content_guard=self.certguard['_href']
+                publication=self.publication['pulp_href'],
+                content_guard=self.certguard['pulp_href']
             )
         )
-        self.addCleanup(self.client.delete, distribution['_href'])
+        self.addCleanup(self.client.delete, distribution['pulp_href'])
 
         # Pick a filename
         unit_path = choice(get_file_content_paths(self.repo))
@@ -113,11 +113,11 @@ class CertGuardTestCase(unittest.TestCase):
         distribution = self.client.using_handler(api.task_handler).post(
             FILE_DISTRIBUTION_PATH,
             gen_distribution(
-                publication=self.publication['_href'],
-                content_guard=self.certguard['_href']
+                publication=self.publication['pulp_href'],
+                content_guard=self.certguard['pulp_href']
             )
         )
-        self.addCleanup(self.client.delete, distribution['_href'])
+        self.addCleanup(self.client.delete, distribution['pulp_href'])
 
         # Pick a filename
         unit_path = choice(get_file_content_paths(self.repo))
@@ -142,9 +142,9 @@ class CertGuardTestCase(unittest.TestCase):
         # 1 unprotected distribution
         distribution = self.client.using_handler(api.task_handler).post(
             FILE_DISTRIBUTION_PATH,
-            gen_distribution(publication=self.publication['_href'])
+            gen_distribution(publication=self.publication['pulp_href'])
         )
-        self.addCleanup(self.client.delete, distribution['_href'])
+        self.addCleanup(self.client.delete, distribution['pulp_href'])
 
         # Pick a filename
         unit_path = choice(get_file_content_paths(self.repo))
@@ -154,8 +154,8 @@ class CertGuardTestCase(unittest.TestCase):
 
         # Update distribution adding the guard
         distribution = self.client.using_handler(api.task_handler).patch(
-            distribution['_href'],
-            {'content_guard': self.certguard['_href']}
+            distribution['pulp_href'],
+            {'content_guard': self.certguard['pulp_href']}
         )
 
         # Cannot download without key
@@ -182,11 +182,11 @@ class CertGuardTestCase(unittest.TestCase):
         distribution = self.client.using_handler(api.task_handler).post(
             FILE_DISTRIBUTION_PATH,
             gen_distribution(
-                publication=self.publication['_href'],
-                content_guard=self.certguard['_href']
+                publication=self.publication['pulp_href'],
+                content_guard=self.certguard['pulp_href']
             )
         )
-        self.addCleanup(self.client.delete, distribution['_href'])
+        self.addCleanup(self.client.delete, distribution['pulp_href'])
 
         # Pick a filename
         unit_path = choice(get_file_content_paths(self.repo))
@@ -197,7 +197,7 @@ class CertGuardTestCase(unittest.TestCase):
 
         # Update distribution removing the guard
         distribution = self.client.using_handler(api.task_handler).patch(
-            distribution['_href'],
+            distribution['pulp_href'],
             {'content_guard': None}
         )
 

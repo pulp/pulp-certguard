@@ -41,7 +41,7 @@ I have a habit of keeping everything in a local git repo, just so i can do rever
    cp -r /usr/share/easy-rsa .
    cd easy-rsa
    git init
-   git add * 
+   git add *
    git commit -m 'pristine start' -a
    cd 3
    ./easyrsa init-pki
@@ -53,7 +53,7 @@ I have a habit of keeping everything in a local git repo, just so i can do rever
    cd ..
    # now generate a client cert
    # you're going to do this on the server with the ca.
-   # the guide recommends not doing this, I keep everything in one place. 
+   # the guide recommends not doing this, I keep everything in one place.
    # The reason for this, is that pulp only will need a signed pem. No key, not csr, nothing else.
    # So, I will generate a yum-client cert and sign it here. Then I'll copy the pem to the client machines.
    # later, this will be automated via ansible.
@@ -91,12 +91,12 @@ didn't immediately know to check there and wasted some time.
    http POST http://localhost:24817/pulp/api/v3/repositories/ name=boomi-epel
 
    # Lookup the thing we just made
-   export REPO_HREF=$(http http://localhost:24817/pulp/api/v3/repositories/ | jq -r '.results[] | select(.name == "boomi-epel") | ._href')
+   export REPO_HREF=$(http http://localhost:24817/pulp/api/v3/repositories/ | jq -r '.results[] | select(.name == "boomi-epel") | .pulp_href')
 
    # create new remote
    http POST http://localhost:24817/pulp/api/v3/remotes/rpm/rpm/ name='boomi-epel-remote' url='file:///usr/local/lib/pulp/staging/epel/' policy='immediate'
 
-   export REMOTE_HREF=$(http :24817/pulp/api/v3/remotes/rpm/rpm/ | jq -r '.results[] | select(.name == "boomi-epel-remote") | ._href')
+   export REMOTE_HREF=$(http :24817/pulp/api/v3/remotes/rpm/rpm/ | jq -r '.results[] | select(.name == "boomi-epel-remote") | .pulp_href')
 
    # Sync the repo
    http POST http:/localhost:24817${REMOTE_HREF}sync/ repository=$REPO_HREF
@@ -111,7 +111,7 @@ didn't immediately know to check there and wasted some time.
    http POST http://localhost:24817/pulp/api/v3/publications/rpm/rpm/ repository=$REPO_HREF
 
    # get repo-version (display/informational)
-   export PUBLICATION_HREF=$(http :24817/pulp/api/v3/publications/rpm/rpm/ | jq -r '.results[] | select(.repository_version|test("'$REPO_HREF'.")) | ._href')
+   export PUBLICATION_HREF=$(http :24817/pulp/api/v3/publications/rpm/rpm/ | jq -r '.results[] | select(.repository_version|test("'$REPO_HREF'.")) | .pulp_href')
 
    http POST http://localhost:24817/pulp/api/v3/distributions/rpm/rpm/ name='boomi-epel-distro' base_path='boomi-epel' publication=$PUBLICATION_HREF
 
@@ -149,7 +149,7 @@ troubleshoot it til it does. Then we can add protection.
 
    http --form POST http://localhost:8000/pulp/api/v3/contentguards/certguard/x509/ name=boomi-ca ca_certificate@/var/lib/pulp-certs/easy-rsa/3/pki/ca.pem
 
-   export GUARD_HREF=$(http localhost:24817/pulp/api/v3/contentguards/certguard/x509/?name=boomi-ca | jq -r '.results[0]._href')
+   export GUARD_HREF=$(http localhost:24817/pulp/api/v3/contentguards/certguard/x509/?name=boomi-ca | jq -r '.results[0].pulp_href')
 
    # protect one
    http PATCH http://localhost:24817/pulp/api/v3/distributions/rpm/rpm/4d9ef794-4af1-44ba-be5e-607defd396de/ content_guard=$GUARD_HREF
@@ -179,7 +179,7 @@ right http header when accessing one of our custom repos.
    If above article doesn't help to resolve this issue please open a ticket with Red Hat Support.
 
    Metadata Cache Created
-   [root@ip-10-76-7-46 ~]# 
+   [root@ip-10-76-7-46 ~]#
 
    cp $PATH_TO_EASYRSA/yum-client.pem /etc/boomi/yum.pem
 
@@ -195,16 +195,16 @@ right http header when accessing one of our custom repos.
    # kick the tires
    [root@ip-10-76-7-46 yum-plugins]# yum makecache
    Loaded plugins: amazon-id, certguard, rhui-lb, search-disabled-repos
-   boomi-epel                                                                                                        | 3.5 kB  00:00:00     
-   (1/4): boomi-epel/updateinfo                                                                                      |   71 B  00:00:00     
-   (2/4): boomi-epel/filelists                                                                                       |  11 MB  00:00:00     
-   (3/4): boomi-epel/primary                                                                                         | 3.7 MB  00:00:00     
-   (4/4): boomi-epel/other                                                                                           | 2.3 MB  00:00:00     
+   boomi-epel                                                                                                        | 3.5 kB  00:00:00
+   (1/4): boomi-epel/updateinfo                                                                                      |   71 B  00:00:00
+   (2/4): boomi-epel/filelists                                                                                       |  11 MB  00:00:00
+   (3/4): boomi-epel/primary                                                                                         | 3.7 MB  00:00:00
+   (4/4): boomi-epel/other                                                                                           | 2.3 MB  00:00:00
    boomi-epel                                                                                                                   13215/13215
    boomi-epel                                                                                                                   13215/13215
    boomi-epel                                                                                                                   13215/13215
    Metadata Cache Created
-   [root@ip-10-76-7-46 yum-plugins]# 
+   [root@ip-10-76-7-46 yum-plugins]#
 
    NB: Make sure the cert paths are right.
    Make sure the repo names begin with the right prefix
