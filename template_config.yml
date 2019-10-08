@@ -1,0 +1,28 @@
+# This config represents the latest values used when running the plugin-template. Any settings that
+# were not present before running plugin-template have been added with their default values.
+
+additional_plugins: ['pulp_file']
+black: false
+check_commit_message: true
+coverage: false
+deploy_client_to_pypi: true
+deploy_client_to_rubygems: true
+deploy_daily_client_to_pypi: true
+deploy_daily_client_to_rubygems: true
+deploy_to_pypi: true
+docs_test: true
+plugin_app_label: certguard
+plugin_camel: PulpCertguard
+plugin_camel_short: Certguard
+plugin_caps: PULP-CERTGUARD
+plugin_caps_short: CERTGUARD
+plugin_dash: pulp-certguard
+plugin_dash_short: certguard
+plugin_name: pulp-certguard
+plugin_snake: pulp_certguard
+pydocstyle: true
+pypi_username: pulp
+test_bindings: true
+test_performance: false
+travis_notifications: null
+
