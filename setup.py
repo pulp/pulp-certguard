@@ -3,8 +3,8 @@
 from setuptools import setup, find_packages
 
 requirements = [
-    'pulpcore-plugin~=0.1rc1',
     'PyOpenSSL',
+    'pulpcore~=3.0rc7',
 ]
 
 with open('README.rst') as f:
