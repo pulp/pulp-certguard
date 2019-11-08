@@ -2,9 +2,7 @@ import unittest
 from random import choice
 from requests import HTTPError
 from pulp_smash import api, config, utils
-from pulp_smash.pulp3.constants import (
-    REPO_PATH,
-)
+
 from pulp_smash.pulp3.utils import (
     download_content_unit,
     gen_distribution,
@@ -17,6 +15,7 @@ from pulp_certguard.tests.functional.constants import (
     X509_CONTENT_GUARD_PATH,
     FILE_DISTRIBUTION_PATH,
     FILE_REMOTE_PATH,
+    FILE_REPO_PATH,
 )
 from pulp_certguard.tests.functional.utils import (
     create_file_publication,
@@ -61,7 +60,7 @@ class CertGuardTestCase(unittest.TestCase):
                 )
 
             # 2. Create a repo
-            _repo = client.post(REPO_PATH, gen_repo())
+            _repo = client.post(FILE_REPO_PATH, gen_repo())
             cls.teardown_cleanups.append((cls.client.delete, _repo['pulp_href']))
 
             # 3. Create a remote
