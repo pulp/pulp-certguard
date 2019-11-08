@@ -16,7 +16,7 @@ if [ "$TEST" = 'docs' ]; then
   pip install -r doc_requirements.txt
 fi
 
-pip install -r test_requirements.txt
+pip install -r functest_requirements.txt
 
 cd $TRAVIS_BUILD_DIR/../pulpcore/containers/
 
@@ -58,8 +58,6 @@ if [ -e $TRAVIS_BUILD_DIR/../pulp_file ]; then
 else
   PULP_FILE=git+https://github.com/pulp/pulp_file.git
 fi
-
-
 if [ -n "$TRAVIS_TAG" ]; then
   # Install the plugin only and use published PyPI packages for the rest
   cat > vars/vars.yaml << VARSYAML
@@ -71,7 +69,6 @@ images:
       plugins:
         - ./$PLUGIN
         - pulp_file
-        
 VARSYAML
 else
   cat > vars/vars.yaml << VARSYAML
@@ -81,14 +78,11 @@ images:
       image_name: $PLUGIN
       tag: $TAG
       pulpcore: ./pulpcore
-      pulpcore_plugin: ./pulpcore-plugin
       plugins:
         - ./$PLUGIN
         - $PULP_FILE
-        
 VARSYAML
 fi
-
 ansible-playbook build.yaml
 
 cd $TRAVIS_BUILD_DIR/../pulp-operator
@@ -110,7 +104,6 @@ spec:
     username: pulp
     password: pulp
     admin_password: pulp
-  content_host: $(hostname):24816
 CRYAML
 
 # Install k3s, lightweight Kubernetes
