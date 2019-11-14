@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 requirements = [
     'PyOpenSSL',
-    'pulpcore~=3.0rc7',
+    'pulpcore>=3.0.0rc8,<3.1',
 ]
 
 with open('README.rst') as f:
@@ -12,7 +12,7 @@ with open('README.rst') as f:
 
 setup(
     name='pulp-certguard',
-    version='0.1.0rc3.dev',
+    version='0.1.0rc3',
     description='X.509 Certguards plugin for the Pulp Project',
     long_description=long_description,
     license='GPLv2+',
