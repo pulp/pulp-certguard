@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 requirements = [
     'PyOpenSSL',
-    'pulpcore>=3.0.0rc8,<3.1',
+    'pulpcore>=3.0.0rc8,<3.2',
 ]
 
 with open('README.rst') as f:
