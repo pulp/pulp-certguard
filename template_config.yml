@@ -2,15 +2,17 @@
 # were not present before running plugin-template have been added with their default values.
 
 additional_plugins:
-- pulp_file
+- { name: pulp_file, branch: master }
 black: false
 check_commit_message: true
+cherry_pick_automation: false
 coverage: false
 deploy_client_to_pypi: true
 deploy_client_to_rubygems: true
 deploy_daily_client_to_pypi: true
 deploy_daily_client_to_rubygems: true
 deploy_to_pypi: true
+docker_fixtures: false
 docs_test: true
 plugin_app_label: certguard
 plugin_camel: PulpCertguard
@@ -22,8 +24,10 @@ plugin_dash_short: certguard
 plugin_name: pulp-certguard
 plugin_snake: pulp_certguard
 pulp_settings: null
+pulpcore_branch: master
 pydocstyle: true
 pypi_username: pulp
+stable_branch: null
 test_bindings: true
 test_performance: false
 travis_notifications: null
