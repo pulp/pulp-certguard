@@ -1,3 +1,5 @@
 git+https://github.com/PulpQE/pulp-smash.git#egg=pulp-smash
 git+https://github.com/pulp/pulp_file.git
+pulpcore-client
+pulp-file-client
 pytest

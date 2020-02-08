@@ -21,7 +21,10 @@ if [[ $DESCRIPTION == 'tags/'$REPORTED_VERSION ]]; then
   export VERSION=${REPORTED_VERSION}
 else
   # Daily publishing of development version (ends in ".dev" reported as ".dev0")
-  [ "${REPORTED_VERSION%.dev*}" != "${REPORTED_VERSION}" ] || exit 1
+  if [ "${REPORTED_VERSION%.dev*}" == "${REPORTED_VERSION}" ]; then
+    echo "Refusing to publish bindings. $REPORTED_VERSION does not contain 'dev'."
+    exit 1
+  fi
   export EPOCH="$(date +%s)"
   export VERSION=${REPORTED_VERSION}${EPOCH}
 fi
@@ -40,5 +43,6 @@ cd pulp-openapi-generator
 ./generate.sh pulp_certguard python $VERSION
 cd pulp_certguard-client
 python setup.py sdist bdist_wheel --python-tag py3
+twine check dist/* || exit 1
 twine upload dist/* -u pulp -p $PYPI_PASSWORD
 exit $?
