@@ -1,7 +1,16 @@
 from pulpcore.plugin.viewsets import ContentGuardFilter, ContentGuardViewSet
 
-from .models import X509CertGuard
-from .serializers import X509CertGuardSerializer
+from .models import RHSMCertGuard, X509CertGuard
+from .serializers import RHSMCertGuardSerializer, X509CertGuardSerializer
+
+
+class RHSMCertGuardViewSet(ContentGuardViewSet):
+    """RHSMCertGuard API Viewsets."""
+
+    endpoint_name = 'RHSM'
+    queryset = RHSMCertGuard.objects.all()
+    serializer_class = RHSMCertGuardSerializer
+    filterset_class = ContentGuardFilter
 
 
 class X509CertGuardViewSet(ContentGuardViewSet):
