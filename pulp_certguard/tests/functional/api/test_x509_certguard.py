@@ -13,11 +13,13 @@ from pulp_certguard.tests.functional.constants import (
     X509_CERT_CA_FILE_PATH,
     X509_CERT_CLIENT_FILE_PATH,
     X509_CONTENT_GUARD_PATH,
+)
+from pulp_file.tests.functional.constants import (
     FILE_DISTRIBUTION_PATH,
     FILE_REMOTE_PATH,
     FILE_REPO_PATH,
 )
-from pulp_certguard.tests.functional.utils import (
+from pulp_file.tests.functional.utils import (
     create_file_publication,
     gen_file_remote,
     get_file_content_paths
