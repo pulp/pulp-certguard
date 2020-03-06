@@ -13,7 +13,7 @@ from yum.plugins import TYPE_CORE
 requires_api_version = '2.3'
 plugin_type = (TYPE_CORE,)
 
-ID_SSL_HEADER = "SSL-CLIENT-CERTIFICATE"
+ID_SSL_HEADER = "X-CLIENT-CERT"
 CERT_PATH = "/etc/boomi/yum.pem"
 # Repos that begin with this prefix will be handled by this plugin
 REPO_PREFIX = "boomi-"
