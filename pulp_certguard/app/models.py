@@ -39,14 +39,14 @@ class X509CertGuard(ContentGuard):
 
         """
         ca = self.ca_certificate.read()
-        validator = Validator(ca.decode('utf8'))
+        validator = X509Validator(ca.decode('utf8'))
         validator(request)
 
     class Meta:
         default_related_name = "%(app_label)s_%(model_name)s"
 
 
-class Validator:
+class X509Validator:
     """An X.509 certificate validator."""
 
     SSL_CERTIFICATE_HEADER = 'SSL-CLIENT-CERTIFICATE'
@@ -88,7 +88,7 @@ class Validator:
 
         """
         try:
-            return openssl.load_certificate(openssl.FILETYPE_PEM, buffer=Validator.format(pem))
+            return openssl.load_certificate(openssl.FILETYPE_PEM, buffer=X509Validator.format(pem))
         except Exception as le:
             raise ValueError(str(le))
 
@@ -113,7 +113,7 @@ class Validator:
             reason = _('HTTP header "{h}" not found.').format(h=name)
             raise KeyError(reason)
         else:
-            return Validator.load(certificate)
+            return X509Validator.load(certificate)
 
     def __init__(self, ca_certificate):
         """Inits a new validator.

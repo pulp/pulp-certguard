@@ -10,8 +10,8 @@ from pulp_smash.pulp3.utils import (
     sync,
 )
 from pulp_certguard.tests.functional.constants import (
-    CERT_CA_FILE_PATH,
-    CERT_CLIENT_FILE_PATH,
+    X509_CERT_CA_FILE_PATH,
+    X509_CERT_CLIENT_FILE_PATH,
     X509_CONTENT_GUARD_PATH,
     FILE_DISTRIBUTION_PATH,
     FILE_REMOTE_PATH,
@@ -24,12 +24,13 @@ from pulp_certguard.tests.functional.utils import (
 )
 
 
-class CertGuardTestCase(unittest.TestCase):
-    """Api tests for cerguard."""
+class X509CertGuardTestCase(unittest.TestCase):
+    """Api tests for X509CertGard."""
 
     @classmethod
     def setUpClass(cls):
-        """Initialize common use entities and variables.
+        """
+        Initialize common use entities and variables.
 
         0. Prepare artifacts (ca and client certs)
         1. Create self.contentguard for ca.pem located in CERT_CA_PATH.
@@ -44,19 +45,19 @@ class CertGuardTestCase(unittest.TestCase):
         cls.teardown_cleanups = []
 
         # The certificate header must have no \n chars
-        with open(CERT_CLIENT_FILE_PATH, 'r') as cert_client_file:
+        with open(X509_CERT_CLIENT_FILE_PATH, 'r') as cert_client_file:
             cls.client_cert = str(cert_client_file.read()).replace('\n', '')
 
         with utils.ensure_teardownclass(cls):
-            # 1. Create certguard
-            with open(CERT_CA_FILE_PATH, 'rb') as cert_ca_file:
-                cls.certguard = client.post(
+            # 1. Create X.509 ContentGuard
+            with open(X509_CERT_CA_FILE_PATH, 'rb') as cert_ca_file:
+                cls.x509_certguard = client.post(
                     X509_CONTENT_GUARD_PATH,
                     data={'name': utils.uuid4()},
                     files={'ca_certificate': cert_ca_file}
                 )
                 cls.teardown_cleanups.append(
-                    (client.delete, cls.certguard['pulp_href'])
+                    (client.delete, cls.x509_certguard['pulp_href'])
                 )
 
             # 2. Create a repo
@@ -80,9 +81,10 @@ class CertGuardTestCase(unittest.TestCase):
             )
 
     def test_negative_download_protected_content_without_keys(self):
-        """Assert content protected by cert-guard cannot be downloaded.
+        """
+        Assert content protected by X.509 Cert Guard cannot be downloaded.
 
-        1. Create a protected distribution using the self.contentguard.
+        1. Create a protected distribution using the x.509 Cert Guard.
         2. Assert content cannot be downloaded without cert and key.
         """
         # Create a protected distribution
@@ -90,7 +92,7 @@ class CertGuardTestCase(unittest.TestCase):
             FILE_DISTRIBUTION_PATH,
             gen_distribution(
                 publication=self.publication['pulp_href'],
-                content_guard=self.certguard['pulp_href']
+                content_guard=self.x509_certguard['pulp_href']
             )
         )
         self.addCleanup(self.client.delete, distribution['pulp_href'])
@@ -103,7 +105,8 @@ class CertGuardTestCase(unittest.TestCase):
             download_content_unit(self.cfg, distribution, unit_path)
 
     def test_positive_download_protected_content_with_keys(self):
-        """Assert content protected by cert-guard can be downloaded.
+        """
+        Assert content protected by X.509 Cert Guard can be downloaded.
 
         1. Create a protected distribution using the self.contentguard.
         2. Assert content can be downloaded using the proper cert and key.
@@ -113,7 +116,7 @@ class CertGuardTestCase(unittest.TestCase):
             FILE_DISTRIBUTION_PATH,
             gen_distribution(
                 publication=self.publication['pulp_href'],
-                content_guard=self.certguard['pulp_href']
+                content_guard=self.x509_certguard['pulp_href']
             )
         )
         self.addCleanup(self.client.delete, distribution['pulp_href'])
@@ -129,12 +132,13 @@ class CertGuardTestCase(unittest.TestCase):
             headers={'SSL-CLIENT-CERTIFICATE': self.client_cert}
         )
 
-    def test_positive_add_contentguard_to_existing_distribution(self):
-        """Assert adding contentguard to existing distribution works well.
+    def test_positive_add_x509_certguard_to_existing_distribution(self):
+        """
+        Assert adding X.509CertGuard to existing distribution works well.
 
         1. Create a distribution without protection
         2. Assert content can be downloaded
-        3. Add contentguard to the distribution
+        3. Add X.509CertGuard to the distribution
         4. Assert content cannot be downloaded without key
         5. Assert content can be downloaded with key
         """
@@ -154,7 +158,7 @@ class CertGuardTestCase(unittest.TestCase):
         # Update distribution adding the guard
         distribution = self.client.using_handler(api.task_handler).patch(
             distribution['pulp_href'],
-            {'content_guard': self.certguard['pulp_href']}
+            {'content_guard': self.x509_certguard['pulp_href']}
         )
 
         # Cannot download without key
@@ -170,11 +174,12 @@ class CertGuardTestCase(unittest.TestCase):
         )
 
     def test_positive_remove_contentguard(self):
-        """Assert that content can be download without guard if it is removed.
+        """
+        Assert that content can be download without X.509CertGuard if it is removed.
 
-        1. Create a protected distribution using the self.contentguard
+        1. Create a protected distribution
         2. Assert content cannot be downloaded without keys
-        3. Remove the contentguard
+        3. Remove the X.509CertGuard
         4. Assert content can be downloaded without keys
         """
         # Create a protected distribution
@@ -182,7 +187,7 @@ class CertGuardTestCase(unittest.TestCase):
             FILE_DISTRIBUTION_PATH,
             gen_distribution(
                 publication=self.publication['pulp_href'],
-                content_guard=self.certguard['pulp_href']
+                content_guard=self.x509_certguard['pulp_href']
             )
         )
         self.addCleanup(self.client.delete, distribution['pulp_href'])
