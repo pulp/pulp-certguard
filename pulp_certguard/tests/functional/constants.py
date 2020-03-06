@@ -10,10 +10,11 @@ from pulp_file.tests.functional.constants import (  # noqa:F401
 )
 
 _CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-CERTS_BASE_PATH = os.path.join(
+
+X509_CERTS_BASE_PATH = os.path.join(
     _CURRENT_DIR, 'artifacts', 'x509', 'certificates'
 )
-CERT_CA_FILE_PATH = os.path.join(CERTS_BASE_PATH, 'ca.pem')
-CERT_CLIENT_FILE_PATH = os.path.join(CERTS_BASE_PATH, 'client.pem')
-KEYS_BASE_PATH = os.path.join(_CURRENT_DIR, 'x509', 'keys')
+X509_CERT_CA_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'ca.pem')
+X509_CERT_CLIENT_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'client.pem')
+X509_KEYS_BASE_PATH = os.path.join(_CURRENT_DIR, 'x509', 'keys')
 X509_CONTENT_GUARD_PATH = urljoin(BASE_CONTENT_GUARDS_PATH, "certguard/x509/")
