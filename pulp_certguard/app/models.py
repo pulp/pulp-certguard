@@ -49,7 +49,7 @@ class X509CertGuard(ContentGuard):
 class X509Validator:
     """An X.509 certificate validator."""
 
-    SSL_CERTIFICATE_HEADER = 'SSL-CLIENT-CERTIFICATE'
+    CERT_HEADER_NAME = 'X-CLIENT-CERT'
 
     @staticmethod
     def format(pem):
@@ -93,7 +93,7 @@ class X509Validator:
             raise ValueError(str(le))
 
     def client_certificate(self, request):
-        """Extract and load the client certificate passed in the SSL-CLIENT-CERTIFICATE header.
+        """Extract and load the client certificate passed in the X-CLIENT-CERT header.
 
         Args:
             request (aiohttp.web.Request): A request for a published file.
@@ -106,7 +106,7 @@ class X509Validator:
                 been passed in the request.
 
         """
-        name = self.SSL_CERTIFICATE_HEADER
+        name = self.CERT_HEADER_NAME
         try:
             certificate = request.headers[name]
         except KeyError:

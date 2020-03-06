@@ -100,7 +100,7 @@ class X509CertGuardTestCase(unittest.TestCase):
         # Pick a filename
         unit_path = choice(get_file_content_paths(self.repo))
 
-        # Try to download it without the SSL-CLIENT-CERTIFICATE
+        # Try to download it without the X-CLIENT-CERT header set
         with self.assertRaises(HTTPError):
             download_content_unit(self.cfg, distribution, unit_path)
 
@@ -124,12 +124,12 @@ class X509CertGuardTestCase(unittest.TestCase):
         # Pick a filename
         unit_path = choice(get_file_content_paths(self.repo))
 
-        # Try to download it passing the proper SSL-CLIENT-CERTIFICATE
+        # Try to download it passing the proper X-CLIENT-CERT
         download_content_unit(
             self.cfg,
             distribution,
             unit_path,
-            headers={'SSL-CLIENT-CERTIFICATE': self.client_cert}
+            headers={'X-CLIENT-CERT': self.client_cert}
         )
 
     def test_positive_add_x509_certguard_to_existing_distribution(self):
@@ -165,12 +165,12 @@ class X509CertGuardTestCase(unittest.TestCase):
         with self.assertRaises(HTTPError):
             download_content_unit(self.cfg, distribution, unit_path)
 
-        # Try to download it passing the proper SSL-CLIENT-CERTIFICATE
+        # Try to download it passing the proper X-CLIENT-CERT
         download_content_unit(
             self.cfg,
             distribution,
             unit_path,
-            headers={'SSL-CLIENT-CERTIFICATE': self.client_cert}
+            headers={'X-CLIENT-CERT': self.client_cert}
         )
 
     def test_positive_remove_contentguard(self):
@@ -195,7 +195,7 @@ class X509CertGuardTestCase(unittest.TestCase):
         # Pick a filename
         unit_path = choice(get_file_content_paths(self.repo))
 
-        # Try to download it without the SSL-CLIENT-CERTIFICATE
+        # Try to download it without the X-CLIENT-CERT
         with self.assertRaises(HTTPError):
             download_content_unit(self.cfg, distribution, unit_path)
 

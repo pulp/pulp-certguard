@@ -1,0 +1,1 @@
+Renames the ``SSL_CLIENT_CERTIFICATE`` to be ``X-CLIENT-CERT``.

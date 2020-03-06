@@ -72,10 +72,10 @@ And, a PEM encoded private key at ``~/key.pem``.
 
 
 Example of GET directly to the content application running on port 24816 over HTTP. When setting the
-``SSL-CLIENT-CERTIFICATE`` manually, the newlines need to be stripped due to restrictions
+``X-CLIENT-CERT`` manually, the newlines need to be stripped due to restrictions
 on legal characters in HTTP header values.
 
-``$ http localhost:24816/pulp/content/files/1.iso SSL-CLIENT-CERTIFICATE:"$(tr -d '\n' < ~/client.pem)"``
+``$ http localhost:24816/pulp/content/files/1.iso X-CLIENT-CERT:"$(tr -d '\n' < ~/client.pem)"``
 
 .. code-block::
 
@@ -85,8 +85,8 @@ on legal characters in HTTP header values.
 
 
 Example of GET through a reverse proxy using HTTPS (like apache or nginx) in front of the content
-application. It's assumed that the reverse proxy has been configured to set the SSL-CLIENT-CERTIFICATE
-header using the client certificate exchanged as part of the SSL negotiation.
+application. It's assumed that the reverse proxy has been configured to set the
+``X-CLIENT-CERT`` header using the client certificate exchanged as part of the SSL negotiation.
 
 ``$ http https://localhost/pulp/content/files/1.iso --cert=~/client.pem --cert-key=~/key.pem --verify=no``
 
