@@ -84,12 +84,13 @@ fi
 
 git clone --depth=1 https://github.com/pulp/pulpcore.git --branch master
 
+cd pulpcore
 if [ -n "$PULP_PR_NUMBER" ]; then
-  cd pulpcore
   git fetch --depth=1 origin pull/$PULP_PR_NUMBER/head:$PULP_PR_NUMBER
   git checkout $PULP_PR_NUMBER
-  cd ..
 fi
+
+cd ..
 
 
 

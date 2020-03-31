@@ -37,7 +37,7 @@ elif [ -n "$TRAVIS_PULL_REQUEST_BRANCH" ]; then
 # For push builds and hopefully cron builds
 elif [ -n "$TRAVIS_BRANCH" ]; then
   TAG=$(echo $TRAVIS_BRANCH | tr / _)
-  if [ "$TAG" = "master" ]; then
+  if [ "${TAG}" = "master" ]; then
     TAG=latest
   fi
 else
@@ -54,12 +54,14 @@ fi
 
 if [ -n "$TRAVIS_TAG" ]; then
   # Install the plugin only and use published PyPI packages for the rest
+  # Quoting ${TAG} ensures Ansible casts the tag as a string.
   cat > vars/vars.yaml << VARSYAML
 ---
 images:
   - pulp-certguard-${TAG}:
       image_name: pulp-certguard
-      tag: $TAG
+      tag: "${TAG}"
+      pulpcore: pulpcore
       plugins:
         - ./pulp-certguard
         - pulp_file
@@ -70,18 +72,25 @@ else
 images:
   - pulp-certguard-${TAG}:
       image_name: pulp-certguard
-      tag: $TAG
+      tag: "${TAG}"
       pulpcore: ./pulpcore
       plugins:
         - ./pulp-certguard
         - $PULP_FILE
 VARSYAML
 fi
+
+if [ "$TEST" = 's3' ]; then
+  echo "s3_test: true" >> vars/vars.yaml
+fi
+
 ansible-playbook -v build.yaml
 
 cd $TRAVIS_BUILD_DIR/../pulp-operator
 # Tell pulp-perator to deploy our image
-# NOTE: With k3s 1.17, $TAG must be quoted. So that 3.0 does not become 3.
+# NOTE: With k3s 1.17, ${TAG} must be quoted. So that 3.0 does not become 3.
+# NOTE: We use 1 pulp-content replica because some plugins need to pass
+# commands to it to modify it, similar to the pulp-api container.
 cat > deploy/crds/pulpproject_v1alpha1_pulp_cr.yaml << CRYAML
 apiVersion: pulpproject.org/v1alpha1
 kind: Pulp
@@ -99,7 +108,45 @@ spec:
     username: pulp
     password: pulp
     admin_password: pulp
+  pulp_content:
+    replicas: 1
 CRYAML
+
+if [ "$TEST" = 's3' ]; then
+  cat > deploy/crds/pulpproject_v1alpha1_pulp_cr.yaml << CRYAML
+  apiVersion: pulpproject.org/v1alpha1
+  kind: Pulp
+  metadata:
+    name: example-pulp
+  spec:
+    pulp_file_storage:
+      # k3s local-path requires this
+      access_mode: "ReadWriteOnce"
+      # We have a little over 40GB free on Travis VMs/instances
+      size: "40Gi"
+    image: pulp-certguard
+    tag: "${TAG}"
+    database_connection:
+      username: pulp
+      password: pulp
+      admin_password: pulp
+    pulp_content:
+      replicas: 1
+    pulp_settings:
+      aws_access_key_id: "AKIAIT2Z5TDYPX3ARJBA"
+      aws_secret_access_key: "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"
+      aws_storage_bucket_name: "pulp3"
+      aws_default_acl: "@none None"
+      s3_use_sigv4: true
+      aws_s3_signature_version: "s3v4"
+      aws_s3_addressing_style: "path"
+      aws_s3_region_name: "eu-central-1"
+      default_file_storage: "storages.backends.s3boto3.S3Boto3Storage"
+      media_root: ''
+      aws_s3_endpoint_url: "http://$(hostname):9000"
+
+CRYAML
+fi
 
 # Install k3s, lightweight Kubernetes
 .travis/k3s-install.sh
