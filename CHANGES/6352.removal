@@ -1,0 +1,7 @@
+Migrations had to be regenerated from scratch due to a backwards incompatible change where
+``X509ContentGuard.ca_certificate`` is now stored in the database and not on the filesystem. Users
+who have already run migrations will need to drop the ``RHSMCertGuard`` and ``X509CertGuard`` tables
+manually from their databases, reapply migrations, and re-create their CertGuard objects.
+
+Also the submission of the client cert to the content app occurs via the `X-CLIENT-CERT` header, and
+is expected to be urlencoded.

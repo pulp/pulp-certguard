@@ -1,25 +1,22 @@
 """Constants for Pulp certguard plugin tests."""
 import os
-from urllib.parse import urljoin
-
-from pulp_smash.pulp3.constants import BASE_CONTENT_GUARDS_PATH
 
 
 _CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
+X509_BASE_PATH = "my-content-view"
 X509_CERTS_BASE_PATH = os.path.join(
     _CURRENT_DIR, 'artifacts', 'x509', 'certificates'
 )
-X509_CERT_CA_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'ca.pem')
-X509_CERT_CLIENT_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'client.pem')
-X509_CONTENT_GUARD_PATH = urljoin(BASE_CONTENT_GUARDS_PATH, "certguard/x509/")
+X509_CA_CERT_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'ca.pem')
+X509_CLIENT_CERT_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'client.pem')
+X509_UNTRUSTED_CLIENT_CERT_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'untrusted_client.pem')
 
 
 RHSM_CA_CERT_FILE_PATH = os.path.join(
     _CURRENT_DIR, 'artifacts', 'rhsm', 'katello-default-ca.crt'
 )
-RHSM_CONTENT_GUARD_PATH = urljoin(BASE_CONTENT_GUARDS_PATH, "certguard/rhsm/")
 
 
 RHSM_CLIENT_CERT_FROM_UNTRUSTED_CA = RHSM_UBER_CLIENT_CERT = os.path.join(
