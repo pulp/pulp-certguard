@@ -8,6 +8,7 @@ from pulp_certguard.tests.functional.api.base import BaseCertGuard, CommonDenial
 from pulp_certguard.tests.functional.constants import (
     RHSM_CA_CERT_FILE_PATH,
     RHSM_CLIENT_CERT_FROM_UNTRUSTED_CA,
+    RHSM_CLIENT_CERT_TRUSTED_BUT_EXPIRED,
     RHSM_UBER_CERT_BASE_PATH_ONE,
     RHSM_UBER_CERT_BASE_PATH_TWO,
     RHSM_UBER_CLIENT_CERT,
@@ -264,5 +265,22 @@ class RHSMCertGuardDenialTestCase(RHSMCertGuardBase, CommonDenialTestsMixin):
                 RHSM_V3_INVALID_BASE_PATH,
                 self.repo.pulp_href,
                 RHSM_V3_ZERO_VAR_CLIENT_CERT
+            )
+        self.assertEqual(raised_exception.exception.response.status_code, 403)
+
+    def test_denial_when_client_cert_is_trusted_but_expired(self):
+        """
+        Assert denial when a client sends a trusted but expired cert that has a valid subpath.
+
+        1. Configure the distribution with valid path contained in the cert.
+        2. Attempt to download content with a trusted but expired cert.
+        3. Assert a 403 Unauthorized is returned.
+        """
+        with self.assertRaises(HTTPError) as raised_exception:
+            set_distribution_base_path_and_download_a_content_unit_with_cert(
+                self.distribution.pulp_href,
+                RHSM_V1_ONE_VAR_BASE_PATH,
+                self.repo.pulp_href,
+                RHSM_CLIENT_CERT_TRUSTED_BUT_EXPIRED
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)

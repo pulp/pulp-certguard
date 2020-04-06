@@ -57,9 +57,14 @@ class BaseCertGuard(ContentGuard):
                 store=trust_store,
             )
             context.verify_certificate()
-        except openssl.X509StoreContextError:
-            msg = _("Client certificate is not signed by the stored 'ca_certificate'.")
-            raise PermissionError(msg)
+        except openssl.X509StoreContextError as exc:
+            if exc.args[0][0] == 20:  # The error code for client cert not signed by the CA
+                msg = _("Client certificate is not signed by the stored 'ca_certificate'.")
+                raise PermissionError(msg)
+            if exc.args[0][0] == 10:  # The error code for an expired certificate
+                msg = _("Client certificate is expired.")
+                raise PermissionError(msg)
+            raise PermissionError(str(exc))
         except openssl.Error as exc:
             raise PermissionError(str(exc))
 
