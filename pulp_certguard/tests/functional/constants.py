@@ -19,8 +19,12 @@ RHSM_CA_CERT_FILE_PATH = os.path.join(
 )
 
 
-RHSM_CLIENT_CERT_FROM_UNTRUSTED_CA = RHSM_UBER_CLIENT_CERT = os.path.join(
+RHSM_CLIENT_CERT_FROM_UNTRUSTED_CA = os.path.join(
     _CURRENT_DIR, 'artifacts', 'rhsm', 'untrusted_cert.pem'
+)
+
+RHSM_CLIENT_CERT_TRUSTED_BUT_EXPIRED = os.path.join(
+    _CURRENT_DIR, 'artifacts', 'rhsm', 'trusted_but_expired.pem'
 )
 
 
