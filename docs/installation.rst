@@ -57,7 +57,7 @@ Or you can skip download step and install directly with:
 .. _tarball: https://github.com/pulp/pulp_certguard/tarball/master
 
 
-Using the Pulp3 Ansible Installer
+Using the Pulp 3 Ansible Installer
 ---------------------------------
 
 pulp-certguard is "just another Pulp plugin", so it can be installed by configuring the installer's
@@ -68,4 +68,4 @@ pulp-certguard is "just another Pulp plugin", so it can be installed by configur
     pulp_install_plugins:
       pulp-certguard: {}
 
-.. _pulp_install_plugins: https://github.com/pulp/ansible-pulp/blob/master/roles/pulp/README.md#role-variables
+.. _pulp_install_plugins: https://github.com/pulp/pulp_installer/blob/master/roles/pulp/README.md#role-variables
