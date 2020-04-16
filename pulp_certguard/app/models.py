@@ -119,6 +119,7 @@ class RHSMCertGuard(BaseCertGuard):
 
     @staticmethod
     def _create_rhsm_cert_from_pem(unquoted_certificate):
+        get_rhsm()
         try:
             rhsm_cert = certificate.create_from_pem(unquoted_certificate)
         except certificate.CertificateException:
