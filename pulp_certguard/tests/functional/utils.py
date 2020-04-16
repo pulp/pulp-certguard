@@ -9,7 +9,6 @@ from pulp_smash.pulp3.utils import download_content_unit
 
 from pulpcore.client.pulpcore import (
     ApiClient as CoreApiClient,
-    Configuration,
     TasksApi,
 )
 
@@ -26,10 +25,8 @@ from pulp_file.tests.functional.utils import (
 )
 
 
-configuration = Configuration()
-configuration.username = "admin"
-configuration.password = "password"
-configuration.safe_chars_for_path_param = "/"
+cfg = config.get_config()
+configuration = cfg.get_bindings_config()
 
 core_client = CoreApiClient(configuration)
 tasks = TasksApi(core_client)

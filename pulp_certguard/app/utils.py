@@ -4,8 +4,9 @@ from django.core.exceptions import ImproperlyConfigured
 
 try:
     import rhsm  # rhsm is an optional dependency
-except ImportError:
+except ImportError as e:
     rhsm = None
+    rhsm_import_error = str(e)
 
 
 def get_rhsm():
@@ -22,6 +23,6 @@ def get_rhsm():
         `ImproperlyConfigured` exception explaining `rhsm` is not installed.
     """
     if rhsm is None:
-        error_msg = _("RHSMCertGuard requires the Python package 'rhsm' to be installed.")
-        raise ImproperlyConfigured(error_msg)
+        error_msg = _("RHSMCertGuard requires the Python package 'rhsm' to be installed ({}).")
+        raise ImproperlyConfigured(error_msg.format(rhsm_import_error))
     return rhsm
