@@ -23,6 +23,14 @@ you through the process.
 .. _pip: https://pip.pypa.io
 .. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
 
+.. note::
+
+    To use the ``RHSMCertGuard`` you have to manually install the `rhsm Python module
+    <https://pypi.org/project/rhsm/>`_ which provides RHSM certificate parsing on the pulp server.
+    It requires some system level dependencies, e.g. OpenSSL libraries, which are not the same on
+    all operating operating systems. ``rhsm`` from PyPI not being cross-distro is why this requires
+    manual installation.
+
 
 From sources
 ------------
