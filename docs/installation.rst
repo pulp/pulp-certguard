@@ -62,7 +62,7 @@ Using the Pulp Installer
 ------------------------
 
 pulp-certguard is a Pulp plugin, and can be installed along with Pulp and other plugins using the
-`Pulp Installer <https://github.com/pulp/ansible-pulp>`_. It can be installed by configuring the
+`Pulp Installer <https://github.com/pulp/pulp_installer>`_. It can be installed by configuring the
 installer's `pulp_install_plugins`_ variable with ``pulp-certguard`` as follows:
 
 .. code-block:: yaml
@@ -70,4 +70,4 @@ installer's `pulp_install_plugins`_ variable with ``pulp-certguard`` as follows:
     pulp_install_plugins:
       pulp-certguard: {}
 
-.. _pulp_install_plugins: https://github.com/pulp/ansible-pulp/blob/master/roles/pulp/README.md#role-variables
+.. _pulp_install_plugins: https://github.com/pulp/pulp_installer/blob/master/roles/pulp/README.md#role-variables
