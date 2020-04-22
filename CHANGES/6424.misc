@@ -1,2 +1,0 @@
-Adds a test to RHSM CertGuard tests that ensures a trusted-but-expired certificate that has valid
-sub-paths is denied.
