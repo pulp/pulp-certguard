@@ -7,7 +7,7 @@ from .serializers import RHSMCertGuardSerializer, X509CertGuardSerializer
 class RHSMCertGuardViewSet(ContentGuardViewSet):
     """RHSMCertGuard API Viewsets."""
 
-    endpoint_name = 'RHSM'
+    endpoint_name = 'rhsm'
     queryset = RHSMCertGuard.objects.all()
     serializer_class = RHSMCertGuardSerializer
     filterset_class = ContentGuardFilter
