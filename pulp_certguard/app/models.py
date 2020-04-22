@@ -85,7 +85,7 @@ class RHSMCertGuard(BaseCertGuard):
     of a path declared in the trusted RHSM Client Certificate.
 
     Fields:
-        rhsm_certificate (models.TextField): The RHSM Ccertificate used to validate the client
+        rhsm_certificate (models.TextField): The RHSM Certificate used to validate the client
             certificate at request time.
     """
 
@@ -119,7 +119,6 @@ class RHSMCertGuard(BaseCertGuard):
 
     @staticmethod
     def _create_rhsm_cert_from_pem(unquoted_certificate):
-        get_rhsm()
         try:
             rhsm_cert = certificate.create_from_pem(unquoted_certificate)
         except certificate.CertificateException:
