@@ -1,8 +1,8 @@
 pulp-certguard
 ==============
 
-.. image:: https://travis-ci.org/pulp/pulp-certguard.svg?branch=master
-   :target: https://travis-ci.org/pulp/pulp-certguard
+.. image:: https://travis-ci.com/pulp/pulp-certguard.svg?branch=master
+    :target: https://travis-ci.com/pulp/pulp-certguard
 
 A Pulp plugin that provides an X.509 capable ``ContentGuard`` for pulpcore. Instances of
 ``X509CertGuard`` are useful for requiring clients to submit a certificate proving their entitlement
