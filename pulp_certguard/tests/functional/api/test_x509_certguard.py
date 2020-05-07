@@ -8,6 +8,7 @@ from pulp_certguard.tests.functional.constants import (
     X509_CA_CERT_FILE_PATH,
     X509_CLIENT_CERT_FILE_PATH,
     X509_UNTRUSTED_CLIENT_CERT_FILE_PATH,
+    X509_UN_URLENCODED_CLIENT_CERT_FILE_PATH,
 )
 from pulp_certguard.tests.functional.utils import (
     gen_certguard_client,
@@ -49,7 +50,22 @@ class X509CertGuardTestCase(BaseCertGuard, CommonDenialTestsMixin):
         """
         set_distribution_base_path_and_download_a_content_unit_with_cert(
             self.distribution.pulp_href,
-            self.DENIALS_BASE_PATH,
+            X509_BASE_PATH,
             self.repo.pulp_href,
             X509_CLIENT_CERT_FILE_PATH
+        )
+
+    def test_allow_request_when_apache_un_urlencoded_cert_is_trusted(self):
+        """
+        Assert a correctly configured client can fetch content with reverse proxy Apache < 2.6.10.
+
+        1. Configure the distribution with an X.509 CertGuard.
+        2. Attempt to download content with an un-urlencoded certificate (Apache < 2.6.10 style)
+        """
+        set_distribution_base_path_and_download_a_content_unit_with_cert(
+            self.distribution.pulp_href,
+            X509_BASE_PATH,
+            self.repo.pulp_href,
+            X509_UN_URLENCODED_CLIENT_CERT_FILE_PATH,
+            url_encode=False,
         )

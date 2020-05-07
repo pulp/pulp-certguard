@@ -1,5 +1,6 @@
 from logging import getLogger
 from gettext import gettext as _
+import re
 from urllib.parse import unquote
 
 from django.db import models
@@ -16,7 +17,9 @@ except ImportError:
     pass
 
 
-log = getLogger(__name__)
+logger = getLogger(__name__)
+
+cert_unquoted_body_regex = re.compile('^-----BEGIN CERTIFICATE-----(.*)-----END CERTIFICATE----- $')
 
 
 class BaseCertGuard(ContentGuard):
@@ -28,9 +31,16 @@ class BaseCertGuard(ContentGuard):
     def _get_client_cert_header(request):
         try:
             client_cert_data = request.headers["X-CLIENT-CERT"]
+            logger.debug(f"client_cert_data received: {client_cert_data}")
         except KeyError:
             msg = _("A client certificate was not received via the `X-CLIENT-CERT` header.")
             raise PermissionError(msg)
+        match_result = cert_unquoted_body_regex.match(client_cert_data)
+        if match_result:
+            cert_body = match_result.groups()[0]
+            client_cert_data = '-----BEGIN CERTIFICATE-----' + \
+                               cert_body.replace(' ', '\n') + \
+                               '-----END CERTIFICATE-----' + '\n'
         return unquote(client_cert_data)
 
     def _ensure_client_cert_is_trusted(self, unquoted_certificate):
@@ -122,7 +132,7 @@ class RHSMCertGuard(BaseCertGuard):
         try:
             rhsm_cert = certificate.create_from_pem(unquoted_certificate)
         except certificate.CertificateException:
-            msg = _("An error occured while loading the client certificate data into python-rhsm.")
+            msg = _("An error occurred while loading the client certificate data into python-rhsm.")
             raise PermissionError(msg)
         return rhsm_cert
 

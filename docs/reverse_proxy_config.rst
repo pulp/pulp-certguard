@@ -8,7 +8,6 @@ correctly pass the client certificate to the ``pulpcore-content`` app.
 1. Forward the client's TLS certificate as the ``X-CLIENT-CERT``.
 2. The ``X-CLIENT-CERT`` needs to be urlencoded.
 
-
 Nginx Config Example
 --------------------
 
@@ -25,8 +24,8 @@ To configure Nginx to accept a client cert, and have it forward the urlencoded c
     proxy_set_header X-CLIENT-CERT $ssl_client_escaped_cert;
 
 
-Apache Config Example
----------------------
+Apache 2.4.10+ Config Example
+-----------------------------
 
 To configure Apache to accept a client cert, urlencode it, and forward it you will need to:
 
@@ -42,5 +41,28 @@ To configure Apache to accept a client cert, urlencode it, and forward it you wi
    current/mod/mod_rewrite.html>`_ to urlencode the `SSL_CLIENT_CERT <https://httpd.apache.org/docs/
    2.4/mod/mod_ssl.html>`_ environment variable as follows::
 
-    RequestHeader set X-CLIENT-CERT  ""  # This unsets a client who may have set it
+    RequestHeader unset X-CLIENT-CERT
     RequestHeader set X-CLIENT-CERT "expr=%{escape:%{SSL_CLIENT_CERT}s}"
+
+
+Apache < 2.4.10 Config Example
+------------------------------
+
+Apache versions earlier than 2.4.10 are not able to urlencode the client certificate.
+`pulp-certguard` tries to detect this situation and work anyway.
+
+In this case, to configure Apache to accept a client cert and forward it you will need to:
+
+1. Enable the checking of a client cert with the `SSLVerifyClient directive
+   <https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslverifyclient>`_.
+
+2. Enable the client certificate to be available as an environment variable with::
+
+    SSLOptions +ExportCertData
+
+3. Configure the ``X-CLIENT-CERT`` header to be forwarded. To avoid a client falsifying the header,
+   first unset it, then forward the data in the `SSL_CLIENT_CERT <https://httpd.apache.org/docs/2.4/
+   mod/mod_ssl.html>`_ environment variable as follows::
+
+    RequestHeader unset X-CLIENT-CERT
+    RequestHeader set X-CLIENT-CERT "%{SSL_CLIENT_CERT}s"

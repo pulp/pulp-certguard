@@ -12,6 +12,9 @@ X509_CERTS_BASE_PATH = os.path.join(
 X509_CA_CERT_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'ca.pem')
 X509_CLIENT_CERT_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'client.pem')
 X509_UNTRUSTED_CLIENT_CERT_FILE_PATH = os.path.join(X509_CERTS_BASE_PATH, 'untrusted_client.pem')
+X509_UN_URLENCODED_CLIENT_CERT_FILE_PATH = os.path.join(
+    X509_CERTS_BASE_PATH, 'un_urlencoded_cert.txt'
+)
 
 
 RHSM_CA_CERT_FILE_PATH = os.path.join(
