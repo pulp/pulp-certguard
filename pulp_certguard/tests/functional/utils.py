@@ -32,10 +32,15 @@ core_client = CoreApiClient(configuration)
 tasks = TasksApi(core_client)
 
 
-def read_cert_and_urlencode(cert_path):
-    """Return an string of urlencoded data read from `cert_path`."""
+def read_cert(cert_path):
+    """Return an string of data read from `cert_path`."""
     with open(cert_path, 'r') as cert_file:
-        return quote(cert_file.read())
+        return cert_file.read()
+
+
+def read_cert_and_urlencode(cert_path):
+    """Return an string of data read from `cert_path` and urlencode."""
+    return quote(read_cert(cert_path))
 
 
 def gen_certguard_client():
@@ -94,7 +99,8 @@ def set_distribution_base_path_and_download_a_content_unit_with_cert(
         base_path,
         file_repository_href,
         cert_path,
-        content_path=None):
+        content_path=None,
+        url_encode=True):
     """
     Set the base path on the `distribution, read the cert, urlencode it, and then request one unit.
 
@@ -118,6 +124,8 @@ def set_distribution_base_path_and_download_a_content_unit_with_cert(
         content_path: The path to the specific content unit to be fetched. This is the portion of
             the url after the distribution URL. It's optional, and if unspecified a random, valid
             content unit will be selected instead from the repository.
+        url_encode: If true, the certificate data read will be urlencoded, otherwise it won't be.
+            This is an optional param, and defaults to True.
 
     Returns:
         The downloaded data.
@@ -131,11 +139,14 @@ def set_distribution_base_path_and_download_a_content_unit_with_cert(
         repo = file_repos_api.read(file_repository_href)
         content_path = choice(get_file_content_paths(repo.to_dict()))
 
-    urlencoded_cert = read_cert_and_urlencode(cert_path)
+    if url_encode:
+        cert_data = read_cert_and_urlencode(cert_path)
+    else:
+        cert_data = read_cert(cert_path)
 
     return download_content_unit(
         config.get_config(),
         distribution.to_dict(),
         content_path,
-        headers={'X-CLIENT-CERT': urlencoded_cert}
+        headers={'X-CLIENT-CERT': cert_data}
     )
