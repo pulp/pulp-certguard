@@ -28,8 +28,9 @@ date of June 30, 2023. Company Foo also does the following:
    reverse_proxy_config
    usage
    rest_api
-   contributing
+   debugging
    yum-howto
+   contributing
    changes
 
 Indices and tables

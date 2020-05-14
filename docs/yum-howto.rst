@@ -2,17 +2,15 @@
    :format: html
 
 
-Table of Contents
-=================
-   #. `easy_rsa setup <#org81f9613>`_
-   #. `pulp setup <#orgced9f17>`_
-   #. `certguard setup <#orgdb8c46e>`_
-   #. `yum setup <#org06aad41>`_
+#. `easy_rsa setup <#org81f9613>`_
+#. `pulp setup <#orgced9f17>`_
+#. `certguard setup <#orgdb8c46e>`_
+#. `yum setup <#org06aad41>`_
 
 :raw-html-m2r:`<a id="org806629e"></a>`
 
-Used easy_rsa v3
-==============================================
+Configure yum/dnf
+=================
 
 When doing this, I used the following as a guide. These are
 essentially all you need to end up with a protected rpm repo.
@@ -26,10 +24,11 @@ https://github.com/pulp/pulp-certguard
 
 https://github.com/OpenVPN/easy-rsa/blob/master/README.quickstart.md
 
+
 :raw-html-m2r:`<a id="org81f9613"></a>`
 
 easy_rsa setup
---------------------------------------------
+--------------
 
 Once you get the easy_rsa rpm installed, copy the skeleton of scripts to where you want your cert infra to live.
 The quickstart guide is easy to follow.
@@ -63,7 +62,6 @@ I have a habit of keeping everything in a local git repo, just so i can do rever
    ./easyrsa sign-req client yum-client
    # now convert it to pem format
    openssl x509 -in pki/issued/yum-client.crt  -out pki/issued/yum-client.pem -outform PEM
-
 
 
 :raw-html-m2r:`<a id="orgced9f17"></a>`
@@ -128,7 +126,6 @@ didn't immediately know to check there and wasted some time.
    http GET  http://localhost:24816/pulp/content/boomi-epel-2/repodata/repomd.xml
 
 
-
 :raw-html-m2r:`<a id="orgdb8c46e"></a>`
 
 certguard setup
@@ -153,7 +150,6 @@ troubleshoot it til it does. Then we can add protection.
 
    # protect one
    http PATCH http://localhost:24817/pulp/api/v3/distributions/rpm/rpm/4d9ef794-4af1-44ba-be5e-607defd396de/ content_guard=$GUARD_HREF
-
 
 
 :raw-html-m2r:`<a id="org06aad41"></a>`
