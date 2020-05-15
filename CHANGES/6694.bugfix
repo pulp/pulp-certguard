@@ -1,0 +1,3 @@
+RHSMCertGuard now only checks for authorized URLs in the client cert against the
+``Distribution.base_path`` and disincludes the ``settings.CONTENT_PATH_PREFIX``, e.g.
+``/pulp/content/``

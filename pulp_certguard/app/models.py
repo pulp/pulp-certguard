@@ -3,6 +3,7 @@ from gettext import gettext as _
 import re
 from urllib.parse import unquote
 
+from django.conf import settings
 from django.db import models
 
 from OpenSSL import crypto as openssl
@@ -125,7 +126,10 @@ class RHSMCertGuard(BaseCertGuard):
         unquoted_certificate = unquote(self._get_client_cert_header(request))
         self._ensure_client_cert_is_trusted(unquoted_certificate)
         rhsm_cert = self._create_rhsm_cert_from_pem(unquoted_certificate)
-        self._check_paths(rhsm_cert, request.path)
+        content_path_prefix_without_trail_slash = settings.CONTENT_PATH_PREFIX.rstrip('/')
+        len_prefix_to_remove = len(content_path_prefix_without_trail_slash)
+        path_without_content_path_prefix = request.path[len_prefix_to_remove:]
+        self._check_paths(rhsm_cert, path_without_content_path_prefix)
 
     @staticmethod
     def _create_rhsm_cert_from_pem(unquoted_certificate):
@@ -138,7 +142,9 @@ class RHSMCertGuard(BaseCertGuard):
 
     @staticmethod
     def _check_paths(rhsm_cert, path):
+        logger.debug(f"Checking that path {path} is allowed in client cert")
         if rhsm_cert.check_path(path) is False:
+            logger.debug(f"Path {path} is *not* allowed in client cert")
             msg = _("Requested path is not a subpath of a path in the client certificate.")
             raise PermissionError(msg)
 
