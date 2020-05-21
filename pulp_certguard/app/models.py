@@ -20,7 +20,7 @@ except ImportError:
 
 logger = getLogger(__name__)
 
-cert_unquoted_body_regex = re.compile('^-----BEGIN CERTIFICATE-----(.*)-----END CERTIFICATE----- $')
+cert_unquoted_body_regex = re.compile('^-----BEGIN CERTIFICATE-----(.*)-----END CERTIFICATE-----')
 
 
 class BaseCertGuard(ContentGuard):
@@ -29,20 +29,29 @@ class BaseCertGuard(ContentGuard):
     ca_certificate = models.TextField()
 
     @staticmethod
-    def _get_client_cert_header(request):
+    def _reassemble_client_cert(unquoted_client_cert):
+        match_result = cert_unquoted_body_regex.match(unquoted_client_cert)
+        if match_result:
+            cert_body = match_result.groups()[0]
+            logger.debug("Reassembled client certificate")
+            reassembled_client_cert = '-----BEGIN CERTIFICATE-----' + \
+                                      cert_body.replace(' ', '\n') + \
+                                      '-----END CERTIFICATE-----' + '\n'
+            return reassembled_client_cert
+        else:
+            logger.debug("Did *not* reassemble client cert")
+            return unquoted_client_cert
+
+    @classmethod
+    def _get_client_cert_header(cls, request):
         try:
             client_cert_data = request.headers["X-CLIENT-CERT"]
             logger.debug(f"client_cert_data received: {client_cert_data}")
         except KeyError:
             msg = _("A client certificate was not received via the `X-CLIENT-CERT` header.")
             raise PermissionError(msg)
-        match_result = cert_unquoted_body_regex.match(client_cert_data)
-        if match_result:
-            cert_body = match_result.groups()[0]
-            client_cert_data = '-----BEGIN CERTIFICATE-----' + \
-                               cert_body.replace(' ', '\n') + \
-                               '-----END CERTIFICATE-----' + '\n'
-        return unquote(client_cert_data)
+        unquoted_client_cert = unquote(client_cert_data)
+        return cls._reassemble_client_cert(unquoted_client_cert)
 
     def _ensure_client_cert_is_trusted(self, unquoted_certificate):
         try:
@@ -123,7 +132,7 @@ class RHSMCertGuard(BaseCertGuard):
                 stored as `ca_certificate`.
         """
         get_rhsm()
-        unquoted_certificate = unquote(self._get_client_cert_header(request))
+        unquoted_certificate = self._get_client_cert_header(request)
         self._ensure_client_cert_is_trusted(unquoted_certificate)
         rhsm_cert = self._create_rhsm_cert_from_pem(unquoted_certificate)
         content_path_prefix_without_trail_slash = settings.CONTENT_PATH_PREFIX.rstrip('/')
@@ -171,7 +180,7 @@ class X509CertGuard(BaseCertGuard):
             PermissionError: If the client certificate is not trusted from the CA certificated
                 stored as `ca_certificate`.
         """
-        unquoted_certificate = unquote(self._get_client_cert_header(request))
+        unquoted_certificate = self._get_client_cert_header(request)
         self._ensure_client_cert_is_trusted(unquoted_certificate)
 
     class Meta:

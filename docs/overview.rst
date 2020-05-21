@@ -35,17 +35,47 @@ many CA Certificates. To resolve this an optional, additional authorization mech
 where paths to Pulp Distributions are contained in the certificate itself.
 
 
-Path Based Authorization
-------------------------
+RHSM Certificate Path Based Authorization
+-----------------------------------------
 
 .. warning::
 
     At this time only the RHSM Cert Guard provides path based authorization.
 
-RHSM Certificates allow for the embedding of Distribution paths within them. If they are present in
-a client certificate, in addition to the authorization requirements from above, the client will be
+RHSM Certificates allow for the embedding of Distribution.base_path within them. If they are present
+in a client certificate, in addition to the authorization requirements from above, the client is
 granted access if and only if the requested path is a subpath of a path contained in the client
 certificate.
+
+For example if the RHSM Certificate contains Authorized URL::
+
+    Authorized Content URLs:
+        /some/path/foo
+
+Pulp would serve content from any protected Distribution with the following
+``Distribution.base_path`` values::
+
+    some
+    some/path
+    some/path/foo
+
+Pulp would not serve content from a protected Distribution with the following
+``Distribution.base_path`` values::
+
+    another/path
+    some/path/bar
+
+.. note::
+
+    The ``pulpcore-content`` app typically serves ``Distribution.base_path`` at a url starting with
+    ``/pulp/content/``. When performing path checking only the ``Distribution.base_path`` portion of
+    the URL is checked.
+
+    ``Distribution.base_bath`` uses partial paths so it does *not* start with slash or end with one.
+    The Authorized URLs on the other hand do start with a slash. The RHSM path authorization check
+    code in ``pulp-certguard`` prepends a slash in front of the ``Distribution.base_path``. This
+    allows a ``Distribution.base_path`` of ``some/path`` to become ``/some/path`` which would match
+    in RHSM against a certificate with either ``/some`` or ``/some/path``.
 
 
 RHSM vs X.509 Cert Guards
