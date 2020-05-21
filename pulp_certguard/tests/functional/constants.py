@@ -46,7 +46,7 @@ RHSM_V1_ZERO_VAR_BASE_PATH = "Default_Organization/Library/custom/foo/foo"
 
 
 # One var path: /Default_Organization/Library/content/dist/rhel/server/7/7Server/$basearch/extras/os
-# Two var path: /pulp/content/my-content-view/content/dist/rhel/server/7/$releasever/$basearch/os
+# Two var path: /Default_Organization/Library/content/dist/rhel/server/7/$releasever/$basearch/os
 RHSM_V1_ONE_AND_TWO_VAR_CLIENT_CERT = os.path.join(
     _CURRENT_DIR, 'artifacts', 'rhsm', 'v1', '1514454871848760713.pem'
 )
