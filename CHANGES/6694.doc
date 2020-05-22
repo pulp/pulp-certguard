@@ -1,2 +1,0 @@
-Adds documentation on RHSM path checking with examples. Also adds a debugging section on inspecting
-RHSM certificates with the ``rct`` command.

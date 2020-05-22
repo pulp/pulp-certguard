@@ -13,6 +13,40 @@ Changelog
 
 .. towncrier release notes start
 
+0.1.0rc5 (2020-05-22)
+=====================
+
+Features
+--------
+
+- Add support for non-urlencoded certificates to allow Apache < 2.6.10 reverse proxies to also work.
+  `#6574 <https://pulp.plan.io/issues/6574>`_
+
+
+Bugfixes
+--------
+
+- RHSMCertGuard now only checks for authorized URLs in the client cert against the
+  ``Distribution.base_path`` and disincludes the ``settings.CONTENT_PATH_PREFIX``, e.g.
+  ``/pulp/content/``
+  `#6694 <https://pulp.plan.io/issues/6694>`_
+
+
+Improved Documentation
+----------------------
+
+- Adds docs on configuring Apache 2.6.10+ and < 2.6.10 docs, which need different configs.
+  `#6574 <https://pulp.plan.io/issues/6574>`_
+- Adds documentation on RHSM path checking with examples. Also adds a debugging section on inspecting
+  RHSM certificates with the ``rct`` command.
+  `#6694 <https://pulp.plan.io/issues/6694>`_
+- Adds debugging documentation on how users can enable, use, and interpret the debugging logging.
+  `#6744 <https://pulp.plan.io/issues/6744>`_
+
+
+----
+
+
 0.1.0rc4 (2020-04-22)
 =====================
 
