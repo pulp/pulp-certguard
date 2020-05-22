@@ -12,13 +12,13 @@ with open('README.rst') as f:
 
 setup(
     name='pulp-certguard',
-    version='0.1.0rc5',
-    description='X.509 Certguards plugin for the Pulp Project',
+    version='0.1.0rc6.dev',
+    description='Certguard plugin for the Pulp Project',
     long_description=long_description,
     license='GPLv2+',
     author='Pulp Project Developers',
     author_email='pulp-list@redhat.com',
-    url='http://www.pulpproject.org',
+    url='https://pulp-certguard.readthedocs.io/',
     python_requires='>=3.6',
     install_requires=requirements,
     include_package_data=True,
