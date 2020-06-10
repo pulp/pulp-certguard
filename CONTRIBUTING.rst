@@ -110,7 +110,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add a
    :ref:`changelog update <changelog-update>`
 
-3. The pull request should work for Python 3.6 and 3.6 and both PostgreSQL and MaridDB.
+3. The pull request should work for Python 3.6 and 3.7 and both PostgreSQL and MaridDB.
 
 
 .. _changelog-update:
