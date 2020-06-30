@@ -31,7 +31,7 @@ pydocstyle: true
 pypi_username: pulp
 redmine_project: certguard
 stable_branch: null
-test_bindings: true
+test_bindings: false
 test_performance: false
 test_s3: false
 travis_addtl_services: []
