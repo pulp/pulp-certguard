@@ -2,10 +2,8 @@
 
 from setuptools import setup, find_packages
 
-requirements = [
-    'PyOpenSSL',
-    'pulpcore>=3.3.0',
-]
+with open("requirements.txt") as requirements:
+    requirements = requirements.readlines()
 
 with open('README.rst') as f:
     long_description = f.read()
