@@ -18,7 +18,6 @@ env:
   matrix:
     - TEST=pulp
     - TEST=docs
-    - TEST=bindings
 services:
   - postgresql
   - redis-server
