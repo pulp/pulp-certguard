@@ -1,3 +1,3 @@
-__version__ = '1.0.0.post1'
+__version__ = '1.1.0.dev'
 
 default_app_config = 'pulp_certguard.app.PulpCertGuardPluginAppConfig'
