@@ -13,6 +13,19 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.1 (2020-07-20)
+==================
+
+Bugfixes
+--------
+
+- Making pulp-certguard compatible with pulpcore 3.5
+  `#7177 <https://pulp.plan.io/issues/7177>`_
+
+
+----
+
+
 1.0.0 (2020-07-01)
 ==================
 
