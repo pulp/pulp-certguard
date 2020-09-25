@@ -13,6 +13,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.3 (2020-09-25)
+==================
+
+No significant changes. A compatibility release used to declare compatibility up to pulpcore==3.8.
+
+
+----
+
+
 1.0.2 (2020-08-18)
 ==================
 
