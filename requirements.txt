@@ -1,2 +1,2 @@
 PyOpenSSL
-pulpcore>=3.3
+pulpcore>=3.3,<3.9
