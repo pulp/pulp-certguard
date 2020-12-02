@@ -1,4 +1,12 @@
 include LICENSE
 include requirements.txt
+include CHANGES.rst
+include COMMITMENT
+include COPYRIGHT
+include functest_requirements.txt
+include test_requirements.txt
+include unittest_requirements.txt
+include pulp_certguard/tests/__init__.py
 recursive-include pulp_certguard/tests/functional/artifacts *
+recursive-include contrib *
 include pyproject.toml

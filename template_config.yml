@@ -6,6 +6,8 @@ additional_plugins:
   name: pulp_file
 black: false
 check_commit_message: true
+check_manifest: true
+check_stray_pulpcore_imports: true
 cherry_pick_automation: false
 coverage: false
 deploy_client_to_pypi: true
@@ -24,16 +26,20 @@ plugin_dash: pulp-certguard
 plugin_dash_short: certguard
 plugin_name: pulp-certguard
 plugin_snake: pulp_certguard
+publish_docs_to_pulpprojectdotorg: false
 pulp_settings: null
 pulpcore_branch: master
 pulpcore_pip_version_specifier: null
+pulpprojectdotorg_key_id: null
 pydocstyle: true
 pypi_username: pulp
 redmine_project: certguard
 stable_branch: null
 test_bindings: false
 test_performance: false
+test_released_plugin_with_next_pulpcore_release: false
 test_s3: false
 travis_addtl_services: []
 travis_notifications: null
+update_redmine: false
 
