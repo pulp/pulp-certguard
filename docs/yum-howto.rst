@@ -35,7 +35,7 @@ The quickstart guide is easy to follow.
 
 I have a habit of keeping everything in a local git repo, just so i can do reverts/diffs while learning new stuff.
 
-.. code-block::
+.. code-block:: console
 
    cp -r /usr/share/easy-rsa .
    cd easy-rsa
@@ -82,7 +82,7 @@ directories/files when created (default 750 instead of 755 dirs, etc).
 All the permission denied errors showed up fine in the tasks, but i
 didn't immediately know to check there and wasted some time.
 
-.. code-block::
+.. code-block:: console
 
    # this is all in the pulp workflow as linked to above.
    # create repo
@@ -140,9 +140,9 @@ epel mirror.
 Alternatively, just check that yum makecache works. If it doesn't,
 troubleshoot it til it does. Then we can add protection.
 
-.. code-block::
+.. code-block:: console
 
-   This is the essence of the guide for certguard linked to above. See that for better docs.
+   # This is the essence of the guide for certguard linked to above. See that for better docs.
 
    http --form POST http://localhost:8000/pulp/api/v3/contentguards/certguard/x509/ name=boomi-ca ca_certificate@/var/lib/pulp-certs/easy-rsa/3/pki/ca.pem
 
@@ -160,7 +160,7 @@ yum setup
 Now that we're here, lets teach yum how to jam a signed cert in the
 right http header when accessing one of our custom repos.
 
-.. code-block::
+.. code-block:: console
 
    # Show that the now protected repo wont let us in.
    # confirm it denies the yum process
