@@ -1,4 +1,4 @@
-.. _pulp-certguard-changes:
+.. _pulp_certguard-changes:
 
 .. include:: ../CHANGES.rst
 
