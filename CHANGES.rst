@@ -13,6 +13,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.1.0 (2020-12-14)
+==================
+
+- Adding version-info to `pulp_certguard.app.PulpCertGuardPluginAppConfig`.
+- Making pulp-certguard compatible with pulpcore 3.9.
+
+
+----
+
 1.0.3 (2020-09-25)
 ==================
 
