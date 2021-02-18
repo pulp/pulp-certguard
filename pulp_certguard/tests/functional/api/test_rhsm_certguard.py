@@ -2,7 +2,7 @@ import uuid
 
 from requests import HTTPError
 
-from pulpcore.client.pulp_certguard import CertguardRHSMCertGuard, ContentguardsRhsmApi
+from pulpcore.client.pulp_certguard import CertguardRHSMCertGuard, ContentGuardsRhsmApi
 
 from pulp_certguard.tests.functional.api.base import BaseCertGuard, CommonDenialTestsMixin
 from pulp_certguard.tests.functional.constants import (
@@ -37,7 +37,7 @@ class RHSMCertGuardBase(BaseCertGuard):
     def _setup_content_guard(cls):
         # Create a RHSM Content Guard
         certguard_client = gen_certguard_client()
-        cls.rhsm_content_guards_api = ContentguardsRhsmApi(certguard_client)
+        cls.rhsm_content_guards_api = ContentGuardsRhsmApi(certguard_client)
 
         with open(RHSM_CA_CERT_FILE_PATH, 'r') as rhsm_ca_cert_data_file:
             rhsm_ca_cert_data = rhsm_ca_cert_data_file.read()

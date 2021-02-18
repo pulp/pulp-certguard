@@ -1,6 +1,6 @@
 import uuid
 
-from pulpcore.client.pulp_certguard import CertguardX509CertGuard, ContentguardsX509Api
+from pulpcore.client.pulp_certguard import CertguardX509CertGuard, ContentGuardsX509Api
 
 from pulp_certguard.tests.functional.api.base import BaseCertGuard, CommonDenialTestsMixin
 from pulp_certguard.tests.functional.constants import (
@@ -26,7 +26,7 @@ class X509CertGuardTestCase(BaseCertGuard, CommonDenialTestsMixin):
     def _setup_content_guard(cls):
         # Create an X.509 Content Guard
         certguard_client = gen_certguard_client()
-        cls.x509_content_guards_api = ContentguardsX509Api(certguard_client)
+        cls.x509_content_guards_api = ContentGuardsX509Api(certguard_client)
 
         with open(X509_CA_CERT_FILE_PATH, 'r') as x509_ca_cert_data_file:
             x509_ca_cert_data = x509_ca_cert_data_file.read()
