@@ -6,6 +6,7 @@ additional_plugins:
   name: pulp_file
 black: false
 check_commit_message: true
+check_gettext: true
 check_manifest: true
 check_stray_pulpcore_imports: true
 cherry_pick_automation: false
@@ -36,6 +37,8 @@ pypi_username: pulp
 redmine_project: certguard
 stable_branch: null
 test_bindings: false
+test_cli: false
+test_fips_nightly: false
 test_performance: false
 test_released_plugin_with_next_pulpcore_release: false
 test_s3: false
