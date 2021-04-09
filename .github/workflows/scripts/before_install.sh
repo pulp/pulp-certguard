@@ -82,7 +82,7 @@ sed -i -e 's/localhost:24817/pulp/g' generate.sh
 sed -i -e 's/:24817/pulp/g' generate.sh
 cd ..
 
-git clone --depth=1 https://github.com/pulp/pulpcore.git --branch master
+git clone --depth=1 https://github.com/pulp/pulpcore.git --branch 3.10
 
 cd pulpcore
 if [ -n "$PULPCORE_PR_NUMBER" ]; then
@@ -105,7 +105,7 @@ fi
 pip install --upgrade --force-reinstall ./pulp-smash
 
 
-git clone --depth=1 https://github.com/pulp/pulp_file.git --branch master
+git clone --depth=1 https://github.com/pulp/pulp_file.git --branch 1.6
 if [ -n "$PULP_FILE_PR_NUMBER" ]; then
   cd pulp_file
   git fetch --depth=1 origin pull/$PULP_FILE_PR_NUMBER/head:$PULP_FILE_PR_NUMBER

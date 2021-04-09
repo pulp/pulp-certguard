@@ -2,7 +2,7 @@
 # were not present before running plugin-template have been added with their default values.
 
 additional_plugins:
-- branch: master
+- branch: '1.6'
   name: pulp_file
 black: false
 check_commit_message: true
@@ -28,8 +28,8 @@ plugin_name: pulp-certguard
 plugin_snake: pulp_certguard
 publish_docs_to_pulpprojectdotorg: true
 pulp_settings: null
-pulpcore_branch: master
-pulpcore_pip_version_specifier: null
+pulpcore_branch: '3.10'
+pulpcore_pip_version_specifier: '~=3.10.0'
 pulpprojectdotorg_key_id: null
 pydocstyle: true
 pypi_username: pulp
