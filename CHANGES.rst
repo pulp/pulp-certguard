@@ -13,6 +13,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.3.0 (2021-05-19)
+==================
+
+No significant changes.
+
+
+----
+
+
 1.2.0 (2021-03-17)
 ==================
 
