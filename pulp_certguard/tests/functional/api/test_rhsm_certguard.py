@@ -9,6 +9,7 @@ from pulp_certguard.tests.functional.constants import (
     RHSM_CA_CERT_FILE_PATH,
     RHSM_CLIENT_CERT_FROM_UNTRUSTED_CA,
     RHSM_CLIENT_CERT_TRUSTED_BUT_EXPIRED,
+    THIRDPARTY_CA_CERT_FILE_PATH,
     RHSM_UBER_CERT_BASE_PATH_ONE,
     RHSM_UBER_CERT_BASE_PATH_TWO,
     RHSM_UBER_CLIENT_CERT,
@@ -39,8 +40,7 @@ class RHSMCertGuardBase(BaseCertGuard):
         certguard_client = gen_certguard_client()
         cls.rhsm_content_guards_api = ContentguardsRhsmApi(certguard_client)
 
-        with open(RHSM_CA_CERT_FILE_PATH, 'r') as rhsm_ca_cert_data_file:
-            rhsm_ca_cert_data = rhsm_ca_cert_data_file.read()
+        rhsm_ca_cert_data = cls._load_rhsm_ca_cert_file()
 
         rhsm_cert_guard = CertguardRHSMCertGuard(
             name=str(uuid.uuid4()),
@@ -51,6 +51,28 @@ class RHSMCertGuardBase(BaseCertGuard):
             (cls.rhsm_content_guards_api.delete, cls.rhsm_content_guard_data.pulp_href)
         )
         return cls.rhsm_content_guard_data.pulp_href
+
+    @classmethod
+    def _load_rhsm_ca_cert_file(cls):
+        with open(RHSM_CA_CERT_FILE_PATH, 'r') as rhsm_ca_cert_data_file:
+            rhsm_ca_cert_data = rhsm_ca_cert_data_file.read()
+
+        return rhsm_ca_cert_data
+
+
+class RHSMCABundleCertGuardBase(RHSMCertGuardBase):
+    """A base class for all RHSMCertGuard tests with a CA-bundle file."""
+
+    @classmethod
+    def _load_rhsm_ca_cert_file(cls):
+        with open(RHSM_CA_CERT_FILE_PATH, 'r') as rhsm_ca_cert_data_file:
+            rhsm_ca_cert_data = rhsm_ca_cert_data_file.read()
+
+        with open(THIRDPARTY_CA_CERT_FILE_PATH, 'r') as thirdparty_ca_cert_file:
+            thirdparty_ca_cert_data = thirdparty_ca_cert_file.read()
+
+        # build a bundle to use (i.e., a list-of-CA-certs we will trust)
+        return thirdparty_ca_cert_data + rhsm_ca_cert_data
 
 
 class RHSMV3CertGuardTestCase(RHSMCertGuardBase):
@@ -284,3 +306,21 @@ class RHSMCertGuardDenialTestCase(RHSMCertGuardBase, CommonDenialTestsMixin):
                 RHSM_CLIENT_CERT_TRUSTED_BUT_EXPIRED
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)
+
+
+class RHSMV3CABundleCertGuardTestCase(RHSMCABundleCertGuardBase):
+    """Api tests for RHSMCertGard with V3 RHSM Certificates and a bundle of CAs in a file."""
+
+    def test_allow_request_when_cert_matches_zero_var_path(self):
+        """
+        Assert a correctly configured client can fetch content from a zero-variable path.
+
+        1. Configure the distribution with a zero-variable path in the RHSM Cert.
+        2. Attempt to download content.
+        """
+        set_distribution_base_path_and_download_a_content_unit_with_cert(
+            self.distribution.pulp_href,
+            RHSM_V3_ZERO_VAR_BASE_PATH,
+            self.repo.pulp_href,
+            RHSM_V3_ZERO_VAR_CLIENT_CERT
+        )

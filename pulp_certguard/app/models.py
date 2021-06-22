@@ -54,12 +54,7 @@ class BaseCertGuard(ContentGuard):
         return cls._reassemble_client_cert(unquoted_client_cert)
 
     def _ensure_client_cert_is_trusted(self, unquoted_certificate):
-        try:
-            openssl_ca_cert = openssl.load_certificate(
-                openssl.FILETYPE_PEM, buffer=self.ca_certificate
-            )
-        except openssl.Error as exc:
-            raise PermissionError(str(exc))
+        trust_store = self._build_trust_store()
 
         try:
             openssl_client_cert = openssl.load_certificate(
@@ -67,9 +62,6 @@ class BaseCertGuard(ContentGuard):
             )
         except openssl.Error as exc:
             raise PermissionError(str(exc))
-
-        trust_store = openssl.X509Store()
-        trust_store.add_cert(openssl_ca_cert)
 
         try:
             context = openssl.X509StoreContext(
@@ -87,6 +79,34 @@ class BaseCertGuard(ContentGuard):
             raise PermissionError(str(exc))
         except openssl.Error as exc:
             raise PermissionError(str(exc))
+
+    def _build_trust_store(self):
+        trust_store = openssl.X509Store()
+
+        # self.ca_certificate can be a **bundle** of certificates, which must be added to
+        # X509Store one at a time.
+        # We break ca_certificate up along BEGIN-CERTIFICATE/END-CERTIFICATE lines.
+        # Certs can come with non-cert content (e.g. embedded-human-readable format inline);
+        # hence, the following reg-ex throws out lines that don't exist between BEGIN/END pairs,
+        # and builds certs out of the retained lines.
+        rx = re.compile(
+            r'(-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----)',
+            re.MULTILINE | re.DOTALL
+        )
+        ca_certs = rx.findall(str(self.ca_certificate))
+
+        # Now load each resulting cert, and set up in the trust_store
+        for crt in ca_certs:
+            try:
+                openssl_ca_cert = openssl.load_certificate(
+                    openssl.FILETYPE_PEM, buffer=crt.encode()
+                )
+            except openssl.Error as exc:
+                raise PermissionError(str(exc))
+            trust_store.add_cert(openssl_ca_cert)
+
+        # If we get this far - return the now-loaded store!
+        return trust_store
 
     class Meta:
         abstract = True

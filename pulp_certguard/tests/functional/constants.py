@@ -29,6 +29,10 @@ RHSM_CLIENT_CERT_TRUSTED_BUT_EXPIRED = os.path.join(
     _CURRENT_DIR, 'artifacts', 'rhsm', 'trusted_but_expired.pem'
 )
 
+THIRDPARTY_CA_CERT_FILE_PATH = os.path.join(
+    _CURRENT_DIR, 'artifacts', 'thirdparty_ca', 'certificates', 'ca.pem'
+)
+
 
 # Uber cert path: /Default_Organization
 RHSM_UBER_CLIENT_CERT = os.path.join(

@@ -14,7 +14,10 @@ class BaseCertGuardSerializer(ContentGuardSerializer):
     """A Base Serializer class for all Cert Guard Serializers."""
 
     ca_certificate = serializers.CharField(
-        help_text=_("The Certificate Authority (CA) certificate."),
+        help_text=_(
+            "A Certificate Authority (CA) certificate (or a bundle thereof) "
+            "used to verify client-certificate authenticity."
+        ),
     )
 
     @staticmethod
