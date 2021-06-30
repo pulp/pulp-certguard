@@ -48,6 +48,6 @@ test_released_plugin_with_next_pulpcore_release: false
 test_s3: false
 travis_addtl_services: []
 travis_notifications: null
-update_redmine: false
+update_redmine: true
 upgrade_range: []
 
