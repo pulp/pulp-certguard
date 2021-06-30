@@ -13,6 +13,17 @@ Changelog
 
 .. towncrier release notes start
 
+1.4.0 (2021-06-30)
+Features
+--------
+
+- Extended CertGuard.ca_certificate to accept a cert-bundle in addition to a single cert.
+  `#8783 <https://pulp.plan.io/issues/8783>`_
+
+
+----
+
+
 1.3.0 (2021-05-19)
 ==================
 
