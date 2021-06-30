@@ -14,6 +14,8 @@ Changelog
 .. towncrier release notes start
 
 1.4.0 (2021-06-30)
+==================
+
 Features
 --------
 
