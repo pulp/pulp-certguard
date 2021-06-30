@@ -8,6 +8,7 @@ black: false
 check_commit_message: true
 check_gettext: true
 check_manifest: true
+check_openapi_schema: true
 check_stray_pulpcore_imports: true
 cherry_pick_automation: false
 coverage: false
@@ -18,6 +19,7 @@ deploy_daily_client_to_rubygems: true
 deploy_to_pypi: true
 docker_fixtures: false
 docs_test: true
+issue_tracker: redmine
 plugin_app_label: certguard
 plugin_camel: PulpCertguard
 plugin_camel_short: Certguard
@@ -36,6 +38,7 @@ pulpprojectdotorg_key_id: null
 pydocstyle: true
 pypi_username: pulp
 redmine_project: certguard
+release_user: pulpbot
 stable_branch: null
 test_bindings: false
 test_cli: false
@@ -46,4 +49,5 @@ test_s3: false
 travis_addtl_services: []
 travis_notifications: null
 update_redmine: false
+upgrade_range: []
 
