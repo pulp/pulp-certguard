@@ -29,4 +29,5 @@ ignore = [
     ".pep8speaks.yml",
     ".ci/**",
     ".github/**",
+    ".gitleaks.toml",
 ]
