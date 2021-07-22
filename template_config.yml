@@ -1,6 +1,8 @@
 # This config represents the latest values used when running the plugin-template. Any settings that
 # were not present before running plugin-template have been added with their default values.
 
+# generated with plugin_template@2021.04.08-82-g8378090
+
 additional_repos:
 - branch: master
   name: pulp_file
@@ -19,6 +21,7 @@ deploy_daily_client_to_rubygems: true
 deploy_to_pypi: true
 docker_fixtures: false
 docs_test: true
+flake8: true
 issue_tracker: redmine
 plugin_app_label: certguard
 plugin_camel: PulpCertguard
@@ -31,6 +34,7 @@ plugin_default_branch: master
 plugin_name: pulp-certguard
 plugin_snake: pulp_certguard
 publish_docs_to_pulpprojectdotorg: true
+pulp_scheme: http
 pulp_settings: null
 pulpcore_branch: master
 pulpcore_pip_version_specifier: null
@@ -40,12 +44,13 @@ pypi_username: pulp
 redmine_project: certguard
 release_user: pulpbot
 stable_branch: null
+sync_ci: true
 test_bindings: false
 test_cli: false
 test_fips_nightly: false
 test_performance: false
 test_released_plugin_with_next_pulpcore_release: false
-test_s3: false
+test_s3: true
 travis_addtl_services: []
 travis_notifications: null
 update_redmine: true
