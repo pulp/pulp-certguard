@@ -1,7 +1,7 @@
 # This config represents the latest values used when running the plugin-template. Any settings that
 # were not present before running plugin-template have been added with their default values.
 
-# generated with plugin_template@2021.04.08-82-g8378090
+# generated with plugin_template@2021.04.08-87-g2136629
 
 additional_repos:
 - branch: master
@@ -34,13 +34,14 @@ plugin_default_branch: master
 plugin_name: pulp-certguard
 plugin_snake: pulp_certguard
 publish_docs_to_pulpprojectdotorg: true
-pulp_scheme: http
+pulp_scheme: https
 pulp_settings: null
 pulpcore_branch: master
 pulpcore_pip_version_specifier: null
 pulpprojectdotorg_key_id: null
 pydocstyle: true
 pypi_username: pulp
+python_version: '3.8'
 redmine_project: certguard
 release_user: pulpbot
 stable_branch: null
