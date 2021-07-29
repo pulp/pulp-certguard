@@ -16,7 +16,7 @@ setup(
     license="GPLv2+",
     author="Pulp Project Developers",
     author_email="pulp-list@redhat.com",
-    url="https://pulp-certguard.readthedocs.io/",
+    url="https://docs.pulpproject.org/pulp_certguard/",
     python_requires=">=3.8",
     install_requires=requirements,
     include_package_data=True,
