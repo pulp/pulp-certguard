@@ -18,7 +18,7 @@ Pre-Setup
 
 To meaningfully use pulp-certguard you should already have a Pulp Distribution that requires
 authorization and ideally it should have content in it. These examples assume you have `pulp_file
-<https://pulp-file.readthedocs.io/en/latest/>`_ installed with a ``FileRepository`` with at least
+<https://docs.pulpproject.org/pulp_file/>`_ installed with a ``FileRepository`` with at least
 one ``RepositoryVersion`` with content in it. Also you'll need a ``FileDistribution`` serving that
 ``RepositoryVersion``. Below are links to instructions on how to create those objects.
 
@@ -31,11 +31,11 @@ Create a pulp_file repository, and sync some basic content into it
 This step is about creating some data to test with. The significant thing for pulp-certguard is
 having a repository to protect and having some content in that repository to test against.
 
-1. `Create a FileRepository <https://pulp-file.readthedocs.io/en/latest/workflows/sync.html#create-a-repository-foo>`_
-2. `Create a FileRemote <https://pulp-file.readthedocs.io/en/latest/workflows/sync.html#create-a-new-remote-bar>`_
-3. `Sync the repository to receive some test content <https://pulp-file.readthedocs.io/en/latest/workflows/sync.html#sync-repository-foo-using-remote-bar>`_
-4. `Create a FilePublication <https://pulp-file.readthedocs.io/en/latest/workflows/publish-host.html#create-a-publication>`_
-5. `Create a FileDistribution to serve the FilePublication <https://pulp-file.readthedocs.io/en/latest/workflows/publish-host.html#create-a-distribution-for-the-publication>`_
+1. `Create a FileRepository <https://docs.pulpproject.org/pulp_file/workflows/sync.html#create-a-repository-foo>`_
+2. `Create a FileRemote <https://docs.pulpproject.org/pulp_file/workflows/sync.html#create-a-new-remote-bar>`_
+3. `Sync the repository to receive some test content <https://docs.pulpproject.org/pulp_file/workflows/sync.html#sync-repository-foo-using-remote-bar>`_
+4. `Create a FilePublication <https://docs.pulpproject.org/pulp_file/workflows/publish-host.html#create-a-publication>`_
+5. `Create a FileDistribution to serve the FilePublication <https://docs.pulpproject.org/pulp_file/workflows/publish-host.html#create-a-distribution-for-the-publication>`_
 
 The examples below assume the Distribution href is saved to the bash variable ``DISTRIBUTION_HREF``
 for example::

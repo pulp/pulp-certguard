@@ -18,7 +18,7 @@ essentially all you need to end up with a protected rpm repo.
 Obviously as you work through it you're going to be making sense of
 all the steps and how they relate to each other.
 
-https://pulp-rpm.readthedocs.io/en/latest/workflows/create_sync_publish.html
+https://docs.pulpproject.org/pulp_rpm/workflows/create_sync_publish.html
 
 https://github.com/pulp/pulp-certguard
 
