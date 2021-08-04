@@ -13,6 +13,19 @@ Changelog
 
 .. towncrier release notes start
 
+1.5.0 (2021-08-04)
+==================
+
+Deprecations and Removals
+-------------------------
+
+- Dropped support for Python 3.6 and 3.7. pulp-certguard now supports Python 3.8+.
+  `#9054 <https://pulp.plan.io/issues/9054>`_
+
+
+----
+
+
 1.4.0 (2021-06-30)
 ==================
 
