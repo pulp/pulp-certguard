@@ -31,6 +31,7 @@ COMMIT_MSG=$(git log --format=%B --no-merges -1)
 export COMMIT_MSG
 
 if [[ "$TEST" == "upgrade" ]]; then
+  pip install -r functest_requirements.txt
   git checkout -b ci_upgrade_test
   cp -R .github /tmp/.github
   cp -R .ci /tmp/.ci
@@ -109,6 +110,7 @@ fi
 git clone --depth=1 https://github.com/pulp/pulpcore.git --branch master
 
 cd pulpcore
+
 if [ -n "$PULPCORE_PR_NUMBER" ]; then
   git fetch --depth=1 origin pull/$PULPCORE_PR_NUMBER/head:$PULPCORE_PR_NUMBER
   git checkout $PULPCORE_PR_NUMBER
@@ -117,12 +119,14 @@ cd ..
 
 
 git clone --depth=1 https://github.com/pulp/pulp_file.git --branch main
+cd pulp_file
+
 if [ -n "$PULP_FILE_PR_NUMBER" ]; then
-  cd pulp_file
   git fetch --depth=1 origin pull/$PULP_FILE_PR_NUMBER/head:$PULP_FILE_PR_NUMBER
   git checkout $PULP_FILE_PR_NUMBER
-  cd ..
 fi
+
+cd ..
 
 
 
