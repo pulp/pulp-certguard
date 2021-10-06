@@ -10,7 +10,7 @@ with open("README.rst") as f:
 
 setup(
     name="pulp-certguard",
-    version="1.5.1.dev",
+    version="1.6.0.dev",
     description="Certguard plugin for the Pulp Project",
     long_description=long_description,
     license="GPLv2+",
