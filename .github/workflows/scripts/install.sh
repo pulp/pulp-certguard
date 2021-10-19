@@ -64,12 +64,12 @@ image:
   name: pulp
   tag: "${TAG}"
 plugins:
+  - name: pulpcore
+    source: ./pulpcore
   - name: pulp-certguard
     source: "${PLUGIN_NAME}"
   - name: pulp_file
     source: $PULP_FILE
-  - name: pulpcore
-    source: ./pulpcore
 services:
   - name: pulp
     image: "pulp:${TAG}"
