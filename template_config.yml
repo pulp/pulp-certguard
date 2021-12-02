@@ -35,7 +35,7 @@ plugin_caps: PULP-CERTGUARD
 plugin_caps_short: CERTGUARD
 plugin_dash: pulp-certguard
 plugin_dash_short: certguard
-plugin_default_branch: master
+plugin_default_branch: main
 plugin_name: pulp-certguard
 plugin_snake: pulp_certguard
 post_job_template: null
@@ -43,7 +43,7 @@ pre_job_template: null
 publish_docs_to_pulpprojectdotorg: true
 pulp_scheme: https
 pulp_settings: null
-pulpcore_branch: master
+pulpcore_branch: main
 pulpcore_pip_version_specifier: null
 pulpcore_revision: null
 pulpprojectdotorg_key_id: null
