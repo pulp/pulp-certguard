@@ -13,6 +13,19 @@ Changelog
 
 .. towncrier release notes start
 
+1.5.2 (2021-12-16)
+==================
+
+Bugfixes
+--------
+
+- Bumped pulpcore requirement for core/3.17 compatibility.
+  `#9641 <https://pulp.plan.io/issues/9641>`_
+
+
+----
+
+
 1.5.1 (2021-10-06)
 ==================
 
