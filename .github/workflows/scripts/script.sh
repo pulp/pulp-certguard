@@ -123,7 +123,10 @@ fi
 if [ -f $FUNC_TEST_SCRIPT ]; then
   source $FUNC_TEST_SCRIPT
 else
-    pytest -v -r sx --color=yes --pyargs pulp_certguard.tests.functional
+
+    pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m parallel -n 8
+    pytest -v -r sx --color=yes --pyargs pulp_certguard.tests.functional -m "not parallel"
+
 fi
 
 if [ -f $POST_SCRIPT ]; then
