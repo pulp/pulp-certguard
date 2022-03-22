@@ -37,19 +37,11 @@ if [[ "$GITHUB_WORKFLOW" == "Certguard changelog update" ]]; then
   exit
 fi
 
-# Building python bindings
-export PULP_URL="${PULP_URL:-https://pulp}"
-VERSION=$(http $PULP_URL/pulp/api/v3/status/ | jq --arg plugin certguard --arg legacy_plugin pulp_certguard -r '.versions[] | select(.component == $plugin or .component == $legacy_plugin) | .version')
-cd ../pulp-openapi-generator
-rm -rf pulp_certguard-client
-./generate.sh pulp_certguard python $VERSION
-cd pulp_certguard-client
+pip install mkdocs pymdown-extensions
 
-# Adding mkdocs
-find ./docs/* -exec sed -i 's/README//g' {} \;
-cp README.md docs/index.md
-sed -i 's/docs\///g' docs/index.md
-find ./docs/* -exec sed -i 's/\.md//g' {} \;
+mkdir -p ../bindings
+tar -xvf python-client-docs.tar --directory ../bindings
+cd ../bindings
 cat >> mkdocs.yml << DOCSYAML
 ---
 site_name: PulpCertguard Client
@@ -60,8 +52,6 @@ repo_name: pulp/pulp_certguard
 repo_url: https://github.com/pulp/pulp_certguard
 theme: readthedocs
 DOCSYAML
-
-pip install mkdocs pymdown-extensions
 
 # Building the bindings docs
 mkdocs build
