@@ -10,7 +10,7 @@
 from contextlib import closing
 from yum.plugins import TYPE_CORE
 
-requires_api_version = '2.3'
+requires_api_version = "2.3"
 plugin_type = (TYPE_CORE,)
 
 ID_SSL_HEADER = "X-CLIENT-CERT"
@@ -44,7 +44,7 @@ def _load_cert():
 
     @rtype: string
     """
-    with(closing(open(CERT_PATH, 'r'))) as fd:
+    with (closing(open(CERT_PATH, "r"))) as fd:
         id_doc = fd.read()
     # Newlines in http headers aren't valid
     return id_doc.replace("\n", "")

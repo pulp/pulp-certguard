@@ -26,15 +26,13 @@ class BaseCertGuardSerializer(ContentGuardSerializer):
         try:
             openssl.load_certificate(openssl.FILETYPE_PEM, buffer=ca_certificate)
         except ValueError:
-            reason = _('Must be PEM encoded X.509 certificate.')
+            reason = _("Must be PEM encoded X.509 certificate.")
             raise serializers.ValidationError(reason)
         else:
             return ca_certificate
 
     class Meta:
-        fields = ContentGuardSerializer.Meta.fields + (
-            'ca_certificate',
-        )
+        fields = ContentGuardSerializer.Meta.fields + ("ca_certificate",)
 
 
 class RHSMCertGuardSerializer(BaseCertGuardSerializer):

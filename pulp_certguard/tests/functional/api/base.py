@@ -111,8 +111,7 @@ class CommonDenialTestsMixin:
         3. Assert a 403 Unauthorized is returned.
         """
         distribution = set_distribution_base_path(
-            self.distribution.pulp_href,
-            self.DENIALS_BASE_PATH
+            self.distribution.pulp_href, self.DENIALS_BASE_PATH
         )
 
         content_path = ""
@@ -122,7 +121,7 @@ class CommonDenialTestsMixin:
                 config.get_config(),
                 distribution.to_dict(),
                 content_path,
-                headers={'X-CLIENT-CERT': ""}
+                headers={"X-CLIENT-CERT": ""},
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)
 
@@ -135,18 +134,13 @@ class CommonDenialTestsMixin:
         3. Assert a 403 Unauthorized is returned.
         """
         distribution = set_distribution_base_path(
-            self.distribution.pulp_href,
-            self.DENIALS_BASE_PATH
+            self.distribution.pulp_href, self.DENIALS_BASE_PATH
         )
 
         content_path = ""
 
         with self.assertRaises(HTTPError) as raised_exception:
-            download_content_unit(
-                config.get_config(),
-                distribution.to_dict(),
-                content_path
-            )
+            download_content_unit(config.get_config(), distribution.to_dict(), content_path)
         self.assertEqual(raised_exception.exception.response.status_code, 403)
 
     def test_denial_when_client_header_contains_an_invalid_certificate(self):
@@ -158,8 +152,7 @@ class CommonDenialTestsMixin:
         3. Assert a 403 Unauthorized is returned.
         """
         distribution = set_distribution_base_path(
-            self.distribution.pulp_href,
-            self.DENIALS_BASE_PATH
+            self.distribution.pulp_href, self.DENIALS_BASE_PATH
         )
 
         content_path = ""
@@ -169,7 +162,7 @@ class CommonDenialTestsMixin:
                 config.get_config(),
                 distribution.to_dict(),
                 content_path,
-                headers={'X-CLIENT-CERT': "this is not cert data"}
+                headers={"X-CLIENT-CERT": "this is not cert data"},
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)
 
@@ -186,6 +179,6 @@ class CommonDenialTestsMixin:
                 self.distribution.pulp_href,
                 self.DENIALS_BASE_PATH,
                 self.repo.pulp_href,
-                self.UNTRUSTED_CLIENT_CERT_PATH
+                self.UNTRUSTED_CLIENT_CERT_PATH,
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)

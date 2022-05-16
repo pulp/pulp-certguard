@@ -34,7 +34,7 @@ tasks = TasksApi(core_client)
 
 def read_cert(cert_path):
     """Return an string of data read from `cert_path`."""
-    with open(cert_path, 'r') as cert_file:
+    with open(cert_path, "r") as cert_file:
         return cert_file.read()
 
 
@@ -87,20 +87,20 @@ def set_distribution_base_path(file_distribution_href, base_path):
     file_client = gen_file_client()
     distributions_api = DistributionsFileApi(file_client)
     update_response = distributions_api.partial_update(
-        file_distribution_href,
-        {"base_path": base_path}
+        file_distribution_href, {"base_path": base_path}
     )
     monitor_task(update_response.task)
     return distributions_api.read(file_distribution_href)
 
 
 def set_distribution_base_path_and_download_a_content_unit_with_cert(
-        file_distribution_href,
-        base_path,
-        file_repository_href,
-        cert_path,
-        content_path=None,
-        url_encode=True):
+    file_distribution_href,
+    base_path,
+    file_repository_href,
+    cert_path,
+    content_path=None,
+    url_encode=True,
+):
     """
     Set the base path on the `distribution, read the cert, urlencode it, and then request one unit.
 
@@ -148,5 +148,5 @@ def set_distribution_base_path_and_download_a_content_unit_with_cert(
         config.get_config(),
         distribution.to_dict(),
         content_path,
-        headers={'X-CLIENT-CERT': cert_data}
+        headers={"X-CLIENT-CERT": cert_data},
     )
