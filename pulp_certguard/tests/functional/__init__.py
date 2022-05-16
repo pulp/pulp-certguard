@@ -1,4 +1,3 @@
-import uuid
 import pytest
 
 try:
@@ -10,11 +9,6 @@ try:
 except ImportError:
     pass
 else:
-    @pytest.fixture
-    def cid():
-        """A correlation-id unique to the test."""
-        return str(uuid.uuid4())
-
     @pytest.fixture
     def pulp_certguard_client(cid, bindings_cfg):
         """Api client for certguards."""
