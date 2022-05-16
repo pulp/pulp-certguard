@@ -9,6 +9,7 @@ try:
 except ImportError:
     pass
 else:
+
     @pytest.fixture
     def pulp_certguard_client(cid, bindings_cfg):
         """Api client for certguards."""

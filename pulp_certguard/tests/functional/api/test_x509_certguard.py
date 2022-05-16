@@ -28,12 +28,11 @@ class X509CertGuardTestCase(BaseCertGuard, CommonDenialTestsMixin):
         certguard_client = gen_certguard_client()
         cls.x509_content_guards_api = ContentguardsX509Api(certguard_client)
 
-        with open(X509_CA_CERT_FILE_PATH, 'r') as x509_ca_cert_data_file:
+        with open(X509_CA_CERT_FILE_PATH, "r") as x509_ca_cert_data_file:
             x509_ca_cert_data = x509_ca_cert_data_file.read()
 
         x509_cert_guard = CertguardX509CertGuard(
-            name=str(uuid.uuid4()),
-            ca_certificate=x509_ca_cert_data
+            name=str(uuid.uuid4()), ca_certificate=x509_ca_cert_data
         )
         cls.x509_content_guard_data = cls.x509_content_guards_api.create(x509_cert_guard)
         cls.teardown_cleanups.append(
@@ -52,7 +51,7 @@ class X509CertGuardTestCase(BaseCertGuard, CommonDenialTestsMixin):
             self.distribution.pulp_href,
             X509_BASE_PATH,
             self.repo.pulp_href,
-            X509_CLIENT_CERT_FILE_PATH
+            X509_CLIENT_CERT_FILE_PATH,
         )
 
     def test_allow_request_when_apache_un_urlencoded_cert_is_trusted(self):

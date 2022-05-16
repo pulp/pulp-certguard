@@ -59,7 +59,11 @@ jobs:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
         run: sh .github/workflows/scripts/check_commit.sh
 
-      
+      # run black separately from flake8 to get a diff
+      - name: Run black
+        run: |
+          black --version
+          black --check --diff .
 
       # Lint code.
       - name: Run flake8
@@ -198,7 +202,7 @@ jobs:
         if: always()
         run: |
           echo "Need to debug? Please check: https://github.com/marketplace/actions/debugging-with-tmate"
-          http --timeout 30 --check-status --pretty format --print hb https://pulp/pulp/api/v3/status/ || true
+          http --timeout 30 --check-status --pretty format --print hb "https://pulp${PULP_API_ROOT}api/v3/status/" || true
           docker images || true
           docker ps -a || true
           docker logs pulp || true

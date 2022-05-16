@@ -20,7 +20,7 @@ except ImportError:
 
 logger = getLogger(__name__)
 
-cert_unquoted_body_regex = re.compile('^-----BEGIN CERTIFICATE-----(.*)-----END CERTIFICATE-----')
+cert_unquoted_body_regex = re.compile("^-----BEGIN CERTIFICATE-----(.*)-----END CERTIFICATE-----")
 
 
 class BaseCertGuard(ContentGuard):
@@ -34,9 +34,12 @@ class BaseCertGuard(ContentGuard):
         if match_result:
             cert_body = match_result.groups()[0]
             logger.debug("Reassembled client certificate")
-            reassembled_client_cert = '-----BEGIN CERTIFICATE-----' + \
-                                      cert_body.replace(' ', '\n') + \
-                                      '-----END CERTIFICATE-----' + '\n'
+            reassembled_client_cert = (
+                "-----BEGIN CERTIFICATE-----"
+                + cert_body.replace(" ", "\n")
+                + "-----END CERTIFICATE-----"
+                + "\n"
+            )
             return reassembled_client_cert
         else:
             logger.debug("Did *not* reassemble client cert")
@@ -90,8 +93,7 @@ class BaseCertGuard(ContentGuard):
         # hence, the following reg-ex throws out lines that don't exist between BEGIN/END pairs,
         # and builds certs out of the retained lines.
         rx = re.compile(
-            r'(-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----)',
-            re.MULTILINE | re.DOTALL
+            r"(-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----)", re.MULTILINE | re.DOTALL
         )
         ca_certs = rx.findall(str(self.ca_certificate))
 
@@ -129,7 +131,7 @@ class RHSMCertGuard(BaseCertGuard):
             certificate at request time.
     """
 
-    TYPE = 'rhsm'
+    TYPE = "rhsm"
 
     def __init__(self, *args, **kwargs):
         """Initialize a RHSMCertGuard and ensure this system has python-rhsm on it."""
@@ -155,7 +157,7 @@ class RHSMCertGuard(BaseCertGuard):
         unquoted_certificate = self._get_client_cert_header(request)
         self._ensure_client_cert_is_trusted(unquoted_certificate)
         rhsm_cert = self._create_rhsm_cert_from_pem(unquoted_certificate)
-        content_path_prefix_without_trail_slash = settings.CONTENT_PATH_PREFIX.rstrip('/')
+        content_path_prefix_without_trail_slash = settings.CONTENT_PATH_PREFIX.rstrip("/")
         len_prefix_to_remove = len(content_path_prefix_without_trail_slash)
         path_without_content_path_prefix = request.path[len_prefix_to_remove:]
         self._check_paths(rhsm_cert, path_without_content_path_prefix)
@@ -187,7 +189,7 @@ class X509CertGuard(BaseCertGuard):
             validate the client certificate.
     """
 
-    TYPE = 'x509'
+    TYPE = "x509"
 
     def permit(self, request):
         """
