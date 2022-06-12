@@ -28,12 +28,12 @@ pip install -r functest_requirements.txt
 cd .ci/ansible/
 
 TAG=ci_build
-
 if [ -e $REPO_ROOT/../pulp_file ]; then
   PULP_FILE=./pulp_file
 else
   PULP_FILE=git+https://github.com/pulp/pulp_file.git@main
 fi
+PULPCORE=./pulpcore
 if [[ "$TEST" == "plugin-from-pypi" ]]; then
   PLUGIN_NAME=pulp-certguard
 elif [[ "${RELEASE_WORKFLOW:-false}" == "true" ]]; then
@@ -67,7 +67,7 @@ plugins:
   - name: pulp_file
     source: $PULP_FILE
   - name: pulpcore
-    source: ./pulpcore
+    source: "${PULPCORE}"
 VARSYAML
 fi
 
