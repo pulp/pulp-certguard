@@ -15,22 +15,22 @@ set -euv
 
 source .github/workflows/scripts/utils.sh
 
+export PULP_API_ROOT="/pulp/"
+
 if [[ "$TEST" = "docs" || "$TEST" = "publish" ]]; then
   pip install -r ../pulpcore/doc_requirements.txt
   pip install -r doc_requirements.txt
 fi
 
-pip install -r functest_requirements.txt
-
 cd .ci/ansible/
 
 TAG=ci_build
-
 if [ -e $REPO_ROOT/../pulp_file ]; then
   PULP_FILE=./pulp_file
 else
   PULP_FILE=git+https://github.com/pulp/pulp_file.git@main
 fi
+PULPCORE=./pulpcore
 if [[ "$TEST" == "plugin-from-pypi" ]]; then
   PLUGIN_NAME=pulp-certguard
 elif [[ "${RELEASE_WORKFLOW:-false}" == "true" ]]; then
@@ -52,11 +52,8 @@ plugins:
     source:  "${PLUGIN_NAME}"
   - name: pulp_file
     source: pulp_file
-services:
-  - name: pulp
-    image: "pulp:${TAG}"
-    volumes:
-      - ./settings:/etc/pulp
+  - name: pulp-smash
+    source: ./pulp-smash
 VARSYAML
 else
   cat >> vars/main.yaml << VARSYAML
@@ -69,14 +66,22 @@ plugins:
   - name: pulp_file
     source: $PULP_FILE
   - name: pulpcore
-    source: ./pulpcore
+    source: "${PULPCORE}"
+  - name: pulp-smash
+    source: ./pulp-smash
+VARSYAML
+fi
+
+cat >> vars/main.yaml << VARSYAML
 services:
   - name: pulp
     image: "pulp:${TAG}"
     volumes:
       - ./settings:/etc/pulp
+      - ./ssh:/keys/
+      - ~/.config:/root/.config
+      - ../../../pulp-openapi-generator:/root/pulp-openapi-generator
 VARSYAML
-fi
 
 cat >> vars/main.yaml << VARSYAML
 pulp_settings: null
@@ -103,9 +108,10 @@ if [ "$TEST" = "s3" ]; then
   sed -i -e '$a s3_test: true\
 minio_access_key: "'$MINIO_ACCESS_KEY'"\
 minio_secret_key: "'$MINIO_SECRET_KEY'"' vars/main.yaml
-  echo "PULP_API_ROOT=/rerouted/djnd/" >> "$GITHUB_ENV"
   export PULP_API_ROOT="/rerouted/djnd/"
 fi
+
+echo "PULP_API_ROOT=${PULP_API_ROOT}" >> "$GITHUB_ENV"
 
 if [ "${PULP_API_ROOT:-}" ]; then
   sed -i -e '$a api_root: "'"$PULP_API_ROOT"'"' vars/main.yaml
@@ -120,7 +126,7 @@ sudo docker cp pulp:/etc/pulp/certs/pulp_webserver.crt /usr/local/share/ca-certi
 # Hack: adding pulp CA to certifi.where()
 CERTIFI=$(python -c 'import certifi; print(certifi.where())')
 cat /usr/local/share/ca-certificates/pulp_webserver.crt | sudo tee -a "$CERTIFI" > /dev/null
-if [ "$TEST" = "azure" ]; then
+if [[ "$TEST" = "azure" ]]; then
   cat /usr/local/share/ca-certificates/azcert.crt | sudo tee -a "$CERTIFI" > /dev/null
 fi
 
@@ -132,7 +138,7 @@ cat "$CERTIFI" | sudo tee -a "$CERT" > /dev/null
 sudo update-ca-certificates
 echo ::endgroup::
 
-if [ "$TEST" = "azure" ]; then
+if [[ "$TEST" = "azure" ]]; then
   AZCERTIFI=$(/opt/az/bin/python3 -c 'import certifi; print(certifi.where())')
   cat /usr/local/share/ca-certificates/azcert.crt >> $AZCERTIFI
   cat /usr/local/share/ca-certificates/azcert.crt | cmd_stdin_prefix tee -a /usr/local/lib/python3.8/site-packages/certifi/cacert.pem > /dev/null
