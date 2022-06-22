@@ -1,12 +1,12 @@
 # This config represents the latest values used when running the plugin-template. Any settings that
 # were not present before running plugin-template have been added with their default values.
 
-# generated with plugin_template@2021.08.26-106-g556224f
+# generated with plugin_template@2021.08.26-146-gae643c8
 
 additional_repos:
 - branch: main
   name: pulp_file
-aiohttp_fixtures_origin: 172.18.0.1
+api_root: /pulp/
 black: false
 check_commit_message: true
 check_gettext: true
@@ -58,8 +58,13 @@ python_version: '3.8'
 redmine_project: certguard
 release_email: pulp-infra@redhat.com
 release_user: pulpbot
+run_pulpcore_tests_for_plugins: true
 single_commit_check: true
 stable_branch: null
+stalebot: true
+stalebot_days_until_close: 30
+stalebot_days_until_stale: 90
+stalebot_limit_to_pulls: true
 sync_ci: true
 tasking_allow_async_unsafe: false
 test_azure: false
@@ -71,6 +76,7 @@ test_performance: false
 test_released_plugin_with_next_pulpcore_release: false
 test_reroute: true
 test_s3: true
+test_stream: false
 travis_addtl_services: []
 travis_notifications: null
 update_github: true
