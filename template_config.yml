@@ -6,7 +6,6 @@
 additional_repos:
 - branch: main
   name: pulp_file
-aiohttp_fixtures_origin: 172.18.0.1
 api_root: /pulp/
 black: true
 check_commit_message: true
