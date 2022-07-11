@@ -50,3 +50,5 @@ docs/_static/api.json
 *.swp
 
 *.ropeproject
+
+.vscode/
