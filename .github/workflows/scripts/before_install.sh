@@ -30,17 +30,6 @@ fi
 COMMIT_MSG=$(git log --format=%B --no-merges -1)
 export COMMIT_MSG
 
-if [[ "$TEST" == "upgrade" ]]; then
-  pip install -r functest_requirements.txt
-  git checkout -b ci_upgrade_test
-  cp -R .github /tmp/.github
-  cp -R .ci /tmp/.ci
-  git checkout $FROM_PULP_CERTGUARD_BRANCH
-  rm -rf .ci .github
-  cp -R /tmp/.github .
-  cp -R /tmp/.ci .
-fi
-
 if [[ "$TEST" == "plugin-from-pypi" ]]; then
   COMPONENT_VERSION=$(http https://pypi.org/pypi/pulp-certguard/json | jq -r '.info.version')
 else
@@ -118,7 +107,7 @@ fi
 cd ..
 
 
-git clone --depth=1 https://github.com/pulp/pulp_file.git --branch main
+git clone --depth=1 https://github.com/pulp/pulp_file.git --branch 1.10
 cd pulp_file
 
 if [ -n "$PULP_FILE_PR_NUMBER" ]; then

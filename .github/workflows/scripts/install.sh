@@ -28,7 +28,7 @@ TAG=ci_build
 if [ -e $REPO_ROOT/../pulp_file ]; then
   PULP_FILE=./pulp_file
 else
-  PULP_FILE=git+https://github.com/pulp/pulp_file.git@main
+  PULP_FILE=git+https://github.com/pulp/pulp_file.git@1.10
 fi
 PULPCORE=./pulpcore
 if [[ "$TEST" == "plugin-from-pypi" ]]; then
@@ -90,10 +90,6 @@ pulp_scheme: https
 pulp_container_tag: https
 
 VARSYAML
-
-if [ "$TEST" = "upgrade" ]; then
-  sed -i "/^pulp_container_tag:.*/s//pulp_container_tag: upgrade-https/" vars/main.yaml
-fi
 
 if [ "$TEST" = "s3" ]; then
   export MINIO_ACCESS_KEY=AKIAIT2Z5TDYPX3ARJBA
