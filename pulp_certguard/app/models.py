@@ -39,7 +39,7 @@ class BaseCertGuard(ContentGuard):
                                       '-----END CERTIFICATE-----' + '\n'
             return reassembled_client_cert
         else:
-            logger.debug("Did *not* reassemble client cert")
+            logger.debug("Did *not* have to reassemble client cert")
             return unquoted_client_cert
 
     @classmethod
@@ -49,6 +49,7 @@ class BaseCertGuard(ContentGuard):
             logger.debug(f"client_cert_data received: {client_cert_data}")
         except KeyError:
             msg = _("A client certificate was not received via the `X-CLIENT-CERT` header.")
+            logger.warning(msg)
             raise PermissionError(msg)
         unquoted_client_cert = unquote(client_cert_data)
         return cls._reassemble_client_cert(unquoted_client_cert)
@@ -61,7 +62,9 @@ class BaseCertGuard(ContentGuard):
                 openssl.FILETYPE_PEM, buffer=unquoted_certificate
             )
         except openssl.Error as exc:
-            raise PermissionError(str(exc))
+            msg = str(exc)
+            logger.warning(msg)
+            raise PermissionError(msg)
 
         try:
             context = openssl.X509StoreContext(
@@ -70,15 +73,17 @@ class BaseCertGuard(ContentGuard):
             )
             context.verify_certificate()
         except openssl.X509StoreContextError as exc:
+            msg = str(exc)
             if exc.args[0][0] == 20:  # The error code for client cert not signed by the CA
                 msg = _("Client certificate is not signed by the stored 'ca_certificate'.")
-                raise PermissionError(msg)
-            if exc.args[0][0] == 10:  # The error code for an expired certificate
+            elif exc.args[0][0] == 10:  # The error code for an expired certificate
                 msg = _("Client certificate is expired.")
-                raise PermissionError(msg)
-            raise PermissionError(str(exc))
+            logger.warning(msg)
+            raise PermissionError(msg)
         except openssl.Error as exc:
-            raise PermissionError(str(exc))
+            msg = str(exc)
+            logger.warning(msg)
+            raise PermissionError(msg)
 
     def _build_trust_store(self):
         trust_store = openssl.X509Store()
@@ -102,6 +107,7 @@ class BaseCertGuard(ContentGuard):
                     openssl.FILETYPE_PEM, buffer=crt.encode()
                 )
             except openssl.Error as exc:
+                logger.warning(str(exc))
                 raise PermissionError(str(exc))
             trust_store.add_cert(openssl_ca_cert)
 
@@ -166,6 +172,7 @@ class RHSMCertGuard(BaseCertGuard):
             rhsm_cert = certificate.create_from_pem(unquoted_certificate)
         except certificate.CertificateException:
             msg = _("An error occurred while loading the client certificate data into python-rhsm.")
+            logger.warning(msg)
             raise PermissionError(msg)
         return rhsm_cert
 
@@ -173,7 +180,7 @@ class RHSMCertGuard(BaseCertGuard):
     def _check_paths(rhsm_cert, path):
         logger.debug(f"Checking that path {path} is allowed in client cert")
         if rhsm_cert.check_path(path) is False:
-            logger.debug(f"Path {path} is *not* allowed in client cert")
+            logger.warning(f"Path {path} is *not* allowed in client cert")
             msg = _("Requested path is not a subpath of a path in the client certificate.")
             raise PermissionError(msg)
 
