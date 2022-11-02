@@ -1,2 +1,2 @@
-PyOpenSSL<23.0
+PyOpenSSL<22.1
 pulpcore>=3.10,<3.25
