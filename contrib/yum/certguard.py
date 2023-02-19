@@ -44,7 +44,7 @@ def _load_cert():
 
     @rtype: string
     """
-    with (closing(open(CERT_PATH, "r"))) as fd:
+    with closing(open(CERT_PATH, "r")) as fd:
         id_doc = fd.read()
     # Newlines in http headers aren't valid
     return id_doc.replace("\n", "")
