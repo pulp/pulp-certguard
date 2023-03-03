@@ -1,6 +1,12 @@
-mistune<2.0.0
+coreapi
+django
+djangorestframework
+django-filter
+drf-nested-routers
 plantuml
+pyyaml
 sphinx
 sphinx-rtd-theme
 sphinxcontrib-openapi
 towncrier
+mistune<2.0.0
