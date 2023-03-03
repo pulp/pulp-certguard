@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Pulp Python Support documentation build configuration file, created by
 # sphinx-quickstart on Thu Nov 20 17:53:15 2014.
 #
@@ -43,7 +41,7 @@ source_suffix = '.rst'
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
 
-# The master toctree document.
+# The top level toctree document.
 master_doc = 'index'
 
 # General information about the project.
