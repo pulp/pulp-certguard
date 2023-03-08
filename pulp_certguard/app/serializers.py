@@ -25,7 +25,7 @@ class BaseCertGuardSerializer(ContentGuardSerializer):
         """Validates the given certificate as a PEM encoded X.509 certificate using openssl."""
         try:
             openssl.load_certificate(openssl.FILETYPE_PEM, buffer=ca_certificate)
-        except ValueError:
+        except (ValueError, openssl.Error):
             reason = _("Must be PEM encoded X.509 certificate.")
             raise serializers.ValidationError(reason)
         else:
