@@ -53,7 +53,8 @@ pulp_scheme: https
 pulp_settings: null
 pulp_settings_azure: null
 pulp_settings_gcp: null
-pulp_settings_s3: null
+pulp_settings_s3:
+  hide_guarded_distributions: true
 pulp_settings_stream: null
 pulpcore_branch: main
 pulpcore_pip_version_specifier: null
