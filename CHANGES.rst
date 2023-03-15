@@ -13,6 +13,21 @@ Changelog
 
 .. towncrier release notes start
 
+1.6.0 (2023-03-14)
+==================
+
+Bugfixes
+--------
+
+- Taught bad-certificate-failures emit warnings to the server-log.
+  `#145 <https://github.com/pulp/pulp-certguard/issues/145>`__
+- Improved the validation of certificates.
+  `#232 <https://github.com/pulp/pulp-certguard/issues/232>`__
+
+
+----
+
+
 1.5.8 (2023-03-03)
 ==================
 
