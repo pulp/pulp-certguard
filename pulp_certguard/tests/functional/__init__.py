@@ -11,11 +11,12 @@ except ImportError:
 else:
 
     @pytest.fixture(scope="session")
-    def pulp_certguard_client(cid, bindings_cfg):
+    def pulp_certguard_client(_api_client_set, bindings_cfg):
         """Api client for certguards."""
         api_client = ApiClient(bindings_cfg)
-        api_client.default_headers["Correlation-ID"] = cid
-        return api_client
+        _api_client_set.add(api_client)
+        yield api_client
+        _api_client_set.remove(api_client)
 
     @pytest.fixture(scope="session")
     def x509_content_guards_api_client(pulp_certguard_client):
