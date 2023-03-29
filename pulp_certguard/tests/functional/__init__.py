@@ -27,11 +27,3 @@ else:
     def rhsm_content_guards_api_client(pulp_certguard_client):
         """Api for rhsm content guards."""
         return ContentguardsRhsmApi(pulp_certguard_client)
-
-    @pytest.fixture(scope="session", params=["x509", "rhsm"])
-    def both_content_guards_api_client(
-        request, x509_content_guards_api_client, rhsm_content_guards_api_client
-    ):
-        if request.param == "x509":
-            return x509_content_guards_api_client
-        return rhsm_content_guards_api_client
