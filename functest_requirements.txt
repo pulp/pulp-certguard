@@ -1,5 +1,7 @@
-git+https://github.com/PulpQE/pulp-smash.git#egg=pulp-smash
 pulpcore-client
 pulp-file-client
 pulp-certguard-client
 pytest
+
+# for pulp_file tests
+git+https://github.com/PulpQE/pulp-smash.git#egg=pulp-smash

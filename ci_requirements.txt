@@ -1,1 +1,1 @@
-pulp_file
+pulp_file>=0.14.0
