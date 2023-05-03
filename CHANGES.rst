@@ -13,6 +13,28 @@ Changelog
 
 .. towncrier release notes start
 
+1.6.3 (2023-05-02)
+==================
+
+Bugfixes
+--------
+
+- Allows for compatibility with pulpcore>3.25.
+  `#252 <https://github.com/pulp/pulp-certguard/issues/252>`__
+
+
+----
+
+
+1.6.2 (2023-05-02)
+==================
+
+No significant changes.
+
+
+----
+
+
 1.6.1 (2023-03-23)
 ==================
 
