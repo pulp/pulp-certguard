@@ -1,4 +1,7 @@
+import unittest
 import uuid
+
+from django.conf import settings
 
 from requests import HTTPError
 
@@ -59,6 +62,10 @@ class RHSMCertGuardBase(BaseCertGuard):
         return rhsm_ca_cert_data
 
 
+@unittest.skipIf(
+    hasattr(settings, "DOMAIN_ENABLED") and settings.DOMAIN_ENABLED,
+    "RHSM tests are currently not compatible with domains.",
+)
 class RHSMCABundleCertGuardBase(RHSMCertGuardBase):
     """A base class for all RHSMCertGuard tests with a CA-bundle file."""
 
@@ -74,6 +81,10 @@ class RHSMCABundleCertGuardBase(RHSMCertGuardBase):
         return thirdparty_ca_cert_data + rhsm_ca_cert_data
 
 
+@unittest.skipIf(
+    hasattr(settings, "DOMAIN_ENABLED") and settings.DOMAIN_ENABLED,
+    "RHSM tests are currently not compatible with domains.",
+)
 class RHSMV3CertGuardTestCase(RHSMCertGuardBase):
     """Api tests for RHSMCertGard with V3 RHSM Certificates."""
 
@@ -157,6 +168,10 @@ class RHSMV3CertGuardTestCase(RHSMCertGuardBase):
         self.assertEqual(raised_exception.exception.response.status_code, 404)
 
 
+@unittest.skipIf(
+    hasattr(settings, "DOMAIN_ENABLED") and settings.DOMAIN_ENABLED,
+    "RHSM tests are currently not compatible with domains.",
+)
 class RHSMV1CertGuardTestCase(RHSMCertGuardBase):
     """Api tests for RHSMCertGard with V1 RHSM Certificates."""
 
@@ -240,6 +255,10 @@ class RHSMV1CertGuardTestCase(RHSMCertGuardBase):
         self.assertEqual(raised_exception.exception.response.status_code, 404)
 
 
+@unittest.skipIf(
+    hasattr(settings, "DOMAIN_ENABLED") and settings.DOMAIN_ENABLED,
+    "RHSM tests are currently not compatible with domains.",
+)
 class RHSMUberCertTestCase(RHSMCertGuardBase):
     """Api tests for RHSMCertGard with an "Uber" Certificate."""
 
@@ -266,6 +285,10 @@ class RHSMUberCertTestCase(RHSMCertGuardBase):
         )
 
 
+@unittest.skipIf(
+    hasattr(settings, "DOMAIN_ENABLED") and settings.DOMAIN_ENABLED,
+    "RHSM tests are currently not compatible with domains.",
+)
 class RHSMCertGuardDenialTestCase(RHSMCertGuardBase, CommonDenialTestsMixin):
     """Api tests for RHSMCertGard to assert denials for authorization."""
 
@@ -307,6 +330,10 @@ class RHSMCertGuardDenialTestCase(RHSMCertGuardBase, CommonDenialTestsMixin):
         self.assertEqual(raised_exception.exception.response.status_code, 403)
 
 
+@unittest.skipIf(
+    hasattr(settings, "DOMAIN_ENABLED") and settings.DOMAIN_ENABLED,
+    "RHSM tests are currently not compatible with domains.",
+)
 class RHSMV3CABundleCertGuardTestCase(RHSMCABundleCertGuardBase):
     """Api tests for RHSMCertGard with V3 RHSM Certificates and a bundle of CAs in a file."""
 

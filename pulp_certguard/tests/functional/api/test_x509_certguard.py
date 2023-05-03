@@ -1,4 +1,7 @@
+import unittest
 import uuid
+
+from django.conf import settings
 
 from pulpcore.client.pulp_certguard import CertguardX509CertGuard, ContentguardsX509Api
 
@@ -16,6 +19,10 @@ from pulp_certguard.tests.functional.utils import (
 )
 
 
+@unittest.skipIf(
+    hasattr(settings, "DOMAIN_ENABLED") and settings.DOMAIN_ENABLED,
+    "X509 tests are currently not compatible with domains.",
+)
 class X509CertGuardTestCase(BaseCertGuard, CommonDenialTestsMixin):
     """Api tests for X509CertGard."""
 
