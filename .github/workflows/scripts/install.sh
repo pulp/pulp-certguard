@@ -21,8 +21,6 @@ PIP_REQUIREMENTS=("pulp-cli")
 if [[ "$TEST" = "docs" || "$TEST" = "publish" ]]
 then
   PIP_REQUIREMENTS+=("-r" "doc_requirements.txt")
-  git clone https://github.com/pulp/pulpcore.git ../pulpcore
-  PIP_REQUIREMENTS+=("psycopg2-binary" "-r" "../pulpcore/doc_requirements.txt")
 fi
 
 pip install ${PIP_REQUIREMENTS[*]}
@@ -84,7 +82,7 @@ if [ "$TEST" = "s3" ]; then
   sed -i -e '$a s3_test: true\
 minio_access_key: "'$MINIO_ACCESS_KEY'"\
 minio_secret_key: "'$MINIO_SECRET_KEY'"\
-pulp_scenario_settings: {"hide_guarded_distributions": true}\
+pulp_scenario_settings: {"domain_enabled": true, "hide_guarded_distributions": true}\
 ' vars/main.yaml
   export PULP_API_ROOT="/rerouted/djnd/"
 fi
@@ -103,7 +101,7 @@ if [ "$TEST" = "azure" ]; then
       - ./azurite:/etc/pulp\
     command: "azurite-blob --blobHost 0.0.0.0 --cert /etc/pulp/azcert.pem --key /etc/pulp/azkey.pem"' vars/main.yaml
   sed -i -e '$a azure_test: true\
-pulp_scenario_settings: null\
+pulp_scenario_settings: {"domain_enabled": true}\
 ' vars/main.yaml
 fi
 
