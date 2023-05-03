@@ -3,6 +3,7 @@ import uuid
 
 import requests
 from urllib.parse import urljoin, quote
+from django.conf import settings
 
 from pulp_certguard.tests.functional.constants import (
     RHSM_CA_CERT_FILE_PATH,
@@ -24,6 +25,10 @@ from pulp_certguard.tests.functional.constants import (
     RHSM_V3_ZERO_VAR_CLIENT_CERT,
     RHSM_V3_ZERO_VAR_BASE_PATH,
 )
+
+
+if settings.DOMAIN_ENABLED:
+    pytest.skip("RHSM tests are currently not compatible with domains.", allow_module_level=True)
 
 
 @pytest.fixture(scope="class")

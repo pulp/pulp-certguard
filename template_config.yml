@@ -23,8 +23,9 @@ core_import_allowed: []
 deploy_client_to_pypi: true
 deploy_client_to_rubygems: true
 deploy_to_pypi: true
-disabled_redis_runners: []
-doc_requirements_from_pulpcore: true
+disabled_redis_runners:
+- s3
+doc_requirements_from_pulpcore: false
 docker_fixtures: false
 docs_test: true
 flake8: true
@@ -50,9 +51,11 @@ pre_job_template: null
 publish_docs_to_pulpprojectdotorg: true
 pulp_scheme: https
 pulp_settings: null
-pulp_settings_azure: null
+pulp_settings_azure:
+  domain_enabled: true
 pulp_settings_gcp: null
 pulp_settings_s3:
+  domain_enabled: true
   hide_guarded_distributions: true
 pulp_settings_stream: null
 pulpprojectdotorg_key_id: null
