@@ -2,6 +2,7 @@ pulpcore-client
 pulp-file-client
 pulp-certguard-client
 pytest
+requests
 
 # for pulp_file tests
 git+https://github.com/PulpQE/pulp-smash.git#egg=pulp-smash
