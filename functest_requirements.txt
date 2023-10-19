@@ -1,8 +1,9 @@
-pulpcore-client
-pulp-file-client
-pulp-certguard-client
 pytest
+pytest-custom_exit_code
+pytest-xdist
 requests
 
-# for pulp_file tests
-git+https://github.com/PulpQE/pulp-smash.git#egg=pulp-smash
+# for pulp_file
+beautifulsoup4
+proxy.py~=2.4.1
+trustme~=1.0.0
