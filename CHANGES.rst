@@ -13,6 +13,21 @@ Changelog
 
 .. towncrier release notes start
 
+1.7.0 (2023-10-19)
+==================
+
+Bugfixes
+--------
+
+- Allows for compatibility with pulpcore>3.25.
+  `#252 <https://github.com/pulp/pulp-certguard/issues/252>`__
+- Loosened restriction on pyOpenSSL to let us use 23.0 and its fixes.
+  `#293 <https://github.com/pulp/pulp-certguard/issues/293>`__
+
+
+----
+
+
 1.6.6 (2023-10-17)
 ==================
 
