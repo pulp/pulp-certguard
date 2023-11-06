@@ -20,7 +20,6 @@ Features
 --------
 
 - Declared pulpcore compatibility up to 3.44.
-  `#40 <https://github.com/pulp/pulp-certguard/issues/40>`__
 
 
 ----
