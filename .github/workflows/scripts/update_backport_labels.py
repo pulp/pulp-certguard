@@ -28,7 +28,7 @@ headers = {
 session.headers.update(headers)
 
 # get all labels from the repository's current state
-response = session.get("https://api.github.com/repos/pulp/pulp_certguard/labels", headers=headers)
+response = session.get("https://api.github.com/repos/pulp/pulp-certguard/labels", headers=headers)
 assert response.status_code == 200
 old_labels = set([x["name"] for x in response.json() if x["name"].startswith("backport-")])
 
