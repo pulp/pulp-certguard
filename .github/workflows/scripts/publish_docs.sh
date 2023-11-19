@@ -44,7 +44,7 @@ tar -xvf python-client-docs.tar --directory ../bindings
 cd ../bindings
 cat >> mkdocs.yml << DOCSYAML
 ---
-site_name: PulpCertguard Client
+site_name: Pulp-Certguard Client
 site_description: Certguard bindings
 site_author: Pulp Team
 site_url: https://docs.pulpproject.org/pulp_certguard_client/
