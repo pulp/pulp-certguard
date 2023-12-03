@@ -16,8 +16,6 @@ source .github/workflows/scripts/utils.sh
 
 export PULP_URL="${PULP_URL:-https://pulp}"
 
-pip install twine wheel
-
 REPORTED_STATUS="$(pulp status)"
 REPORTED_VERSION="$(echo "$REPORTED_STATUS" | jq --arg plugin "certguard" -r '.versions[] | select(.component == $plugin) | .version')"
 VERSION="$(echo "$REPORTED_VERSION" | python -c 'from packaging.version import Version; print(Version(input()))')"
@@ -28,8 +26,8 @@ rm -rf pulp_certguard-client
 pushd pulp_certguard-client
 python setup.py sdist bdist_wheel --python-tag py3
 
-twine check "dist/pulp_certguard_client-$VERSION-py3-none-any.whl" || exit 1
-twine check "dist/pulp_certguard-client-$VERSION.tar.gz" || exit 1
+twine check "dist/pulp_certguard_client-$VERSION-py3-none-any.whl"
+twine check "dist/pulp_certguard-client-$VERSION.tar.gz"
 
 cmd_prefix pip3 install "/root/pulp-openapi-generator/pulp_certguard-client/dist/pulp_certguard_client-${VERSION}-py3-none-any.whl"
 tar cvf ../../pulp-certguard/certguard-python-client.tar ./dist
@@ -39,6 +37,21 @@ find ./docs/* -exec sed -i 's/README//g' {} \;
 cp README.md docs/index.md
 sed -i 's/docs\///g' docs/index.md
 find ./docs/* -exec sed -i 's/\.md//g' {} \;
+
+cat >> mkdocs.yml << DOCSYAML
+---
+site_name: Pulp-Certguard Client
+site_description: Certguard bindings
+site_author: Pulp Team
+site_url: https://docs.pulpproject.org/pulp_certguard_client/
+repo_name: pulp/pulp_certguard
+repo_url: https://github.com/pulp/pulp_certguard
+theme: readthedocs
+DOCSYAML
+
+# Building the bindings docs
+mkdocs build
+
 tar cvf ../../pulp-certguard/certguard-python-client-docs.tar ./docs
 popd
 popd
