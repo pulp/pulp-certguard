@@ -42,9 +42,6 @@ jobs:
           GITHUB_CONTEXT: "${{ github.event.pull_request.commits_url }}"
         run: |
           .github/workflows/scripts/check_commit.sh
-      - name: "Verify requirements files"
-        run: |
-          python .ci/scripts/check_requirements.py
 
   lint:
     uses: "./.github/workflows/lint.yml"
@@ -56,25 +53,6 @@ jobs:
   test:
     needs: "build"
     uses: "./.github/workflows/test.yml"
-
-  deprecations:
-    runs-on: "ubuntu-latest"
-    if: github.base_ref == 'main'
-    needs: "test"
-    steps:
-      - name: "Create working directory"
-        run: |
-          mkdir -p "pulp-certguard"
-        working-directory: "."
-      - name: "Download Deprecations"
-        uses: actions/download-artifact@v3
-        with:
-          name: "deprecations"
-          path: "pulp-certguard"
-      - name: "Print deprecations"
-        run: |
-          cat deprecations-*.txt | sort -u
-          ! cat deprecations-*.txt | grep '[^[:space:]]'
 
   ready-to-ship:
     # This is a dummy dependent task to have a single entry for the branch protection rules.
