@@ -32,12 +32,6 @@ pip install ${PIP_REQUIREMENTS[*]}
 
 cd .ci/ansible/
 PLUGIN_SOURCE="${PLUGIN_NAME}"
-if [ "$TEST" = "s3" ]; then
-  PLUGIN_SOURCE="${PLUGIN_SOURCE} pulpcore[s3]"
-fi
-if [ "$TEST" = "azure" ]; then
-  PLUGIN_SOURCE="${PLUGIN_SOURCE} pulpcore[azure]"
-fi
 
 cat >> vars/main.yaml << VARSYAML
 image:
@@ -50,11 +44,6 @@ VARSYAML
 if [[ -f ../../ci_requirements.txt ]]; then
   cat >> vars/main.yaml << VARSYAML
     ci_requirements: true
-VARSYAML
-fi
-if [ "$TEST" = "lowerbounds" ]; then
-  cat >> vars/main.yaml << VARSYAML
-    lowerbounds: true
 VARSYAML
 fi
 
@@ -80,44 +69,6 @@ pulp_scheme: https
 pulp_container_tag: "latest"
 
 VARSYAML
-
-if [ "$TEST" = "s3" ]; then
-  export MINIO_ACCESS_KEY=AKIAIT2Z5TDYPX3ARJBA
-  export MINIO_SECRET_KEY=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
-  sed -i -e '/^services:/a \
-  - name: minio\
-    image: minio/minio\
-    env:\
-      MINIO_ACCESS_KEY: "'$MINIO_ACCESS_KEY'"\
-      MINIO_SECRET_KEY: "'$MINIO_SECRET_KEY'"\
-    command: "server /data"' vars/main.yaml
-  sed -i -e '$a s3_test: true\
-minio_access_key: "'$MINIO_ACCESS_KEY'"\
-minio_secret_key: "'$MINIO_SECRET_KEY'"\
-pulp_scenario_settings: {"domain_enabled": true, "hide_guarded_distributions": true}\
-pulp_scenario_env: {}\
-' vars/main.yaml
-  export PULP_API_ROOT="/rerouted/djnd/"
-fi
-
-if [ "$TEST" = "azure" ]; then
-  mkdir -p azurite
-  cd azurite
-  openssl req -newkey rsa:2048 -x509 -nodes -keyout azkey.pem -new -out azcert.pem -sha256 -days 365 -addext "subjectAltName=DNS:ci-azurite" -subj "/C=CO/ST=ST/L=LO/O=OR/OU=OU/CN=CN"
-  sudo cp azcert.pem /usr/local/share/ca-certificates/azcert.crt
-  sudo dpkg-reconfigure ca-certificates
-  cd ..
-  sed -i -e '/^services:/a \
-  - name: ci-azurite\
-    image: mcr.microsoft.com/azure-storage/azurite\
-    volumes:\
-      - ./azurite:/etc/pulp\
-    command: "azurite-blob --blobHost 0.0.0.0 --cert /etc/pulp/azcert.pem --key /etc/pulp/azkey.pem"' vars/main.yaml
-  sed -i -e '$a azure_test: true\
-pulp_scenario_settings: {"domain_enabled": true}\
-pulp_scenario_env: {}\
-' vars/main.yaml
-fi
 
 echo "PULP_API_ROOT=${PULP_API_ROOT}" >> "$GITHUB_ENV"
 

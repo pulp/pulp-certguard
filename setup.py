@@ -11,7 +11,7 @@ with open("README.rst") as f:
 setup(
     name="pulp-certguard",
     version="1.8.0.dev",
-    description="Certguard plugin for the Pulp Project",
+    description="Certguard plugin for the Pulp Project (transitional dummy package)",
     long_description=long_description,
     license="GPLv2+",
     author="Pulp Project Developers",
@@ -30,10 +30,4 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ),
-    entry_points={
-        "pulpcore.plugin": [
-            "pulp_certguard = pulp_certguard:default_app_config",
-        ],
-        "pytest11": ["pulp_certguard = pulp_certguard.tests.functional"],
-    },
 )

@@ -1,2 +1,1 @@
-PyOpenSSL<24.0
-pulpcore>=3.28.0,<3.45
+pulpcore>=3.45.0
