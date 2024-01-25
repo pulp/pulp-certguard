@@ -13,6 +13,19 @@ Changelog
 
 .. towncrier release notes start
 
+1.8.0 (2024-01-25)
+==================
+
+Features
+--------
+
+- Declared pulpcore compatibility up to 3.44.
+  
+
+
+----
+
+
 1.7.1 (2023-11-03)
 ==================
 
