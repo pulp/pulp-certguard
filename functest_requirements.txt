@@ -3,4 +3,4 @@ pulpcore-client
 pulp-file
 pulp-file-client
 pulp-certguard-client
-pytest
+pytest<8
