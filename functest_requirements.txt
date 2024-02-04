@@ -1,4 +1,4 @@
-pytest
+pytest<8
 pytest-custom_exit_code
 pytest-xdist
 requests
