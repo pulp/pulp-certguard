@@ -2,4 +2,4 @@ git+https://github.com/PulpQE/pulp-smash.git#egg=pulp-smash
 pulpcore-client
 pulp-file-client
 pulp-certguard-client
-pytest
+pytest<8
