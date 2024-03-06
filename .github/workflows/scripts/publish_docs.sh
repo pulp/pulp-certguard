@@ -35,14 +35,3 @@ if [[ "$GITHUB_WORKFLOW" == "Certguard changelog update" ]]; then
   # Do not build bindings docs on changelog update
   exit
 fi
-
-mkdir -p ../certguard-bindings
-tar -xvf certguard-python-client-docs.tar --directory ../certguard-bindings
-pushd ../certguard-bindings
-
-# publish to docs.pulpproject.org/pulp_certguard_client
-rsync -avzh site/ doc_builder_pulp_certguard@docs.pulpproject.org:/var/www/docs.pulpproject.org/pulp_certguard_client/
-
-# publish to docs.pulpproject.org/pulp_certguard_client/en/{release}
-rsync -avzh site/ doc_builder_pulp_certguard@docs.pulpproject.org:/var/www/docs.pulpproject.org/pulp_certguard_client/en/"$2"
-popd
