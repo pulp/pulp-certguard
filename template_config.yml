@@ -1,7 +1,7 @@
 # This config represents the latest values used when running the plugin-template. Any settings that
 # were not present before running plugin-template have been added with their default values.
 
-# generated with plugin_template@2021.08.26-316-g69ef1f6
+# generated with plugin_template@2021.08.26-319-ga283c28
 
 api_root: /pulp/
 black: true
@@ -37,9 +37,7 @@ parallel_test_workers: 8
 plugin_app_label: certguard
 plugin_default_branch: main
 plugin_name: pulp-certguard
-plugins:
-- app_label: certguard
-  name: pulp-certguard
+plugins: []
 post_job_template: null
 pre_job_template: null
 publish_docs_to_pulpprojectdotorg: true
@@ -52,7 +50,6 @@ pulp_settings: null
 pulp_settings_azure: null
 pulp_settings_gcp: null
 pulp_settings_s3: null
-pulpprojectdotorg_key_id: null
 pydocstyle: true
 release_email: pulp-infra@redhat.com
 release_user: pulpbot

@@ -32,4 +32,3 @@ touch ~/.gem/credentials
 echo "---
 :rubygems_api_key: $RUBYGEMS_API_KEY" > ~/.gem/credentials
 sudo chmod 600 ~/.gem/credentials
-gem push "pulp_certguard_client-${VERSION}.gem"

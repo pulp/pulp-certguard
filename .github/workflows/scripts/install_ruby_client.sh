@@ -24,19 +24,4 @@ REPORTED_VERSION="$(echo "$REPORTED_STATUS" | jq --arg plugin "certguard" -r '.v
 VERSION="$(echo "$REPORTED_VERSION" | python -c 'from packaging.version import Version; print(Version(input()))')"
 
 pushd ../pulp-openapi-generator
-rm -rf pulp_certguard-client
-
-if pulp debug has-plugin --name "core" --specifier ">=3.44.0.dev"
-then
-  curl --fail-with-body -k -o api.json "${PULP_URL}${PULP_API_ROOT}api/v3/docs/api.json?bindings&component=certguard"
-  USE_LOCAL_API_JSON=1 ./generate.sh pulp_certguard ruby "$VERSION"
-else
-  ./generate.sh pulp_certguard ruby "$VERSION"
-fi
-
-pushd pulp_certguard-client
-gem build pulp_certguard_client
-gem install --both "./pulp_certguard_client-$VERSION.gem"
-tar cvf ../../pulp-certguard/certguard-ruby-client.tar "./pulp_certguard_client-$VERSION.gem"
-popd
 popd
