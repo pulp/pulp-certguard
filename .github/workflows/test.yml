@@ -120,6 +120,7 @@ jobs:
           path: "pulp-certguard/certguard-python-client.tar"
           if-no-files-found: "error"
           retention-days: 5
+          overwrite: true
 
       - name: Upload python client docs
         if: ${{ env.TEST == 'pulp' }}
@@ -129,6 +130,7 @@ jobs:
           path: "pulp-certguard/certguard-python-client-docs.tar"
           if-no-files-found: "error"
           retention-days: 5
+          overwrite: true
       - name: Upload Ruby client
         if: ${{ env.TEST == 'pulp' }}
         uses: actions/upload-artifact@v4
@@ -137,12 +139,16 @@ jobs:
           path: "pulp-certguard/certguard-ruby-client.tar"
           if-no-files-found: "error"
           retention-days: 5
+          overwrite: true
       - name: Upload built docs
         if: ${{ env.TEST == 'docs' }}
         uses: actions/upload-artifact@v4
         with:
           name: "docs.tar"
           path: "pulp-certguard/docs/docs.tar"
+          if-no-files-found: "error"
+          retention-days: 5
+          overwrite: true
 
       - name: "Logs"
         if: always()
