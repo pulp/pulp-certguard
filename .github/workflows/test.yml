@@ -116,6 +116,9 @@ jobs:
         with:
           name: "docs.tar"
           path: "pulp-certguard/docs/docs.tar"
+          if-no-files-found: "error"
+          retention-days: 5
+          overwrite: true
 
       - name: "Logs"
         if: always()

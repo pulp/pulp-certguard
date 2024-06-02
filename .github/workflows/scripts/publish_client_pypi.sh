@@ -18,14 +18,3 @@ if [[ -z "$VERSION" ]]; then
   echo "No version specified."
   exit 1
 fi
-
-RESPONSE="$(curl --write-out '%{http_code}' --silent --output /dev/null "https://pypi.org/project/pulp-certguard-client/$VERSION/")"
-
-if [ "$RESPONSE" == "200" ];
-then
-  echo "pulp-certguard client $VERSION has already been released. Skipping."
-  exit
-fi
-
-twine upload -u __token__ -p "$PYPI_API_TOKEN" \
-;
