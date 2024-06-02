@@ -1,6 +1,6 @@
 include LICENSE
 include requirements.txt
-include CHANGES.rst
+include CHANGES.md
 include COMMITMENT
 include COPYRIGHT
 include ci_requirements.txt
