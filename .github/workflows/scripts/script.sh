@@ -55,6 +55,8 @@ cmd_prefix bash -c "chmod 600 ~pulp/.netrc"
 # Generate bindings
 ###################
 
+echo "::group::Generate bindings"
+
 touch bindings_requirements.txt
 pushd ../pulp-openapi-generator
   # Use app_label to generate api.json and package to produce the proper package name.
@@ -77,10 +79,10 @@ pushd ../pulp-openapi-generator
     # there, because we did not merge plugins into pulpcore back then.
     MODULE="$(jq -r '.module // (.package|gsub("-"; "_"))' <<<"${ITEM}")"
     PACKAGE="${MODULE%%.*}"
+    cmd_prefix pulpcore-manager openapi --bindings --component "${COMPONENT}" > "${COMPONENT}-api.json"
     if [[ ! " ${BUILT_CLIENTS} " =~ "${COMPONENT}" ]]
     then
       rm -rf "./${PACKAGE}-client"
-      cmd_prefix pulpcore-manager openapi --bindings --component "${COMPONENT}" > "${COMPONENT}-api.json"
       ./gen-client.sh "${COMPONENT}-api.json" "${COMPONENT}" python "${PACKAGE}"
       pushd "${PACKAGE}-client"
         python setup.py sdist bdist_wheel --python-tag py3
@@ -97,6 +99,16 @@ pushd ../pulp-openapi-generator
     echo "/root/pulp-openapi-generator/${PACKAGE}-client/dist/${PACKAGE}_client-${VERSION}-py3-none-any.whl" >> "../pulp-certguard/bindings_requirements.txt"
   done
 popd
+
+echo "::endgroup::"
+
+echo "::group::Debug bindings diffs"
+
+# Bindings diff for certguard
+jq '(.paths[][].parameters|select(.)) |= sort_by(.name)' < "certguard-api.json" > "build-api.json"
+jq '(.paths[][].parameters|select(.)) |= sort_by(.name)' < "../pulp-openapi-generator/certguard-api.json" > "test-api.json"
+jsondiff --indent 2 build-api.json test-api.json || true
+echo "::endgroup::"
 
 # Install test requirements
 ###########################
@@ -138,7 +150,7 @@ else
   else
     cmd_user_prefix bash -c "pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m parallel -n 8"
     cmd_user_prefix bash -c "pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m 'not parallel'"
-  fi 
+  fi
 fi
 
 if [ -f "$POST_SCRIPT" ]; then
