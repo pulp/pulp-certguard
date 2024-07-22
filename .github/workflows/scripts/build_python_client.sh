@@ -18,9 +18,7 @@ cd "$(dirname "$(realpath -e "$0")")"/../../..
 pushd ../pulp-openapi-generator
 rm -rf "pulp_certguard-client"
 
-# We need to copy that over to be visible in the container.
-cp "../pulp-certguard/certguard-api.json" .
-./gen-client.sh "certguard-api.json" "certguard" python "pulp_certguard"
+./gen-client.sh "../pulp-certguard/certguard-api.json" "certguard" python "pulp_certguard"
 
 pushd pulp_certguard-client
 python setup.py sdist bdist_wheel --python-tag py3
