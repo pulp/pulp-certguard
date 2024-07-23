@@ -8,6 +8,13 @@
 
 [//]: # (towncrier release notes start)
 
+## 1.7.2 (2024-07-23) {: #1.7.2 }
+
+
+No significant changes.
+
+---
+
 ## 1.7.1 (2023-11-03) {: #1.7.1 }
 
 ### Features
