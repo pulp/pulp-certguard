@@ -18,21 +18,13 @@ source .github/workflows/scripts/utils.sh
 export POST_SCRIPT=$PWD/.github/workflows/scripts/post_script.sh
 export FUNC_TEST_SCRIPT=$PWD/.github/workflows/scripts/func_test_script.sh
 
-# Needed for both starting the service and building the docs.
+# Needed for starting the service
 # Gets set in .github/settings.yml, but doesn't seem to inherited by
 # this script.
 export DJANGO_SETTINGS_MODULE=pulpcore.app.settings
 export PULP_SETTINGS=$PWD/.ci/ansible/settings/settings.py
 
 export PULP_URL="https://pulp"
-
-if [[ "$TEST" = "docs" ]]; then
-  if [[ "$GITHUB_WORKFLOW" == "Certguard CI" ]]; then
-    towncrier build --yes --version 4.0.0.ci
-  fi
-  pulp-docs build
-  exit
-fi
 
 REPORTED_STATUS="$(pulp status)"
 
@@ -54,12 +46,14 @@ pushd ../pulp-openapi-generator
 
   # Workaround: Domains are not supported by the published bindings.
   # Sadly: Different pulpcore-versions aren't either...
-  # So we exclude the prebuilt ones only for domains disabled.
-  if [ "$(jq -r '.domain_enabled' <<<"${REPORTED_STATUS}")" = "true" ] || [ "$(jq -r '.online_workers[0].pulp_href|startswith("/pulp/api/v3/")' <<< "${REPORTED_STATUS}")" = "false" ]
+  # * In the 'pulp' scenario we use the published/prebuilt bindings, so we can test it.
+  # * In other scenarios we generate new bindings from server spec, so we have a more
+  #   reliable client.
+  if [ "$TEST" = "pulp" ]
   then
-    BUILT_CLIENTS=""
-  else
     BUILT_CLIENTS=" certguard "
+  else
+    BUILT_CLIENTS=""
   fi
 
   for ITEM in $(jq -r '.versions[] | tojson' <<<"${REPORTED_STATUS}")
@@ -136,11 +130,11 @@ if [ -f "$FUNC_TEST_SCRIPT" ]; then
 else
   if [[ "$GITHUB_WORKFLOW" =~ "Nightly" ]]
   then
-    cmd_user_prefix bash -c "pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m parallel -n 8 --nightly"
-    cmd_user_prefix bash -c "pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m 'not parallel' --nightly"
+    cmd_user_prefix bash -c "pytest -v --timeout=300 -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m parallel -n 8 --nightly"
+    cmd_user_prefix bash -c "pytest -v --timeout=300 -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m 'not parallel' --nightly"
   else
-    cmd_user_prefix bash -c "pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m parallel -n 8"
-    cmd_user_prefix bash -c "pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m 'not parallel'"
+    cmd_user_prefix bash -c "pytest -v --timeout=300 -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m parallel -n 8"
+    cmd_user_prefix bash -c "pytest -v --timeout=300 -r sx --color=yes --suppress-no-test-exit-code --pyargs pulp_certguard.tests.functional -m 'not parallel'"
   fi
 fi
 
