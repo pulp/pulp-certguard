@@ -11,3 +11,4 @@ include pulp_certguard/tests/__init__.py
 recursive-include pulp_certguard/tests/functional/artifacts *
 recursive-include contrib *
 include pyproject.toml
+exclude releasing.md
