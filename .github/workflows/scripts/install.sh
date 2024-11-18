@@ -21,11 +21,8 @@ PLUGIN_SOURCE="./pulp-certguard/dist/pulp_certguard-${PLUGIN_VERSION}-py3-none-a
 export PULP_API_ROOT="/pulp/"
 
 PIP_REQUIREMENTS=("pulp-cli")
-if [[ "$TEST" = "docs" || "$TEST" = "publish" ]]
-then
-  PIP_REQUIREMENTS+=("-r" "doc_requirements.txt")
-fi
 
+# This must be the **only** call to "pip install" on the test runner.
 pip install ${PIP_REQUIREMENTS[*]}
 
 
@@ -112,5 +109,5 @@ if [[ "$TEST" = "azure" ]]; then
 fi
 
 echo ::group::PIP_LIST
-cmd_prefix bash -c "pip3 list && pip3 install pipdeptree && pipdeptree"
+cmd_prefix bash -c "pip3 list"
 echo ::endgroup::
