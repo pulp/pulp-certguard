@@ -28,6 +28,6 @@ then
 fi
 
 twine upload -u __token__ -p "$PYPI_API_TOKEN" \
-"dist/pulp_certguard-$VERSION-py3-none-any.whl" \
-"dist/pulp-certguard-$VERSION.tar.gz" \
+dist/pulp?certguard-"$VERSION"-py3-none-any.whl \
+dist/pulp?certguard-"$VERSION".tar.gz \
 ;
