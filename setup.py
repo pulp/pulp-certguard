@@ -35,5 +35,5 @@ setup(
             "pulp_certguard = pulp_certguard:default_app_config",
         ],
         "pytest11": ["pulp_certguard = pulp_certguard.tests.functional"],
-    }
+    },
 )

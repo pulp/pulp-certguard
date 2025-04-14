@@ -4,7 +4,10 @@ from requests import HTTPError
 
 from pulpcore.client.pulp_certguard import CertguardRHSMCertGuard, ContentguardsRhsmApi
 
-from pulp_certguard.tests.functional.api.base import BaseCertGuard, CommonDenialTestsMixin
+from pulp_certguard.tests.functional.api.base import (
+    BaseCertGuard,
+    CommonDenialTestsMixin,
+)
 from pulp_certguard.tests.functional.constants import (
     RHSM_CA_CERT_FILE_PATH,
     RHSM_CLIENT_CERT_FROM_UNTRUSTED_CA,
@@ -43,10 +46,11 @@ class RHSMCertGuardBase(BaseCertGuard):
         rhsm_ca_cert_data = cls._load_rhsm_ca_cert_file()
 
         rhsm_cert_guard = CertguardRHSMCertGuard(
-            name=str(uuid.uuid4()),
-            ca_certificate=rhsm_ca_cert_data
+            name=str(uuid.uuid4()), ca_certificate=rhsm_ca_cert_data
         )
-        cls.rhsm_content_guard_data = cls.rhsm_content_guards_api.create(rhsm_cert_guard)
+        cls.rhsm_content_guard_data = cls.rhsm_content_guards_api.create(
+            rhsm_cert_guard
+        )
         cls.teardown_cleanups.append(
             (cls.rhsm_content_guards_api.delete, cls.rhsm_content_guard_data.pulp_href)
         )
@@ -54,7 +58,7 @@ class RHSMCertGuardBase(BaseCertGuard):
 
     @classmethod
     def _load_rhsm_ca_cert_file(cls):
-        with open(RHSM_CA_CERT_FILE_PATH, 'r') as rhsm_ca_cert_data_file:
+        with open(RHSM_CA_CERT_FILE_PATH, "r") as rhsm_ca_cert_data_file:
             rhsm_ca_cert_data = rhsm_ca_cert_data_file.read()
 
         return rhsm_ca_cert_data
@@ -65,10 +69,10 @@ class RHSMCABundleCertGuardBase(RHSMCertGuardBase):
 
     @classmethod
     def _load_rhsm_ca_cert_file(cls):
-        with open(RHSM_CA_CERT_FILE_PATH, 'r') as rhsm_ca_cert_data_file:
+        with open(RHSM_CA_CERT_FILE_PATH, "r") as rhsm_ca_cert_data_file:
             rhsm_ca_cert_data = rhsm_ca_cert_data_file.read()
 
-        with open(THIRDPARTY_CA_CERT_FILE_PATH, 'r') as thirdparty_ca_cert_file:
+        with open(THIRDPARTY_CA_CERT_FILE_PATH, "r") as thirdparty_ca_cert_file:
             thirdparty_ca_cert_data = thirdparty_ca_cert_file.read()
 
         # build a bundle to use (i.e., a list-of-CA-certs we will trust)
@@ -89,7 +93,7 @@ class RHSMV3CertGuardTestCase(RHSMCertGuardBase):
             self.distribution.pulp_href,
             RHSM_V3_ZERO_VAR_BASE_PATH,
             self.repo.pulp_href,
-            RHSM_V3_ZERO_VAR_CLIENT_CERT
+            RHSM_V3_ZERO_VAR_CLIENT_CERT,
         )
 
     def test_allow_request_when_cert_matches_one_var_path(self):
@@ -103,7 +107,7 @@ class RHSMV3CertGuardTestCase(RHSMCertGuardBase):
             self.distribution.pulp_href,
             RHSM_V3_ONE_VAR_BASE_PATH,
             self.repo.pulp_href,
-            RHSM_V3_ONE_AND_TWO_VAR_CLIENT_CERT
+            RHSM_V3_ONE_AND_TWO_VAR_CLIENT_CERT,
         )
 
     def test_allow_request_when_cert_matches_two_var_path(self):
@@ -117,7 +121,7 @@ class RHSMV3CertGuardTestCase(RHSMCertGuardBase):
             self.distribution.pulp_href,
             RHSM_V3_TWO_VAR_BASE_PATH,
             self.repo.pulp_href,
-            RHSM_V3_ONE_AND_TWO_VAR_CLIENT_CERT
+            RHSM_V3_ONE_AND_TWO_VAR_CLIENT_CERT,
         )
 
     def test_allow_request_when_requesting_the_distribution_root(self):
@@ -172,7 +176,7 @@ class RHSMV1CertGuardTestCase(RHSMCertGuardBase):
             self.distribution.pulp_href,
             RHSM_V1_ZERO_VAR_BASE_PATH,
             self.repo.pulp_href,
-            RHSM_V1_ZERO_VAR_CLIENT_CERT
+            RHSM_V1_ZERO_VAR_CLIENT_CERT,
         )
 
     def test_allow_request_when_cert_matches_one_var_path(self):
@@ -186,7 +190,7 @@ class RHSMV1CertGuardTestCase(RHSMCertGuardBase):
             self.distribution.pulp_href,
             RHSM_V1_ONE_VAR_BASE_PATH,
             self.repo.pulp_href,
-            RHSM_V1_ONE_AND_TWO_VAR_CLIENT_CERT
+            RHSM_V1_ONE_AND_TWO_VAR_CLIENT_CERT,
         )
 
     def test_allow_request_when_cert_matches_two_var_path(self):
@@ -200,7 +204,7 @@ class RHSMV1CertGuardTestCase(RHSMCertGuardBase):
             self.distribution.pulp_href,
             RHSM_V1_TWO_VAR_BASE_PATH,
             self.repo.pulp_href,
-            RHSM_V1_ONE_AND_TWO_VAR_CLIENT_CERT
+            RHSM_V1_ONE_AND_TWO_VAR_CLIENT_CERT,
         )
 
     def test_allow_request_when_requesting_the_distribution_root(self):
@@ -257,13 +261,13 @@ class RHSMUberCertTestCase(RHSMCertGuardBase):
             self.distribution.pulp_href,
             RHSM_UBER_CERT_BASE_PATH_ONE,
             self.repo.pulp_href,
-            RHSM_UBER_CLIENT_CERT
+            RHSM_UBER_CLIENT_CERT,
         )
         set_distribution_base_path_and_download_a_content_unit_with_cert(
             self.distribution.pulp_href,
             RHSM_UBER_CERT_BASE_PATH_TWO,
             self.repo.pulp_href,
-            RHSM_UBER_CLIENT_CERT
+            RHSM_UBER_CLIENT_CERT,
         )
 
 
@@ -273,7 +277,9 @@ class RHSMCertGuardDenialTestCase(RHSMCertGuardBase, CommonDenialTestsMixin):
     DENIALS_BASE_PATH = RHSM_V3_ZERO_VAR_BASE_PATH
     UNTRUSTED_CLIENT_CERT_PATH = RHSM_CLIENT_CERT_FROM_UNTRUSTED_CA
 
-    def test_denial_when_client_cert_does_not_contain_subpath_of_distribution_base_path(self):
+    def test_denial_when_client_cert_does_not_contain_subpath_of_distribution_base_path(
+        self,
+    ):
         """
         Assert denial when a client with a cert that does not contain a subpath of the distribution.
 
@@ -286,7 +292,7 @@ class RHSMCertGuardDenialTestCase(RHSMCertGuardBase, CommonDenialTestsMixin):
                 self.distribution.pulp_href,
                 RHSM_V3_INVALID_BASE_PATH,
                 self.repo.pulp_href,
-                RHSM_V3_ZERO_VAR_CLIENT_CERT
+                RHSM_V3_ZERO_VAR_CLIENT_CERT,
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)
 
@@ -303,7 +309,7 @@ class RHSMCertGuardDenialTestCase(RHSMCertGuardBase, CommonDenialTestsMixin):
                 self.distribution.pulp_href,
                 RHSM_V1_ONE_VAR_BASE_PATH,
                 self.repo.pulp_href,
-                RHSM_CLIENT_CERT_TRUSTED_BUT_EXPIRED
+                RHSM_CLIENT_CERT_TRUSTED_BUT_EXPIRED,
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)
 
@@ -322,5 +328,5 @@ class RHSMV3CABundleCertGuardTestCase(RHSMCABundleCertGuardBase):
             self.distribution.pulp_href,
             RHSM_V3_ZERO_VAR_BASE_PATH,
             self.repo.pulp_href,
-            RHSM_V3_ZERO_VAR_CLIENT_CERT
+            RHSM_V3_ZERO_VAR_CLIENT_CERT,
         )

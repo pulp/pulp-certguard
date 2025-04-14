@@ -9,30 +9,52 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('core', '0026_task_group'),
+        ("core", "0026_task_group"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='RHSMCertGuard',
+            name="RHSMCertGuard",
             fields=[
-                ('contentguard_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, related_name='certguard_rhsmcertguard', serialize=False, to='core.ContentGuard')),
-                ('ca_certificate', models.TextField()),
+                (
+                    "contentguard_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        related_name="certguard_rhsmcertguard",
+                        serialize=False,
+                        to="core.ContentGuard",
+                    ),
+                ),
+                ("ca_certificate", models.TextField()),
             ],
             options={
-                'default_related_name': '%(app_label)s_%(model_name)s',
+                "default_related_name": "%(app_label)s_%(model_name)s",
             },
-            bases=('core.contentguard',),
+            bases=("core.contentguard",),
         ),
         migrations.CreateModel(
-            name='X509CertGuard',
+            name="X509CertGuard",
             fields=[
-                ('contentguard_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, related_name='certguard_x509certguard', serialize=False, to='core.ContentGuard')),
-                ('ca_certificate', models.TextField()),
+                (
+                    "contentguard_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        related_name="certguard_x509certguard",
+                        serialize=False,
+                        to="core.ContentGuard",
+                    ),
+                ),
+                ("ca_certificate", models.TextField()),
             ],
             options={
-                'default_related_name': '%(app_label)s_%(model_name)s',
+                "default_related_name": "%(app_label)s_%(model_name)s",
             },
-            bases=('core.contentguard',),
+            bases=("core.contentguard",),
         ),
     ]

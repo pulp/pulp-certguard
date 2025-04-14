@@ -23,6 +23,8 @@ def get_rhsm():
         `ImproperlyConfigured` exception explaining `rhsm` is not installed.
     """
     if rhsm is None:
-        error_msg = _("RHSMCertGuard requires the Python package 'rhsm' to be installed ({}).")
+        error_msg = _(
+            "RHSMCertGuard requires the Python package 'rhsm' to be installed ({})."
+        )
         raise ImproperlyConfigured(error_msg.format(rhsm_import_error))
     return rhsm

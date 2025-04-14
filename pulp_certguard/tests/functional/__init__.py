@@ -10,6 +10,7 @@ try:
 except ImportError:
     pass
 else:
+
     @pytest.fixture
     def cid():
         """A correlation-id unique to the test."""
