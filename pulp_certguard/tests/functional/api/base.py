@@ -83,7 +83,9 @@ class BaseCertGuard(unittest.TestCase):
         distribution_response = cls.distributions_api.create(body)
         created_resources = monitor_task(distribution_response.task)
         cls.distribution = cls.distributions_api.read(created_resources[0])
-        cls.teardown_cleanups.append((cls.distributions_api.delete, cls.distribution.pulp_href))
+        cls.teardown_cleanups.append(
+            (cls.distributions_api.delete, cls.distribution.pulp_href)
+        )
 
     @classmethod
     def _setup_content_guard(cls):
@@ -111,8 +113,7 @@ class CommonDenialTestsMixin:
         3. Assert a 403 Unauthorized is returned.
         """
         distribution = set_distribution_base_path(
-            self.distribution.pulp_href,
-            self.DENIALS_BASE_PATH
+            self.distribution.pulp_href, self.DENIALS_BASE_PATH
         )
 
         content_path = ""
@@ -122,7 +123,7 @@ class CommonDenialTestsMixin:
                 config.get_config(),
                 distribution.to_dict(),
                 content_path,
-                headers={'X-CLIENT-CERT': ""}
+                headers={"X-CLIENT-CERT": ""},
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)
 
@@ -135,17 +136,14 @@ class CommonDenialTestsMixin:
         3. Assert a 403 Unauthorized is returned.
         """
         distribution = set_distribution_base_path(
-            self.distribution.pulp_href,
-            self.DENIALS_BASE_PATH
+            self.distribution.pulp_href, self.DENIALS_BASE_PATH
         )
 
         content_path = ""
 
         with self.assertRaises(HTTPError) as raised_exception:
             download_content_unit(
-                config.get_config(),
-                distribution.to_dict(),
-                content_path
+                config.get_config(), distribution.to_dict(), content_path
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)
 
@@ -158,8 +156,7 @@ class CommonDenialTestsMixin:
         3. Assert a 403 Unauthorized is returned.
         """
         distribution = set_distribution_base_path(
-            self.distribution.pulp_href,
-            self.DENIALS_BASE_PATH
+            self.distribution.pulp_href, self.DENIALS_BASE_PATH
         )
 
         content_path = ""
@@ -169,7 +166,7 @@ class CommonDenialTestsMixin:
                 config.get_config(),
                 distribution.to_dict(),
                 content_path,
-                headers={'X-CLIENT-CERT': "this is not cert data"}
+                headers={"X-CLIENT-CERT": "this is not cert data"},
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)
 
@@ -186,6 +183,6 @@ class CommonDenialTestsMixin:
                 self.distribution.pulp_href,
                 self.DENIALS_BASE_PATH,
                 self.repo.pulp_href,
-                self.UNTRUSTED_CLIENT_CERT_PATH
+                self.UNTRUSTED_CLIENT_CERT_PATH,
             )
         self.assertEqual(raised_exception.exception.response.status_code, 403)

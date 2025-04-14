@@ -71,7 +71,9 @@ def check_pyproject_dependencies(repo, from_commit, to_commit):
     except Exception as e:
         print(f"WARNING: Comparing the dependencies in pyproject.toml failed. ({e})")
         # Gathering more details failed.
-        return ["pyproject.toml changed somehow (PLEASE check if dependencies are affected)."]
+        return [
+            "pyproject.toml changed somehow (PLEASE check if dependencies are affected)."
+        ]
 
 
 def main(options, template_config):
@@ -94,7 +96,9 @@ def main(options, template_config):
 
     branches = options.branches
     if branches == "supported":
-        tc = yaml.safe_load(repo.git.show(f"{upstream_default_branch}:template_config.yml"))
+        tc = yaml.safe_load(
+            repo.git.show(f"{upstream_default_branch}:template_config.yml")
+        )
         branches = set(tc["supported_release_branches"])
         latest_release_branch = tc["latest_release_branch"]
         if latest_release_branch is not None:
@@ -114,7 +118,9 @@ def main(options, template_config):
         if branch != DEFAULT_BRANCH:
             # Check if a Z release is needed
             reasons = []
-            changes = repo.git.ls_tree("-r", "--name-only", f"{remote}/{branch}", "CHANGES/")
+            changes = repo.git.ls_tree(
+                "-r", "--name-only", f"{remote}/{branch}", "CHANGES/"
+            )
             z_changelog = False
             for change in changes.split("\n"):
                 # Check each changelog file to make sure everything checks out
@@ -131,15 +137,25 @@ def main(options, template_config):
 
             last_tag = repo.git.describe("--tags", "--abbrev=0", f"{remote}/{branch}")
             req_txt_diff = repo.git.diff(
-                f"{last_tag}", f"{remote}/{branch}", "--name-only", "--", "requirements.txt"
+                f"{last_tag}",
+                f"{remote}/{branch}",
+                "--name-only",
+                "--",
+                "requirements.txt",
             )
             if req_txt_diff:
                 reasons.append("requirements.txt")
             pyproject_diff = repo.git.diff(
-                f"{last_tag}", f"{remote}/{branch}", "--name-only", "--", "pyproject.toml"
+                f"{last_tag}",
+                f"{remote}/{branch}",
+                "--name-only",
+                "--",
+                "pyproject.toml",
             )
             if pyproject_diff:
-                reasons.extend(check_pyproject_dependencies(repo, last_tag, f"{remote}/{branch}"))
+                reasons.extend(
+                    check_pyproject_dependencies(repo, last_tag, f"{remote}/{branch}")
+                )
 
             if reasons:
                 curr_version = Version(last_tag)
