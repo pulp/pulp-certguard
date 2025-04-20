@@ -55,24 +55,19 @@ def main() -> None:
     ]
     try:
         CHANGELOG_EXTS = [
-            f".{item['directory']}"
-            for item in PYPROJECT_TOML["tool"]["towncrier"]["type"]
+            f".{item['directory']}" for item in PYPROJECT_TOML["tool"]["towncrier"]["type"]
         ]
     except KeyError:
         CHANGELOG_EXTS = [".feature", ".bugfix", ".doc", ".removal", ".misc"]
     NOISSUE_MARKER = "[noissue]"
 
     sha = sys.argv[1]
-    message = subprocess.check_output(
-        ["git", "log", "--format=%B", "-n 1", sha]
-    ).decode("utf-8")
+    message = subprocess.check_output(["git", "log", "--format=%B", "-n 1", sha]).decode("utf-8")
 
     if NOISSUE_MARKER in message:
         sys.exit(f"Do not add '{NOISSUE_MARKER}' in the commit message.")
 
-    blocking_matches = [
-        m for m in (re.match(pattern, message) for pattern in BLOCKING_REGEX) if m
-    ]
+    blocking_matches = [m for m in (re.match(pattern, message) for pattern in BLOCKING_REGEX) if m]
     if blocking_matches:
         print("Found these phrases in the commit message:")
         for m in blocking_matches:
