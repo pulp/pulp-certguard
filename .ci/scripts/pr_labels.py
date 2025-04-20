@@ -20,8 +20,7 @@ def main():
     CHERRY_PICK_REGEX = re.compile(r"^\s*\(cherry picked from commit [0-9a-f]*\)\s*$")
     try:
         CHANGELOG_EXTS = {
-            f".{item['directory']}"
-            for item in PYPROJECT_TOML["tool"]["towncrier"]["type"]
+            f".{item['directory']}" for item in PYPROJECT_TOML["tool"]["towncrier"]["type"]
         }
     except KeyError:
         CHANGELOG_EXTS = {".feature", ".bugfix", ".doc", ".removal", ".misc"}
