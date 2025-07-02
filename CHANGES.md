@@ -161,7 +161,9 @@ No significant changes.
 
 ---
 
-## 1.5.0 (2021-08-04) {: #1.5.0 }
+## YANKED 1.5.0 (2021-08-04) {: #1.5.0 }
+
+Yank reason: no upper bound on requirement
 
 ### Deprecations and Removals
 
