@@ -52,7 +52,6 @@ stalebot_days_until_close: 30
 stalebot_days_until_stale: 90
 stalebot_limit_to_pulls: true
 supported_release_branches:
-- '1.5'
 - '1.6'
 - '1.7'
 sync_ci: true
@@ -66,4 +65,3 @@ test_reroute: false
 test_s3: false
 test_storages_compat_layer: false
 use_issue_template: true
-
