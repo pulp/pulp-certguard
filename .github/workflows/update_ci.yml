@@ -78,37 +78,6 @@ jobs:
         with:
           fetch-depth: 0
           path: "pulp-certguard"
-          ref: "1.5"
-
-      - name: "Run update"
-        working-directory: "pulp-certguard"
-        run: |
-          ../plugin_template/scripts/update_ci.sh --release
-
-      - name: "Create Pull Request for CI files"
-        uses: "peter-evans/create-pull-request@v6"
-        id: "create_pr_1_5"
-        with:
-          token: "${{ secrets.RELEASE_TOKEN }}"
-          path: "pulp-certguard"
-          committer: "pulpbot <pulp-infra@redhat.com>"
-          author: "pulpbot <pulp-infra@redhat.com>"
-          title: "Update CI files for branch 1.5"
-          branch: "update-ci/1.5"
-          base: "1.5"
-          delete-branch: true
-      - name: "Mark PR automerge"
-        working-directory: "pulp-certguard"
-        run: |
-          gh pr merge --rebase --auto "${{ steps.create_pr_1_5.outputs.pull-request-number }}"
-        if: "steps.create_pr_1_5.outputs.pull-request-number"
-        env:
-          GH_TOKEN: "${{ secrets.RELEASE_TOKEN }}"
-        continue-on-error: true
-      - uses: "actions/checkout@v4"
-        with:
-          fetch-depth: 0
-          path: "pulp-certguard"
           ref: "1.6"
 
       - name: "Run update"
