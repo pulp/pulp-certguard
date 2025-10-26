@@ -21,10 +21,10 @@ rm -rf "pulp_certguard-client"
 ./gen-client.sh "../pulp-certguard/certguard-api.json" "certguard" python "pulp_certguard"
 
 pushd pulp_certguard-client
-python setup.py sdist bdist_wheel --python-tag py3
+python -m build
 
 twine check "dist/pulp_certguard_client-"*"-py3-none-any.whl"
-twine check "dist/pulp_certguard-client-"*".tar.gz"
+twine check "dist/pulp_certguard_client-"*".tar.gz"
 
 tar cvf "../../pulp-certguard/certguard-python-client.tar" ./dist
 
